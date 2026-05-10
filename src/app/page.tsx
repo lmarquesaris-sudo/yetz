@@ -55,34 +55,42 @@ export default function Home() {
       <Navbar />
 
       {/* Hero */}
-      <header className="pt-24 pb-10 border-b border-neutral-100">
-        <div className="max-w-[1200px] mx-auto px-8">
+      <header className="relative pt-16 overflow-hidden">
+        {/* Imagen de fondo sorollesca */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=1600&h=900&fit=crop&q=80"
+            alt=""
+            className="w-full h-full object-cover object-top"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-white/80 to-white" />
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/70 to-transparent" />
+        </div>
+
+        <div className="relative z-10 max-w-[1200px] mx-auto px-8 pt-16 pb-12">
           <div className="text-center max-w-2xl mx-auto">
-            {/* Logo artístico grande */}
             <div className="animate-fade-up">
-              <h1 className="text-[clamp(48px,8vw,80px)] leading-[0.95] tracking-[-0.04em] text-neutral-900">
+              <h1 className="text-[clamp(52px,9vw,88px)] leading-[0.95] tracking-[-0.04em] text-neutral-900">
                 <span className="font-light italic">Yetz</span><span className="font-extralight">Art</span>
               </h1>
               <div className="flex items-center justify-center gap-3 mt-4">
-                <span className="h-px w-8 bg-neutral-200" />
-                <span className="text-[10px] font-semibold text-neutral-300 uppercase tracking-[0.3em]">
+                <span className="h-px w-8 bg-neutral-300/60" />
+                <span className="text-[10px] font-semibold text-neutral-400 uppercase tracking-[0.3em]">
                   Barcelona
                 </span>
-                <span className="h-px w-8 bg-neutral-200" />
+                <span className="h-px w-8 bg-neutral-300/60" />
               </div>
             </div>
 
-            {/* Descripción del proyecto */}
             <div className="animate-fade-up animation-delay-100 mt-8">
-              <p className="text-[15px] text-neutral-500 leading-[1.7] font-light">
+              <p className="text-[15px] text-neutral-600 leading-[1.7] font-light max-w-lg mx-auto">
                 Tu guía de cultura en Barcelona. Reunimos las mejores exposiciones,
                 museos, galerías y talleres artísticos en un solo lugar para que
                 no te pierdas nada.
               </p>
             </div>
 
-            {/* Filtros centrados */}
-            <div className="animate-fade-up animation-delay-200 mt-8">
+            <div className="animate-fade-up animation-delay-200 mt-8 mb-2">
               <div className="flex flex-wrap items-center justify-center gap-2">
                 {categories.map((cat) => (
                   <button
@@ -91,7 +99,7 @@ export default function Home() {
                     className={`px-4 py-2 rounded-full text-[12px] font-medium transition-all duration-300 ${
                       activeCategory === cat.value
                         ? "bg-neutral-900 text-white shadow-sm"
-                        : "text-neutral-400 hover:text-neutral-700 border border-neutral-150 hover:border-neutral-300"
+                        : "text-neutral-500 bg-white/70 backdrop-blur-sm hover:text-neutral-900 border border-neutral-200/80 hover:border-neutral-300"
                     }`}
                   >
                     {cat.label}
