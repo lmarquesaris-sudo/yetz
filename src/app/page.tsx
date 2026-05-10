@@ -59,7 +59,7 @@ export default function Home() {
         {/* Imagen de fondo sorollesca */}
         <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=1600&h=900&fit=crop&q=80"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Joaqu%C3%ADn_Sorolla_y_Bastida_-_Strolling_along_the_Seashore_-_Google_Art_Project.jpg/1280px-Joaqu%C3%ADn_Sorolla_y_Bastida_-_Strolling_along_the_Seashore_-_Google_Art_Project.jpg"
             alt=""
             className="w-full h-full object-cover object-top"
           />
