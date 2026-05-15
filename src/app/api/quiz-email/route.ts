@@ -3,9 +3,12 @@ import { Resend } from "resend";
 import { PAINTERS } from "@/lib/quiz-data";
 import { buildQuizResultEmail } from "@/lib/emails/quiz-result";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 export async function POST(request: Request) {
+  if (!resend) {
+    return NextResponse.json({ error: "RESEND_API_KEY not configured" }, { status: 503 });
+  }
   try {
     const { email, painterId } = await request.json();
 
