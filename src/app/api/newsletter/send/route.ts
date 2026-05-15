@@ -3,7 +3,7 @@ import { Resend } from "resend";
 import { buildMonthlyNewsletterEmail } from "@/lib/emails/monthly-newsletter";
 import { Event } from "@/lib/types";
 
-const resend = new Resend(process.env.RESEND_API_KEY!);
+const resend = new Resend(process.env.RESEND_API_KEY || "re_dummy");
 
 function formatDate(dateStr: string) {
   if (!dateStr) return "";
