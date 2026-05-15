@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>YetzArt Profile</title>
+<style>
+  body { margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #f0f0f0; }
+  .container { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+  canvas { border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+  button { padding: 12px 32px; background: #111; color: #fff; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; font-family: system-ui; }
+  button:hover { background: #333; }
+  p { font-family: system-ui; color: #666; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <canvas id="c" width="1000" height="1000"></canvas>
+  <button onclick="download()">Descargar PNG</button>
+  <p>1000 x 1000px — Listo para Instagram y LinkedIn</p>
+</div>
+<script>
+const c = document.getElementById('c');
+const ctx = c.getContext('2d');
+
+// White background
+ctx.fillStyle = '#ffffff';
+ctx.fillRect(0, 0, 1000, 1000);
+
+// Subtle warm radial glow (Sorolla-inspired)
+const glow = ctx.createRadialGradient(500, 420, 0, 500, 420, 380);
+glow.addColorStop(0, 'rgba(228, 218, 200, 0.35)');
+glow.addColorStop(0.6, 'rgba(212, 200, 184, 0.12)');
+glow.addColorStop(1, 'rgba(255, 255, 255, 0)');
+ctx.fillStyle = glow;
+ctx.fillRect(0, 0, 1000, 1000);
+
+// "Yetz" in italic serif
+ctx.fillStyle = '#111111';
+ctx.font = 'italic 200px Georgia, "Times New Roman", serif';
+ctx.textAlign = 'right';
+ctx.textBaseline = 'alphabetic';
+ctx.fillText('Yetz', 540, 500);
+
+// "Art" in lighter weight serif
+ctx.font = '200px Georgia, "Times New Roman", serif';
+ctx.textAlign = 'left';
+ctx.fillStyle = '#333333';
+ctx.fillText('Art', 545, 500);
+
+// Decorative lines
+ctx.strokeStyle = '#d4d4d4';
+ctx.lineWidth = 1;
+ctx.beginPath();
+ctx.moveTo(300, 560);
+ctx.lineTo(400, 560);
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(600, 560);
+ctx.lineTo(700, 560);
+ctx.stroke();
+
+// "BARCELONA" text
+ctx.fillStyle = '#aaaaaa';
+ctx.font = '500 30px system-ui, Helvetica, Arial, sans-serif';
+ctx.textAlign = 'center';
+ctx.letterSpacing = '10px';
+ctx.fillText('B A R C E L O N A', 500, 590);
+
+function download() {
+  const a = document.createElement('a');
+  a.download = 'yetzart-profile.png';
+  a.href = c.toDataURL('image/png');
+  a.click();
+}
+</script>
+</body>
+</html>

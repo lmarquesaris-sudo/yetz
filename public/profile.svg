@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000">
+  <rect width="1000" height="1000" fill="#ffffff"/>
+
+  <!-- Subtle Sorolla-inspired gradient circle -->
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="40%" r="45%">
+      <stop offset="0%" stop-color="#e8ddd0" stop-opacity="0.4"/>
+      <stop offset="60%" stop-color="#d4c8b8" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <circle cx="500" cy="460" r="380" fill="url(#glow)"/>
+
+  <!-- Main logo text -->
+  <text x="500" y="490" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="220" fill="#111111">
+    <tspan font-style="italic" font-weight="300">Yetz</tspan><tspan font-weight="200">Art</tspan>
+  </text>
+
+  <!-- Barcelona subtitle -->
+  <text x="500" y="580" text-anchor="middle" font-family="system-ui, Helvetica, Arial, sans-serif" font-size="36" fill="#999999" letter-spacing="12" font-weight="500">BARCELONA</text>
+
+  <!-- Decorative lines around Barcelona -->
+  <line x1="280" y1="555" x2="380" y2="555" stroke="#d4d4d4" stroke-width="1"/>
+  <line x1="620" y1="555" x2="720" y2="555" stroke="#d4d4d4" stroke-width="1"/>
+</svg>

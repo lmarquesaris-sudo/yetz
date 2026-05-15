@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import EventCard from "@/components/EventCard";
-import { events } from "@/lib/data";
+import { events as fallbackEvents } from "@/lib/data";
+import { Event } from "@/lib/types";
 import Link from "next/link";
 
 const STORAGE_KEY = "yetzart_saved";
@@ -11,11 +12,19 @@ const STORAGE_KEY = "yetzart_saved";
 export default function SavedPage() {
   const [saved, setSaved] = useState<string[]>([]);
   const [mounted, setMounted] = useState(false);
+  const [events, setEvents] = useState<Event[]>(fallbackEvents);
 
   useEffect(() => {
     setMounted(true);
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) setSaved(JSON.parse(stored));
+
+    fetch("/events.json")
+      .then((res) => res.json())
+      .then((data: Event[]) => {
+        if (data.length > 0) setEvents(data);
+      })
+      .catch(() => {});
   }, []);
 
   function toggleSave(id: string) {
