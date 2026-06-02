@@ -49,18 +49,122 @@ export type Zone =
   | "montjuic-poblesec"
   | "sarria-pedralbes"
   | "sant-antoni"
-  | "any"; // venues that fit in any zone context
+  | "horta-guinardo"
+  | "nou-barris"
+  | "sant-andreu"
+  | "sant-marti"
+  | "les-corts"
+  | "clot"
+  | "any";
 
 const ZONE_KEYWORDS: Record<Zone, string[]> = {
-  "born-gotic": ["born", "gótic", "gotic", "gòtic", "catedral", "santa maria del mar", "barri gòtic", "plaça reial", "via laietana", "ribera"],
-  "raval": ["raval", "macba", "cccb", "rambla del raval", "tallers", "joaquín costa"],
-  "eixample": ["eixample", "passeig de gràcia", "paseo de gracia", "rambla catalunya", "enric granados", "sagrada familia", "dreta", "esquerra"],
-  "gracia": ["gràcia", "gracia", "plaça del sol", "verdi", "vila de gràcia", "fontana", "travessera"],
-  "poblenou": ["poblenou", "poble nou", "22@", "rambla del poblenou", "palo alto", "diagonal mar", "glòries", "glories", "selva de mar", "bogatell", "llacuna", "pere iv"],
-  "barceloneta": ["barceloneta", "playa", "platja", "port", "puerto", "mar", "passeig marítim", "maremàgnum", "olimpic"],
-  "montjuic-poblesec": ["montjuïc", "montjuic", "poble-sec", "poble sec", "poblesec", "paral·lel", "paralel", "parallel", "mnac", "miró", "miro", "grec"],
-  "sarria-pedralbes": ["sarrià", "sarria", "pedralbes", "tibidabo", "bonanova", "sant gervasi", "tres torres", "zona alta", "cosmocaixa", "les corts"],
-  "sant-antoni": ["sant antoni", "san antonio", "mercat sant antoni", "manso", "parlament"],
+  // Ciutat Vella
+  "born-gotic": [
+    "born", "gótic", "gotic", "gòtic", "catedral", "santa maria del mar",
+    "barri gòtic", "plaça reial", "via laietana", "ribera", "sant pere",
+    "santa caterina", "casc antic", "ciutat vella", "portal de l'àngel",
+    "portal del angel", "jaume", "arc de triomf", "palau de la música",
+    "mercat santa caterina", "carrer montcada", "passeig del born",
+  ],
+  "raval": [
+    "raval", "macba", "cccb", "rambla del raval", "tallers", "joaquín costa",
+    "joaquin costa", "rambla", "la rambla", "las ramblas", "liceu",
+    "boqueria", "sant pau del camp", "carme", "hospital", "sant agustí",
+    "filmoteca", "arts santa mònica", "plaça dels àngels",
+  ],
+  // Eixample
+  "eixample": [
+    "eixample", "passeig de gràcia", "paseo de gracia", "rambla catalunya",
+    "enric granados", "sagrada familia", "dreta", "esquerra", "sant pau",
+    "hospital de sant pau", "casa batlló", "la pedrera", "casa milà",
+    "casa mila", "casa amatller", "fundació tàpies", "tapies",
+    "diagonal", "roger de llúria", "pau claris", "girona", "tetuan",
+    "universitat", "urgell", "rocafort", "entença", "calabria",
+    "nova esquerra", "antiga esquerra", "fort pienc",
+  ],
+  // Gràcia
+  "gracia": [
+    "gràcia", "gracia", "plaça del sol", "verdi", "vila de gràcia",
+    "fontana", "travessera", "casa vicens", "penitents", "vallcarca",
+    "coll", "la salut", "camp d'en grassot", "camp grassot",
+    "plaça de la virreina", "plaça diamant", "plaça revolució",
+    "mercat abaceria", "joanic", "lesseps",
+  ],
+  // Sant Martí
+  "poblenou": [
+    "poblenou", "poble nou", "22@", "rambla del poblenou", "palo alto",
+    "diagonal mar", "glòries", "glories", "selva de mar", "bogatell",
+    "llacuna", "pere iv", "museu del disseny", "can framis", "dhub",
+    "torre glòries", "torre agbar", "provençals", "front marítim",
+    "campus audiovisual", "marina", "zoo",
+  ],
+  "clot": [
+    "clot", "camp de l'arpa", "camp arpa", "navas", "sagrera",
+    "sant martí de provençals", "verneda", "la pau", "besòs",
+    "besos", "maresme", "forum", "fòrum",
+  ],
+  // Barceloneta / Port
+  "barceloneta": [
+    "barceloneta", "playa", "platja", "port", "puerto", "mar",
+    "passeig marítim", "maremàgnum", "maremagnum", "olimpic", "olímpic",
+    "port olímpic", "port vell", "w hotel", "hotel vela",
+    "moll", "world trade center", "rambla de mar", "museu marítim",
+    "drassanes", "nova icària", "nova icaria",
+  ],
+  // Sants-Montjuïc
+  "montjuic-poblesec": [
+    "montjuïc", "montjuic", "poble-sec", "poble sec", "poblesec",
+    "paral·lel", "paralel", "parallel", "mnac", "miró", "miro",
+    "grec", "fundació miró", "caixaforum", "font màgica", "font magica",
+    "mercat de les flors", "teatre lliure", "anella olímpica",
+    "estadi olímpic", "jardí botànic", "sants", "estació sants",
+    "plaça espanya", "plaça españa", "fira", "hostafrancs",
+    "la bordeta", "badal", "marina",
+  ],
+  // Sarrià-Sant Gervasi + Les Corts
+  "sarria-pedralbes": [
+    "sarrià", "sarria", "pedralbes", "tibidabo", "bonanova",
+    "sant gervasi", "tres torres", "zona alta", "cosmocaixa",
+    "monestir de pedralbes", "jardins pedralbes", "putxet", "putget",
+    "el putget", "farró", "galvany", "turó park", "la bonanova",
+    "vallvidrera", "collserola", "carretera de les aigües", "aigues",
+  ],
+  "les-corts": [
+    "les corts", "camp nou", "spotify camp nou", "barça", "barca",
+    "maternitat", "jardins de la maternitat", "travessera de les corts",
+    "collblanc", "la torrassa",
+  ],
+  // Sant Antoni
+  "sant-antoni": [
+    "sant antoni", "san antonio", "mercat sant antoni", "manso",
+    "parlament", "ronda sant pau", "ronda sant antoni", "calàbria",
+    "comte borrell", "viladomat",
+  ],
+  // Horta-Guinardó
+  "horta-guinardo": [
+    "horta", "guinardó", "guinardo", "carmel", "park güell", "park guell",
+    "parc güell", "parc guell", "laberint", "laberint d'horta",
+    "laberinto de horta", "vall d'hebron", "teixonera", "montbau",
+    "sant genís", "sant genis", "font del gat", "bunkers", "bunkers del carmel",
+    "turó de la rovira",
+  ],
+  // Nou Barris
+  "nou-barris": [
+    "nou barris", "torre baró", "torre baro", "ciutat meridiana",
+    "trinitat", "roquetes", "verdun", "canyelles", "guineueta",
+    "prosperitat", "vilapicina", "turó de la peira",
+  ],
+  // Sant Andreu
+  "sant-andreu": [
+    "sant andreu", "bon pastor", "baró de viver", "trinitat vella",
+    "sant andreu de palomar", "fabra i coats", "la sagrera", "congrés",
+    "navas", "maldà",
+  ],
+  // Sant Martí (resto)
+  "sant-marti": [
+    "sant martí", "sant marti", "el parc", "vila olímpica",
+    "vila olimpica", "ciutadella", "estació de frança",
+  ],
   "any": [],
 };
 
@@ -70,10 +174,16 @@ const ZONE_NAMES: Record<Zone, string> = {
   "eixample": "el Eixample",
   "gracia": "Gràcia",
   "poblenou": "Poblenou",
+  "clot": "el Clot y alrededores",
   "barceloneta": "la Barceloneta y el Port",
   "montjuic-poblesec": "Montjuïc y Poble-sec",
-  "sarria-pedralbes": "la zona alta",
+  "sarria-pedralbes": "Sarrià y la zona alta",
+  "les-corts": "Les Corts",
   "sant-antoni": "Sant Antoni",
+  "horta-guinardo": "Horta-Guinardó",
+  "nou-barris": "Nou Barris",
+  "sant-andreu": "Sant Andreu",
+  "sant-marti": "Sant Martí",
   "any": "Barcelona",
 };
 
@@ -329,15 +439,21 @@ function filterByZone<T extends { zone: Zone }>(items: T[], zone: Zone | null): 
 
 function getNeighborZones(zone: Zone): Zone[] {
   const map: Record<Zone, Zone[]> = {
-    "born-gotic": ["raval", "barceloneta", "eixample"],
+    "born-gotic": ["raval", "barceloneta", "eixample", "sant-marti"],
     "raval": ["born-gotic", "sant-antoni", "montjuic-poblesec"],
-    "eixample": ["gracia", "sant-antoni", "born-gotic"],
-    "gracia": ["eixample", "sarria-pedralbes"],
-    "poblenou": ["barceloneta", "born-gotic", "eixample"],
-    "barceloneta": ["born-gotic", "poblenou"],
-    "montjuic-poblesec": ["raval", "sant-antoni", "eixample"],
-    "sarria-pedralbes": ["gracia", "eixample"],
+    "eixample": ["gracia", "sant-antoni", "born-gotic", "les-corts"],
+    "gracia": ["eixample", "sarria-pedralbes", "horta-guinardo"],
+    "poblenou": ["barceloneta", "born-gotic", "clot", "sant-marti"],
+    "barceloneta": ["born-gotic", "poblenou", "sant-marti"],
+    "montjuic-poblesec": ["raval", "sant-antoni", "eixample", "les-corts"],
+    "sarria-pedralbes": ["gracia", "eixample", "les-corts"],
     "sant-antoni": ["raval", "eixample", "montjuic-poblesec"],
+    "horta-guinardo": ["gracia", "nou-barris", "sant-andreu", "clot"],
+    "nou-barris": ["horta-guinardo", "sant-andreu"],
+    "sant-andreu": ["nou-barris", "horta-guinardo", "clot", "sant-marti"],
+    "sant-marti": ["poblenou", "clot", "born-gotic", "barceloneta"],
+    "les-corts": ["sarria-pedralbes", "eixample", "montjuic-poblesec"],
+    "clot": ["poblenou", "sant-marti", "sant-andreu", "horta-guinardo"],
     "any": [],
   };
   return map[zone] || [];
@@ -352,11 +468,17 @@ function eventToZone(neighborhood: string): Zone | null {
   if (n.includes("raval")) return "raval";
   if (n.includes("eixample") || n.includes("l'eixample")) return "eixample";
   if (n.includes("gràcia") || n.includes("gracia")) return "gracia";
-  if (n.includes("poblenou") || n.includes("clot") || n.includes("sant martí")) return "poblenou";
+  if (n.includes("poblenou")) return "poblenou";
+  if (n.includes("clot") || n.includes("camp de l'arpa") || n.includes("navas") || n.includes("sagrera") || n.includes("besòs") || n.includes("besos") || n.includes("fòrum") || n.includes("forum")) return "clot";
   if (n.includes("barceloneta") || n.includes("port")) return "barceloneta";
-  if (n.includes("montjuïc") || n.includes("montjuic") || n.includes("poble-sec") || n.includes("poble sec") || n.includes("sants")) return "montjuic-poblesec";
-  if (n.includes("sarrià") || n.includes("sarria") || n.includes("pedralbes") || n.includes("les corts") || n.includes("sant gervasi")) return "sarria-pedralbes";
+  if (n.includes("montjuïc") || n.includes("montjuic") || n.includes("poble-sec") || n.includes("poble sec") || n.includes("sants") || n.includes("hostafrancs")) return "montjuic-poblesec";
+  if (n.includes("sarrià") || n.includes("sarria") || n.includes("pedralbes") || n.includes("sant gervasi")) return "sarria-pedralbes";
+  if (n.includes("les corts") || n.includes("camp nou") || n.includes("collblanc")) return "les-corts";
   if (n.includes("sant antoni")) return "sant-antoni";
+  if (n.includes("horta") || n.includes("guinardó") || n.includes("guinardo") || n.includes("carmel") || n.includes("vall d'hebron")) return "horta-guinardo";
+  if (n.includes("nou barris") || n.includes("roquetes") || n.includes("prosperitat") || n.includes("torre baró")) return "nou-barris";
+  if (n.includes("sant andreu") || n.includes("bon pastor") || n.includes("fabra i coats")) return "sant-andreu";
+  if (n.includes("sant martí") || n.includes("vila olímpica") || n.includes("vila olimpica") || n.includes("ciutadella")) return "sant-marti";
   return null;
 }
 

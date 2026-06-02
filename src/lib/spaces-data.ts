@@ -38,7 +38,7 @@ export const SPACES: Space[] = [
     description:
       "El universo de Joan Miró en Montjuïc. Arte moderno y contemporáneo en un edificio icónico de Sert.",
     image:
-      "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=900&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1587974928442-77dc3e0dba72?w=900&h=600&fit=crop",
     address: "Parc de Montjuïc, s/n, 08038 Barcelona",
     neighborhood: "Sants-Montjuïc",
     website: "https://www.fmirobcn.org",
@@ -53,7 +53,7 @@ export const SPACES: Space[] = [
     description:
       "La colección más completa de la etapa formativa de Picasso, en cinco palacios medievales del Born.",
     image:
-      "https://images.unsplash.com/photo-1580136579312-94651dfd596d?w=900&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1563804951831-7d48a2e68d0e?w=900&h=600&fit=crop",
     address: "Carrer Montcada, 15-23, 08003 Barcelona",
     neighborhood: "Sant Pere, Santa Caterina i la Ribera",
     website: "https://www.museupicasso.bcn.cat",
@@ -68,7 +68,7 @@ export const SPACES: Space[] = [
     description:
       "El museo de referencia del arte figurativo contemporáneo europeo, en el palacio Gomis del Born.",
     image:
-      "https://images.unsplash.com/photo-1594794312433-05a69a98b7a0?w=900&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1574182245530-967d9b3831af?w=900&h=600&fit=crop",
     address: "Carrer de la Barra de Ferro, 5, 08003 Barcelona",
     neighborhood: "Sant Pere, Santa Caterina i la Ribera",
     website: "https://www.meam.es",
@@ -83,7 +83,7 @@ export const SPACES: Space[] = [
     description:
       "Museo de arte moderno y contemporáneo con obras de Banksy, KAWS, Haring y más.",
     image:
-      "https://images.unsplash.com/photo-1554907984-15263bfd63bd?w=900&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1696446702183-cbd13d78e1e7?w=900&h=600&fit=crop",
     address: "Carrer de Montcada, 25, 08003 Barcelona",
     neighborhood: "Sant Pere, Santa Caterina i la Ribera",
     website: "https://mocomuseum.com/barcelona",
@@ -98,7 +98,7 @@ export const SPACES: Space[] = [
     description:
       "El museo de referencia del arte contemporáneo en Barcelona, situado en el corazón del Raval.",
     image:
-      "https://images.unsplash.com/photo-1574958269340-fa927503f3dd?w=900&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1583321500900-82807e458f3c?w=900&h=600&fit=crop",
     address: "Plaça dels Àngels, 1, 08001 Barcelona",
     neighborhood: "El Raval",
     website: "https://www.macba.cat",
@@ -113,7 +113,7 @@ export const SPACES: Space[] = [
     description:
       "Espacio de creación, investigación y debate sobre cultura contemporánea en el Raval.",
     image:
-      "https://images.unsplash.com/photo-1558862107-d49ef2a04d72?w=900&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1578632292335-df3abbb0d586?w=900&h=600&fit=crop",
     address: "Carrer de Montalegre, 5, 08001 Barcelona",
     neighborhood: "El Raval",
     website: "https://www.cccb.org",
@@ -128,7 +128,7 @@ export const SPACES: Space[] = [
     description:
       "Centro cultural en la antigua fábrica Casaramona de Puig i Cadafalch. Grandes exposiciones internacionales.",
     image:
-      "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=900&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1579282240050-352db0a14c21?w=900&h=600&fit=crop",
     address: "Av. de Francesc Ferrer i Guàrdia, 6-8, 08038 Barcelona",
     neighborhood: "Sants-Montjuïc",
     website: "https://caixaforum.org/es/barcelona",
