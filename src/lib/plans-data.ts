@@ -228,6 +228,28 @@ export const RESTAURANTS_BUDGET: Restaurant[] = [
   { name: "Flash Flash", type: "Tortillas", priceRange: "€", zone: "sarria-pedralbes", vibe: "mítico de Barcelona — tortillas espectaculares y decoración pop de los 70" },
   { name: "Vivanda", type: "Catalana", priceRange: "€", zone: "sarria-pedralbes", vibe: "cocina catalana de mercado en un jardín precioso de Sarrià" },
   { name: "Bar Tomás", type: "Tapas", priceRange: "€", zone: "sarria-pedralbes", vibe: "las patatas bravas más famosas de Barcelona, punto" },
+  // Les Corts
+  { name: "A Contraluz", type: "Mediterránea", priceRange: "€", zone: "les-corts", vibe: "terraza con jardín interior escondida en Les Corts, un oasis que pocos conocen" },
+  { name: "La Tagliatella (Les Corts)", type: "Italiana", priceRange: "€", zone: "les-corts", vibe: "pasta fresca y pizzas fiables en pleno barrio, bien para ir sin pensar mucho" },
+  { name: "Can Culleretes de Les Corts", type: "Catalana", priceRange: "€", zone: "les-corts", vibe: "cocina catalana casera de toda la vida, menú del día honesto" },
+  // Clot / Camp de l'Arpa
+  { name: "El 58", type: "Tapas fusión", priceRange: "€", zone: "clot", vibe: "tapas creativas con toque internacional, una de las sorpresas del Clot" },
+  { name: "La Mundana", type: "Mediterránea", priceRange: "€", zone: "clot", vibe: "producto de mercado y carta corta que cambia cada semana, ambiente acogedor" },
+  { name: "Can Vallès", type: "Catalana", priceRange: "€", zone: "clot", vibe: "cocina de mercado de barrio como la de antes, con guisos que reconfortan" },
+  // Sant Martí / Vila Olímpica
+  { name: "Honest Greens (Glòries)", type: "Healthy", priceRange: "€", zone: "sant-marti", vibe: "comida sana y bien hecha a buen precio, perfecto para ir rápido" },
+  { name: "Bar Leo", type: "Tapas", priceRange: "€", zone: "sant-marti", vibe: "bravas, bombas y calamares en un bar de barrio que lleva décadas" },
+  { name: "La Lluna (Vila Olímpica)", type: "Marinera", priceRange: "€", zone: "sant-marti", vibe: "paellas y fideuà con vistas al Port Olímpic, buen plan de domingo" },
+  // Horta-Guinardó
+  { name: "Can Travi Nou", type: "Catalana", priceRange: "€", zone: "horta-guinardo", vibe: "masía del XVII con jardín, cocina catalana en un sitio que no parece Barcelona" },
+  { name: "El Rincón de Horta", type: "Mediterránea", priceRange: "€", zone: "horta-guinardo", vibe: "terraza tranquila con menú casero, el secreto mejor guardado de Horta" },
+  { name: "La Vermutería del Guinardó", type: "Tapas", priceRange: "€", zone: "horta-guinardo", vibe: "vermut de grifo, anchoas y bravas en un bar con alma de barrio" },
+  // Sant Andreu
+  { name: "Can Sadurní", type: "Catalana", priceRange: "€", zone: "sant-andreu", vibe: "cocina catalana de tota la vida en la rambla de Sant Andreu, como comer en casa" },
+  { name: "El Petit Andreu", type: "Tapas", priceRange: "€", zone: "sant-andreu", vibe: "tapas y vinos en un bar bonito del barrio, buen ambiente local" },
+  // Nou Barris
+  { name: "Can Paixano Nou Barris", type: "Catalana", priceRange: "€", zone: "nou-barris", vibe: "cocina casera catalana sin pretensiones y a buen precio" },
+  { name: "El Mirador de Roquetes", type: "Mediterránea", priceRange: "€", zone: "nou-barris", vibe: "restaurante con terraza y vistas a la ciudad, la recompensa después de subir" },
 ];
 
 export const RESTAURANTS_PREMIUM: Restaurant[] = [
@@ -257,6 +279,17 @@ export const RESTAURANTS_PREMIUM: Restaurant[] = [
   // Sarrià / Zona Alta
   { name: "Asador de Aranda", type: "Castellana", priceRange: "€€", zone: "sarria-pedralbes", vibe: "cordero y cochinillo en un edificio modernista espectacular" },
   { name: "Hofmann", type: "Creativa", priceRange: "€€", zone: "sarria-pedralbes", vibe: "escuela de cocina y restaurante, creatividad con base clásica impecable" },
+  // Les Corts
+  { name: "Via Veneto", type: "Clásica", priceRange: "€€", zone: "les-corts", vibe: "alta cocina clásica con estrella Michelin, elegancia de otra época" },
+  // Clot / Camp de l'Arpa
+  { name: "Xemei", type: "Italiana", priceRange: "€€", zone: "clot", vibe: "cocina veneciana de autor con cícheti y pastas hechas en casa" },
+  { name: "La Mundana (degustación)", type: "Mediterránea", priceRange: "€€", zone: "clot", vibe: "menú degustación con producto de mercado que cambia cada semana" },
+  // Sant Martí
+  { name: "Arola (Hotel Arts)", type: "Mediterránea", priceRange: "€€", zone: "sant-marti", vibe: "terraza junto al mar del Hotel Arts, cocina mediterránea de nivel con vistas" },
+  // Horta-Guinardó
+  { name: "Can Travi Nou (menú)", type: "Catalana premium", priceRange: "€€", zone: "horta-guinardo", vibe: "menú degustación en una masía histórica con jardín, experiencia única fuera del centro" },
+  // Sant Andreu
+  { name: "La Fonda del Recó", type: "Catalana", priceRange: "€€", zone: "sant-andreu", vibe: "cocina catalana actualizada con producto de mercado en Sant Andreu" },
 ];
 
 // ─── Bars ─────────────────────────────────────────────────────
@@ -303,6 +336,27 @@ export const BARS: Bar[] = [
   { name: "Mirablau", type: "Bar con vistas", zone: "sarria-pedralbes", vibe: "cocktails con las vistas más espectaculares de Barcelona, al pie del Tibidabo" },
   { name: "Terraza del Hotel Ohla", type: "Rooftop", zone: "sarria-pedralbes", vibe: "piscina y cocktails con vistas panorámicas de la ciudad" },
   { name: "Marcel", type: "Wine bar", zone: "sarria-pedralbes", vibe: "vinoteca tranquila en Sarrià con buena selección y tapas de autor" },
+  // Les Corts
+  { name: "Garage Beer Co (Les Corts)", type: "Cervecería craft", zone: "les-corts", vibe: "cerveza artesana de barrio con terraza, buen plan informal" },
+  { name: "Cocktail Bar Les Corts", type: "Cocktail bar", zone: "les-corts", vibe: "cocktails clásicos bien hechos en un bar de barrio con encanto" },
+  // Clot / Camp de l'Arpa
+  { name: "La Rovira", type: "Terraza", zone: "clot", vibe: "terraza de barrio con vermut, cañas y ese rollo de Clot auténtico" },
+  { name: "Bar Eléctric", type: "Cocktail bar", zone: "clot", vibe: "cocktails creativos en un local pequeño con mucha personalidad en Camp de l'Arpa" },
+  { name: "La Cervecería del Clot", type: "Cervecería craft", zone: "clot", vibe: "grifos de cerveza artesana local y tapas, ambiente joven y relajado" },
+  // Sant Martí / Vila Olímpica
+  { name: "Shôko", type: "Lounge", zone: "sant-marti", vibe: "cocktails frente al mar en el Port Olímpic, terraza con atardecer" },
+  { name: "Opium Barcelona", type: "Lounge", zone: "sant-marti", vibe: "cocktails y música junto a la playa, ambiente nocturno con estilo" },
+  { name: "Ice Barcelona", type: "Bar temático", zone: "sant-marti", vibe: "bar de hielo con cocktails incluidos y la experiencia de estar a -5 grados" },
+  // Horta-Guinardó
+  { name: "El Mirador del Carmel", type: "Terraza", zone: "horta-guinardo", vibe: "cervezas con las mejores vistas de Barcelona desde los Bunkers, atardecer obligatorio" },
+  { name: "Bar del Laberint", type: "Terraza", zone: "horta-guinardo", vibe: "terraza tranquila cerca del Laberint d'Horta, vermut y calma" },
+  { name: "La Vermutería del Guinardó", type: "Vermutería", zone: "horta-guinardo", vibe: "vermut artesano, aceitunas gordas y esa vida de barrio que no encuentras en el centro" },
+  // Sant Andreu
+  { name: "Bar La Rambla de Sant Andreu", type: "Terraza", zone: "sant-andreu", vibe: "vermut y tapas en la rambla peatonal, el centro de la vida del barrio" },
+  { name: "La Fábrica (Fabra i Coats)", type: "Bar cultural", zone: "sant-andreu", vibe: "bar en el recinto cultural de Fabra i Coats, cerveza y exposiciones" },
+  // Nou Barris
+  { name: "Bar Mirador Torre Baró", type: "Terraza", zone: "nou-barris", vibe: "cervezas con vistas panorámicas desde lo alto de Nou Barris, un secreto de la ciudad" },
+  { name: "El Chiringuito de Roquetes", type: "Terraza", zone: "nou-barris", vibe: "terraza de barrio con ambiente local y precios populares, buen vermut" },
 ];
 
 // ─── Walks ────────────────────────────────────────────────────
@@ -321,6 +375,14 @@ export const WALKS: Walk[] = [
   { name: "el Eixample", zone: "eixample", description: "Passeig de Gràcia, fachadas modernistas, Enric Granados y el ritmo pausado de las manzanas del Cerdà", duration: "1h" },
   { name: "Sarrià pueblo", zone: "sarria-pedralbes", description: "calles de pueblo dentro de la ciudad, el Mercat de Sarrià y el Monestir de Pedralbes", duration: "45 min" },
   { name: "Sant Antoni y alrededores", zone: "sant-antoni", description: "desde el Mercat de Sant Antoni por Parlament y Manso, buen ambiente y tiendas de diseño", duration: "30 min" },
+  // Nuevas zonas
+  { name: "Les Corts y el Camp Nou", zone: "les-corts", description: "por la zona universitaria hasta el Camp Nou, barrio residencial con rincones tranquilos", duration: "40 min" },
+  { name: "el Clot y Camp de l'Arpa", zone: "clot", description: "calles con ambiente de barrio, plazas escondidas y murales de arte urbano que pocos turistas ven", duration: "35 min" },
+  { name: "la Vila Olímpica al port", zone: "sant-marti", description: "desde Ciutadella por el Port Olímpic hasta la playa de la Nova Icària, paseo entre arte y mar", duration: "45 min" },
+  { name: "Horta y el Laberint", zone: "horta-guinardo", description: "subir al Laberint d'Horta, el jardín neoclásico más antiguo de Barcelona, y bajar por calles con historia", duration: "1h" },
+  { name: "los Bunkers del Carmel", zone: "horta-guinardo", description: "la subida hasta el mirador más famoso de Barcelona — el esfuerzo merece cada vista", duration: "50 min" },
+  { name: "Rambla de Sant Andreu", zone: "sant-andreu", description: "paseo por la rambla peatonal del barrio, mercado, iglesia y ambiente de pueblo dentro de la ciudad", duration: "30 min" },
+  { name: "Nou Barris y miradores", zone: "nou-barris", description: "subir a Torre Baró por vistas que compiten con Montjuïc pero sin un solo turista", duration: "50 min" },
 ];
 
 // ─── Cultural spots ───────────────────────────────────────────
@@ -364,6 +426,25 @@ export const CULTURAL_SPOTS: CulturalSpot[] = [
   { name: "Jardins de Pedralbes", type: "espacio", zone: "sarria-pedralbes", what: "jardines señoriales y festival de música en verano", price: "gratuita" },
   // Sant Antoni
   { name: "Mercat de Sant Antoni", type: "espacio", zone: "sant-antoni", what: "el mercado más bonito de Barcelona tras su reforma, domingos hay mercadillo de libros", price: "gratuita" },
+  // Les Corts
+  { name: "Camp Nou Experience", type: "museo", zone: "les-corts", what: "el museo del Barça y el nuevo estadio, una peregrinación para cualquier culé", price: "28 €" },
+  { name: "Jardins de la Maternitat", type: "espacio", zone: "les-corts", what: "jardines del antiguo complejo modernista de la Maternitat, un remanso de paz en Les Corts", price: "gratuita" },
+  // Clot
+  { name: "Mercat del Clot", type: "espacio", zone: "clot", what: "mercado de barrio con producto fresco y ambiente local auténtico", price: "gratuita" },
+  { name: "Parc del Clot", type: "espacio", zone: "clot", what: "parque construido sobre una antigua estación de tren con arcos de ladrillo originales", price: "gratuita" },
+  // Sant Martí
+  { name: "Museu Olímpic i de l'Esport", type: "museo", zone: "sant-marti", what: "la historia de los JJOO del 92 y del deporte, interactivo y divertido", price: "5,80 €" },
+  { name: "Parc de la Ciutadella", type: "espacio", zone: "sant-marti", what: "el pulmón verde de Barcelona con la cascada monumental, lago y el zoo — pasear aquí es obligatorio", price: "gratuita" },
+  // Horta-Guinardó
+  { name: "Laberint d'Horta", type: "espacio", zone: "horta-guinardo", what: "el jardín neoclásico más antiguo de Barcelona con un laberinto de cipreses, precioso y tranquilo", price: "gratuita dom/mié" },
+  { name: "Bunkers del Carmel", type: "espacio", zone: "horta-guinardo", what: "antiguas baterías antiaéreas convertidas en el mirador más espectacular de Barcelona — 360 grados de ciudad", price: "gratuita" },
+  { name: "Park Güell", type: "museo", zone: "horta-guinardo", what: "el parque de Gaudí con el dragón, el banco ondulado y vistas de toda Barcelona", price: "10 €" },
+  // Sant Andreu
+  { name: "Fabra i Coats", type: "centro cultural", zone: "sant-andreu", what: "antigua fábrica textil reconvertida en centro de creación artística con exposiciones y residencias", price: "gratuita" },
+  { name: "Església de Sant Andreu de Palomar", type: "espacio", zone: "sant-andreu", what: "iglesia románica en el corazón del barrio, la plaza alrededor tiene mucha vida", price: "gratuita" },
+  // Nou Barris
+  { name: "Mirador de Torre Baró", type: "espacio", zone: "nou-barris", what: "vistas panorámicas brutales de Barcelona y el Vallès, sin un solo turista", price: "gratuita" },
+  { name: "Ateneu Popular de Nou Barris", type: "centro cultural", zone: "nou-barris", what: "circo, teatro y cultura comunitaria en un espacio autogestionado con mucha historia", price: "5-10 €" },
 ];
 
 export const THEATERS: CulturalSpot[] = [
