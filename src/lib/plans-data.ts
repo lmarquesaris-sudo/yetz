@@ -457,6 +457,26 @@ export const THEATERS: CulturalSpot[] = [
   { name: "Teatre Condal", type: "teatro", zone: "eixample", what: "musicales y comedia en Paral·lel, buen plan para pasar un rato divertido", price: "15-35 €" },
   { name: "Antic Teatre", type: "sala", zone: "born-gotic", what: "teatro alternativo con un bar-terraza con jardín que es un oasis escondido", price: "8-15 €" },
   { name: "Teatre Poliorama", type: "teatro", zone: "raval", what: "en plena Rambla, programación variada y siempre con algo interesante", price: "12-30 €" },
+  // Nuevos teatros — zonas expandidas + más variedad
+  { name: "Sala Flyhard", type: "sala", zone: "sant-antoni", what: "teatro de texto contemporáneo en un espacio pequeño donde sientes la respiración de los actores", price: "12-18 €" },
+  { name: "Teatre Gaudí Barcelona", type: "teatro", zone: "eixample", what: "teatro de barrio con programación ecléctica — desde comedia hasta drama social, siempre sorprende", price: "12-24 €" },
+  { name: "Teatre Victoria", type: "teatro", zone: "montjuic-poblesec", what: "musicales y grandes producciones en Paral·lel, la Broadway barcelonesa", price: "20-45 €" },
+  { name: "Almeria Teatre", type: "sala", zone: "sant-andreu", what: "sala independiente en Sant Andreu con propuestas frescas y mucho teatro emergente", price: "10-15 €" },
+  { name: "Versus Teatre", type: "sala", zone: "eixample", what: "sala íntima con obras que te remueven, de esas que sales pensando durante días", price: "12-18 €" },
+  { name: "La Seca Espai Brossa", type: "sala", zone: "born-gotic", what: "magia, circo y artes parateatrales en un edificio con historia en el Born — algo distinto", price: "10-20 €" },
+  { name: "Teatre Tantarantana", type: "sala", zone: "born-gotic", what: "sala alternativa en el corazón del Born, obras con garra y un público fiel", price: "10-16 €" },
+  { name: "Sala Hiroshima", type: "sala", zone: "poblenou", what: "artes escénicas experimentales y danza contemporánea, de lo más vanguardista de la ciudad", price: "8-15 €" },
+  { name: "La Villarroel", type: "teatro", zone: "eixample", what: "teatro de autor con producciones propias que llevan años llenando — calidad asegurada", price: "15-28 €" },
+  { name: "Teatre Apolo", type: "teatro", zone: "montjuic-poblesec", what: "musicales a lo grande en Paral·lel, decoración de época y ese rollo de teatro clásico", price: "20-50 €" },
+  { name: "Teatre del Raval", type: "sala", zone: "raval", what: "sala de barrio con teatro social y comunitario, producciones que hablan de lo que pasa en la calle", price: "8-15 €" },
+  { name: "Teatreneu", type: "teatro", zone: "gracia", what: "comedia y microteatro en Gràcia — si te ríes pagas, el concepto más genial del mundo", price: "paga por risa" },
+  { name: "SAT! Sant Andreu Teatre", type: "teatro", zone: "sant-andreu", what: "el teatro de referencia del barrio, programación familiar y clásicos con buen nivel", price: "10-22 €" },
+  { name: "Teatre BARTS", type: "teatro", zone: "montjuic-poblesec", what: "sala polivalente en Paral·lel con teatro, humor y conciertos, siempre pasa algo", price: "15-30 €" },
+  { name: "Sala Planeta", type: "sala", zone: "sarria-pedralbes", what: "teatro íntimo en la zona alta con obras de calidad en un espacio recogido", price: "12-20 €" },
+  { name: "Ateneu Popular de Nou Barris (teatro)", type: "sala", zone: "nou-barris", what: "circo contemporáneo y teatro comunitario con una energía que no encuentras en el centro", price: "5-12 €" },
+  { name: "Teatre Ovidi Montllor", type: "teatro", zone: "horta-guinardo", what: "teatro de barrio en Horta con programación para todos, nombrado en honor al gran cantautor", price: "8-18 €" },
+  { name: "Sala Fènix", type: "sala", zone: "les-corts", what: "espacio escénico independiente en Les Corts con teatro de texto y propuestas emergentes", price: "10-16 €" },
+  { name: "El Molino", type: "teatro", zone: "montjuic-poblesec", what: "cabaret, revista y espectáculos en el mítico Molino del Paral·lel — historia viva de Barcelona", price: "20-40 €" },
 ];
 
 export const MUSIC_VENUES: CulturalSpot[] = [
@@ -469,6 +489,68 @@ export const MUSIC_VENUES: CulturalSpot[] = [
   { name: "Sidecar", type: "sala", zone: "born-gotic", what: "rock y músicas alternativas en Plaça Reial desde los 80", price: "10-15 €" },
   { name: "La [2] de Apolo", type: "sala", zone: "montjuic-poblesec", what: "la sala pequeña de Apolo, más íntima, sesiones electrónicas y DJ sets de nivel", price: "10-15 €" },
   { name: "Upload", type: "sala", zone: "poblenou", what: "sala de conciertos nueva en Poblenou, buen sonido y propuestas actuales", price: "10-20 €" },
+  // Nuevas salas de música — zonas expandidas + más variedad
+  { name: "Luz de Gas", type: "sala", zone: "eixample", what: "sala de conciertos en un antiguo music hall modernista, desde jazz hasta pop con clase", price: "15-30 €" },
+  { name: "Bikini", type: "sala", zone: "les-corts", what: "tres ambientes musicales distintos bajo el mismo techo, referente nocturno de la zona alta", price: "12-25 €" },
+  { name: "Sala BARTS", type: "sala", zone: "montjuic-poblesec", what: "conciertos y shows en Paral·lel con un sonido brutal y capacidad perfecta — ni muy grande ni muy pequeño", price: "15-30 €" },
+  { name: "Harlem Jazz Club", type: "sala", zone: "born-gotic", what: "jazz, blues y swing en un local diminuto del Gòtic donde la música te envuelve", price: "8-12 €" },
+  { name: "Moog", type: "sala", zone: "raval", what: "techno y electrónica en un club compacto del Raval que lleva décadas siendo referencia", price: "10-15 €" },
+  { name: "Marula Café", type: "sala", zone: "born-gotic", what: "funk, soul y ritmos afro en un sótano de Plaça Reial donde el cuerpo se mueve solo", price: "8-15 €" },
+  { name: "Freedonia", type: "sala", zone: "raval", what: "soul, funk y r&b en directo en un bar-sala del Raval con mucha personalidad", price: "8-12 €" },
+  { name: "Vol", type: "sala", zone: "sant-antoni", what: "sala de conciertos nueva en Sant Antoni, propuestas actuales y buena cerveza artesana", price: "10-18 €" },
+  { name: "Jazz Sí Club", type: "sala", zone: "raval", what: "jam sessions y conciertos de jazz, flamenco y cubana a precio de ganga en el Taller de Músics", price: "5-10 €" },
+  { name: "La Nau", type: "sala", zone: "barceloneta", what: "espacio cultural junto al mar con conciertos, DJ sets y noches temáticas", price: "10-20 €" },
+  { name: "Garage442", type: "sala", zone: "eixample", what: "sala independiente con bandas emergentes y ese sonido crudo de local pequeño que mola mucho", price: "8-15 €" },
+  { name: "Sala Salamandra", type: "sala", zone: "sant-andreu", what: "rock, metal y músicas alternativas en una sala con historia en la zona nord", price: "10-20 €" },
+  { name: "Laut", type: "sala", zone: "clot", what: "sala de conciertos en el Clot con programación indie y electrónica, descubrimiento de bandas", price: "8-15 €" },
+  { name: "Café Royale", type: "sala", zone: "born-gotic", what: "música en directo y DJ sessions en un espacio acogedor cerca de Plaça Reial", price: "8-12 €" },
+];
+
+// ─── Cinemas ─────────────────────────────────────────────────
+
+export const CINEMAS: CulturalSpot[] = [
+  { name: "Filmoteca de Catalunya", type: "centro cultural", zone: "raval", what: "cine de autor, retrospectivas y ciclos temáticos a precio ridículo — el templo cinéfilo de Barcelona", price: "4 €" },
+  { name: "Cinemes Girona", type: "sala", zone: "eixample", what: "cine independiente y de autor en versión original, programación cuidadísima y buen café en el vestíbulo", price: "8-10 €" },
+  { name: "Phenomena", type: "sala", zone: "eixample", what: "la experiencia de ver cine como antes — pantalla enorme, sonido perfecto y clásicos que merecen sala grande", price: "9-11 €" },
+  { name: "Renoir Floridablanca", type: "sala", zone: "sant-antoni", what: "cine europeo y de autor en V.O., de esos sitios donde siempre encuentras algo que no está en las plataformas", price: "8-10 €" },
+  { name: "Zumzeig Cinema", type: "sala", zone: "les-corts", what: "cine cooperativo con bar y programación militante — pelis que no pasan en otro sitio y debates después", price: "7-9 €" },
+  { name: "Cinemes Texas", type: "sala", zone: "gracia", what: "sala de barrio en Gràcia con cine independiente y reestrenos, ambiente de cinéfilos de verdad", price: "7-9 €" },
+  { name: "Verdi", type: "sala", zone: "gracia", what: "el cine en V.O. de toda la vida en Gràcia, multisalas con buena selección y helados artesanos en el bar", price: "8-10 €" },
+  { name: "Verdi Park", type: "sala", zone: "gracia", what: "la extensión del Verdi, más salas con la misma filosofía de cine en versión original", price: "8-10 €" },
+  { name: "Cine Maldà", type: "sala", zone: "born-gotic", what: "microcine escondido en una galería del Gòtic con pelis raras, anime y sesiones golfa — un sitio con culto", price: "6-8 €" },
+  { name: "CCCB Xcèntric", type: "centro cultural", zone: "raval", what: "ciclos de cine experimental y videoarte en el CCCB, para cuando quieres ver algo que rompa moldes", price: "4-6 €" },
+];
+
+// ─── Outdoor spots ───────────────────────────────────────────
+
+export interface OutdoorSpot {
+  name: string;
+  zone: Zone;
+  description: string;
+  bestTime: string;
+}
+
+export const OUTDOOR_SPOTS: OutdoorSpot[] = [
+  { name: "Parc de la Ciutadella", zone: "sant-marti", description: "el parque grande de Barcelona, con lago, cascada monumental y gente tocando música bajo los árboles — ideal para tumbarse con un libro", bestTime: "mañana" },
+  { name: "Platja de la Barceloneta", zone: "barceloneta", description: "la playa de toda la vida, chiringuitos, voley y ese rollo mediterráneo que nunca falla", bestTime: "mañana" },
+  { name: "Jardins de Mossèn Costa i Llobera", zone: "montjuic-poblesec", description: "el jardín de cactus más espectacular de Europa, en la ladera de Montjuïc con vistas al puerto — parece otro país", bestTime: "mañana" },
+  { name: "Turó Park", zone: "sarria-pedralbes", description: "jardín señorial en la zona alta con patos, esculturas y calma total", bestTime: "cualquier hora" },
+  { name: "Carretera de les Aigües", zone: "sarria-pedralbes", description: "el paseo más bonito de Barcelona a media montaña, camino llano con vistas panorámicas de toda la ciudad y el mar", bestTime: "atardecer" },
+  { name: "Parc del Laberint d'Horta", zone: "horta-guinardo", description: "jardín neoclásico del XVIII con un laberinto de cipreses que te atrapa — tranquilo, romántico y lejos de las masas", bestTime: "mañana" },
+  { name: "Bunkers del Carmel", zone: "horta-guinardo", description: "las antiguas baterías antiaéreas con la mejor vista 360 grados de Barcelona — al atardecer es mágico", bestTime: "atardecer" },
+  { name: "Platja del Bogatell", zone: "poblenou", description: "playa más tranquila que la Barceloneta, buen espacio y menos agobio, perfecta para un baño sin multitudes", bestTime: "mañana" },
+  { name: "Jardins de Joan Brossa", zone: "montjuic-poblesec", description: "jardines en la ladera de Montjuïc con juegos, esculturas y vistas al mar — uno de los secretos mejor guardados", bestTime: "cualquier hora" },
+  { name: "Parc del Guinardó", zone: "horta-guinardo", description: "parque frondoso con miradores escondidos y escalinatas que parecen de película, mucho menos masificado que el Güell", bestTime: "atardecer" },
+  { name: "Parc de Cervantes (Rosaleda)", zone: "les-corts", description: "más de diez mil rosales de doscientas variedades — en mayo y junio es una locura de colores y olores", bestTime: "mañana" },
+  { name: "Jardins de Laribal", zone: "montjuic-poblesec", description: "jardines escalonados con fuentes árabes y rincones escondidos en Montjuïc, de lo más bonito y menos conocido", bestTime: "cualquier hora" },
+  { name: "Parc de la Creueta del Coll", zone: "horta-guinardo", description: "piscina natural de verano excavada en una antigua cantera con escultura de Chillida colgando — plan perfecto de día caluroso", bestTime: "mañana" },
+  { name: "Platja de la Nova Icària", zone: "sant-marti", description: "la playa más familiar y tranquila del frente marítimo, con chiringuitos y zona de vóley", bestTime: "mañana" },
+  { name: "Parc del Turó de la Peira", zone: "nou-barris", description: "colina verde en Nou Barris con vistas que nadie espera y un silencio que no parece Barcelona", bestTime: "atardecer" },
+  { name: "Jardins del Palau de Pedralbes", zone: "sarria-pedralbes", description: "jardines con fuente de Gaudí, bambú gigante y pavos reales paseando entre naranjos — señorial y precioso", bestTime: "mañana" },
+  { name: "Moll de la Fusta", zone: "barceloneta", description: "paseo junto al Port Vell con la brisa del mar, veleros al fondo y el skyline de la ciudad detrás", bestTime: "atardecer" },
+  { name: "Parc Central de Nou Barris", zone: "nou-barris", description: "parque amplio con acueducto romano restaurado y zonas de juego, la sala de estar al aire libre del barrio", bestTime: "cualquier hora" },
+  { name: "Mirador de l'Alcalde", zone: "montjuic-poblesec", description: "mirador con mosaicos de colores y vistas al puerto y la ciudad, uno de los rincones más fotogénicos de Montjuïc", bestTime: "atardecer" },
+  { name: "Parc del Clot", zone: "clot", description: "parque construido sobre una antigua estación de tren conservando los arcos de ladrillo — industrial y bonito a partes iguales", bestTime: "cualquier hora" },
 ];
 
 // ─── Plan generation ───────────────────────────────────────────
@@ -478,8 +560,6 @@ export interface Plan {
   subtitle: string;
   paragraphs: string[];
 }
-
-type Mood = "relax" | "romantic" | "budget" | "music" | "teatro" | "random";
 
 function pick<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -597,6 +677,9 @@ function pEventExpo(event: Event): string {
     `Ahora mismo en el **${event.venue}** tienen *${event.title}*. ${event.description} La entrada son ${price}.`,
     `Pásate por el **${event.venue}** a ver *${event.title}* — ${event.description.toLowerCase()} Entrada: ${price}.`,
     `En el **${event.venue}** está *${event.title}*. ${event.description} ${price === "gratuita" ? "Gratis, además." : `${price} la entrada.`}`,
+    `No te pierdas *${event.title}* en el **${event.venue}**. ${event.description} ${price === "gratuita" ? "Y es gratis, que no está mal." : `Precio: ${price}.`}`,
+    `Exposición recomendada: *${event.title}* en el **${event.venue}**. ${event.description} ${price === "gratuita" ? "Gratis total." : `Son ${price} de entrada.`}`,
+    `Si te va el arte, hoy toca *${event.title}* en el **${event.venue}**. ${event.description} ${price === "gratuita" ? "Sin coste." : `La entrada va por ${price}.`}`,
   ];
   return pick(templates);
 }
@@ -607,6 +690,9 @@ function pEventTeatro(event: Event): string {
     `En el **${event.venue}** están con *${event.title}*. ${event.description} Entradas desde ${price}. Se apagan las luces y durante un par de horas te olvidas de todo.`,
     `Lo fuerte del plan: *${event.title}* en el **${event.venue}**. ${event.description} Desde ${price}.`,
     `Para el teatro, *${event.title}* en el **${event.venue}** — ${event.description.toLowerCase()} Entradas desde ${price}.`,
+    `El escenario te espera con *${event.title}* en el **${event.venue}**. ${event.description} ${price}. Barcelona sabe de tablas.`,
+    `Noche de teatro: *${event.title}* en el **${event.venue}**. ${event.description} Desde ${price}. No te lo pierdas.`,
+    `Te recomiendo mucho *${event.title}* en el **${event.venue}**. ${event.description} Entradas desde ${price}. De esas obras que se quedan contigo.`,
   ];
   return pick(templates);
 }
@@ -617,6 +703,33 @@ function pEventMusica(event: Event): string {
     `Por la noche, *${event.title}* en el **${event.venue}**. ${event.description} Entrada unos ${price}.`,
     `El plato fuerte: *${event.title}* en el **${event.venue}**. ${event.description} Sobre ${price}.`,
     `Para la música, *${event.title}* — ${event.description.toLowerCase()} En el **${event.venue}**, unos ${price}.`,
+    `El bolo de la noche: *${event.title}* en el **${event.venue}**. ${event.description} Entradas a ${price}. La noche suena fuerte.`,
+    `Hoy la ciudad suena a *${event.title}* en el **${event.venue}**. ${event.description} Sobre ${price}. Hay que estar.`,
+    `Para tus oídos: *${event.title}* en el **${event.venue}**. ${event.description} Desde ${price}. Vas a salir tarareando.`,
+  ];
+  return pick(templates);
+}
+
+function pEventTaller(event: Event): string {
+  const price = event.price ? `${event.price} €` : "gratuito";
+  const templates = [
+    `Hoy creas algo con tus manos: *${event.title}* en el **${event.venue}**. ${event.description} Precio: ${price}.`,
+    `Taller recomendado: *${event.title}* en el **${event.venue}**. ${event.description} ${price === "gratuito" ? "Y sin coste." : `Cuesta ${price}, pero sales con algo hecho por ti.`}`,
+    `Ponte creativo con *${event.title}* en el **${event.venue}**. ${event.description} ${price === "gratuito" ? "Entrada libre." : `Son ${price}.`} Vas a disfrutar.`,
+    `Hoy el plan tiene las manos sucias (en el buen sentido). *${event.title}* en el **${event.venue}**: ${event.description} ${price === "gratuito" ? "Gratis total." : `Precio: ${price}.`}`,
+    `Para hacer algo distinto: *${event.title}* en el **${event.venue}**. ${event.description} ${price === "gratuito" ? "Y no cuesta nada." : `${price} bien invertidos.`} Te llevas algo único a casa.`,
+  ];
+  return pick(templates);
+}
+
+function pEventCine(event: Event): string {
+  const price = event.price ? `${event.price} €` : "gratuita";
+  const templates = [
+    `En cartelera: *${event.title}* en el **${event.venue}**. ${event.description} Entradas: ${price}.`,
+    `Hoy proyectan *${event.title}* en el **${event.venue}**. ${event.description} Desde ${price}. Cine de verdad.`,
+    `Sesión recomendada: *${event.title}* en el **${event.venue}**. ${event.description} ${price}.`,
+    `Para cinéfilos y curiosos: *${event.title}* en el **${event.venue}**. ${event.description} Entradas a ${price}. No es Netflix, es mejor.`,
+    `Pantalla grande con *${event.title}* en el **${event.venue}**. ${event.description} Precio: ${price}. De esas pelis que se ven en sala o no se ven.`,
   ];
   return pick(templates);
 }
@@ -624,84 +737,155 @@ function pEventMusica(event: Event): string {
 // ─── Paragraph templates ───────────────────────────────────────
 
 function pWalkIntro(walk: Walk): string {
-  const openers = [
-    `Empiezas dando un paseo por **${walk.name}**. ${walk.description.charAt(0).toUpperCase() + walk.description.slice(1)} — unos ${walk.duration} a tu ritmo, sin mapa ni destino fijo.`,
+  const cap = walk.description.charAt(0).toUpperCase() + walk.description.slice(1);
+  const templates = [
+    `Empiezas dando un paseo por **${walk.name}**. ${cap} — unos ${walk.duration} a tu ritmo, sin mapa ni destino fijo.`,
     `Lo primero, caminar. Un paseo por **${walk.name}**: ${walk.description}. Unos ${walk.duration} dejándote llevar.`,
-    `Antes de nada, un rato caminando por **${walk.name}**. ${walk.description.charAt(0).toUpperCase() + walk.description.slice(1)}. No hay prisa.`,
+    `Antes de nada, un rato caminando por **${walk.name}**. ${cap}. No hay prisa.`,
+    `Arrancas con un paseo tranquilo por **${walk.name}**. ${cap}. Calcula unos ${walk.duration} para empaparte bien del sitio.`,
+    `Para entrar en modo plan, nada como caminar por **${walk.name}**. ${cap} — ${walk.duration} sin prisa, que hoy no hay reloj.`,
+    `Ponte los zapatos cómodos y empieza por **${walk.name}**. ${cap}. Unos ${walk.duration} y ya estás en sintonía.`,
+    `El plan empieza andando. **${walk.name}** te espera: ${walk.description}. Date unos ${walk.duration} para ir calentando el día.`,
   ];
-  return pick(openers);
+  return pick(templates);
 }
 
 function pCulture(spot: CulturalSpot): string {
+  const cap = spot.what.charAt(0).toUpperCase() + spot.what.slice(1);
+  const free = spot.price === "gratuita";
   const templates = [
-    `Te acercas al **${spot.name}**. ${spot.what.charAt(0).toUpperCase() + spot.what.slice(1)}. La entrada son ${spot.price} y merece la pena.`,
-    `Parada en el **${spot.name}**. ${spot.what.charAt(0).toUpperCase() + spot.what.slice(1)}. ${spot.price === "gratuita" ? "Entrada gratuita." : `${spot.price} la entrada.`}`,
-    `El **${spot.name}** es buena opción — ${spot.what}. ${spot.price === "gratuita" ? "Gratis, además." : `La entrada son ${spot.price}.`}`,
+    `Te acercas al **${spot.name}**. ${cap}. ${free ? "Entrada gratuita." : `La entrada son ${spot.price} y merece la pena.`}`,
+    `Parada en el **${spot.name}**. ${cap}. ${free ? "Entrada gratuita." : `${spot.price} la entrada.`}`,
+    `El **${spot.name}** es buena opción — ${spot.what}. ${free ? "Gratis, además." : `La entrada son ${spot.price}.`}`,
+    `Ahora toca cultura: el **${spot.name}**. ${cap}. ${free ? "Lo mejor: no cuesta ni un euro." : `Por ${spot.price} merece mucho la pena.`}`,
+    `Date un capricho cultural en el **${spot.name}**. ${cap}. ${free ? "Ah, y es gratis. Mejor imposible." : `Entrada a ${spot.price}.`}`,
+    `Te recomiendo pasar por el **${spot.name}** — ${spot.what}. ${free ? "Encima gratis." : `Son ${spot.price} de entrada.`}`,
+    `Un imprescindible: el **${spot.name}**. ${cap}. ${free ? "Y sin soltar un duro, que ya es decir." : `La entrada ronda los ${spot.price}.`}`,
   ];
   return pick(templates);
 }
 
 function pRestaurantBudget(r: Restaurant): string {
+  const cap = r.vibe.charAt(0).toUpperCase() + r.vibe.slice(1);
   const templates = [
-    `Para comer, **${r.name}**. ${r.vibe.charAt(0).toUpperCase() + r.vibe.slice(1)}. Comes bien sin pasarte de treinta euros.`,
+    `Para comer, **${r.name}**. ${cap}. Comes bien sin pasarte de treinta euros.`,
     `A comer te recomiendo **${r.name}** — ${r.vibe}. No te gastas mucho y sales contento.`,
-    `La comida en **${r.name}**. ${r.vibe.charAt(0).toUpperCase() + r.vibe.slice(1)}. Buen precio y buen nivel.`,
+    `La comida en **${r.name}**. ${cap}. Buen precio y buen nivel.`,
+    `El mediodía lo resuelves en **${r.name}**. ${cap}. Nivel de gasto bajo, nivel de satisfacción alto.`,
+    `Para llenar el estómago sin vaciar la cartera: **${r.name}**. ${cap}. Sale redondo.`,
+    `¿Hambre? Directo a **${r.name}**. ${cap}. Comes bien y sales con ganas de más.`,
+    `Te propongo comer en **${r.name}**. ${cap}. El bolsillo apenas se entera.`,
   ];
   return pick(templates);
 }
 
 function pRestaurantPremium(r: Restaurant): string {
+  const cap = r.vibe.charAt(0).toUpperCase() + r.vibe.slice(1);
   const templates = [
-    `Para cenar, **${r.name}**. ${r.vibe.charAt(0).toUpperCase() + r.vibe.slice(1)}. Sobre cincuenta-sesenta euros, pero merece mucho la pena.`,
-    `La cena en **${r.name}**. ${r.vibe.charAt(0).toUpperCase() + r.vibe.slice(1)}. Es de esos sitios donde comes y piensas "qué bien he hecho viniendo aquí".`,
+    `Para cenar, **${r.name}**. ${cap}. Sobre cincuenta-sesenta euros, pero merece mucho la pena.`,
+    `La cena en **${r.name}**. ${cap}. Es de esos sitios donde comes y piensas "qué bien he hecho viniendo aquí".`,
     `Para la cena, apuesta por **${r.name}** — ${r.vibe}. Sobre cincuenta euros. De lo mejor que puedes cenar en la zona.`,
+    `Llega la cena y hay que estar a la altura. **${r.name}**: ${r.vibe}. Cada euro bien invertido.`,
+    `Esta noche cenas en **${r.name}**. ${cap}. Hay días que piden algo así. Disfrútalo.`,
+    `Para cerrar el día con clase: **${r.name}**. ${cap}. Brinda por el día.`,
+    `La cena merece algo memorable. **${r.name}** — ${r.vibe}. Sobre cincuenta euros. Se lo vale.`,
   ];
   return pick(templates);
 }
 
 function pBar(bar: Bar): string {
+  const cap = bar.vibe.charAt(0).toUpperCase() + bar.vibe.slice(1);
   const templates = [
-    `Después, **${bar.name}**. ${bar.vibe.charAt(0).toUpperCase() + bar.vibe.slice(1)}. Buen sitio para acabar la noche.`,
+    `Después, **${bar.name}**. ${cap}. Buen sitio para acabar la noche.`,
     `Para tomar algo, **${bar.name}** — ${bar.vibe}.`,
-    `Y para cerrar, unas copas en **${bar.name}**. ${bar.vibe.charAt(0).toUpperCase() + bar.vibe.slice(1)}.`,
+    `Y para cerrar, unas copas en **${bar.name}**. ${cap}.`,
+    `La copa la tomas en **${bar.name}**. ${cap}. Uno de esos sitios que no fallan.`,
+    `Para el trago, **${bar.name}**. ${cap}. Imposible no quedarse a gusto.`,
+    `Siguiente: **${bar.name}**. ${cap}. Tiene ese punto que buscas para una buena copa.`,
+    `Ahora toca líquido. **${bar.name}**: ${bar.vibe}. Vas a querer quedarte un rato.`,
   ];
   return pick(templates);
 }
 
 function pBarCasual(bar: Bar): string {
+  const cap = bar.vibe.charAt(0).toUpperCase() + bar.vibe.slice(1);
   const templates = [
-    `Para el vermut o unas cañas, **${bar.name}**. ${bar.vibe.charAt(0).toUpperCase() + bar.vibe.slice(1)}. Un buen rato.`,
+    `Para el vermut o unas cañas, **${bar.name}**. ${cap}. Un buen rato.`,
     `Antes de nada, una parada en **${bar.name}** — ${bar.vibe}.`,
-    `Y un vermut en **${bar.name}**. ${bar.vibe.charAt(0).toUpperCase() + bar.vibe.slice(1)}.`,
+    `Y un vermut en **${bar.name}**. ${cap}.`,
+    `Ahora toca descansar las piernas en **${bar.name}**. ${cap}. Un respiro bien merecido.`,
+    `Haces una pausa en **${bar.name}**. ${cap}. Pide lo que te apetezca sin pensar.`,
+    `Para pillar fuerzas: **${bar.name}**. ${cap}. De esos sitios donde el tiempo se para.`,
+    `Intermedio ideal: **${bar.name}**. ${cap}. Un vermut, una caña, lo que fluya.`,
   ];
   return pick(templates);
 }
 
 function pTheater(t: CulturalSpot): string {
+  const cap = t.what.charAt(0).toUpperCase() + t.what.slice(1);
   const templates = [
-    `En el **${t.name}** mira qué tienen en cartelera. ${t.what.charAt(0).toUpperCase() + t.what.slice(1)}. La entrada va de ${t.price}. Se apagan las luces y durante un par de horas te olvidas de todo.`,
-    `Lo fuerte del plan: el **${t.name}**. ${t.what.charAt(0).toUpperCase() + t.what.slice(1)}. Entradas entre ${t.price}.`,
+    `En el **${t.name}** mira qué tienen en cartelera. ${cap}. La entrada va de ${t.price}. Se apagan las luces y durante un par de horas te olvidas de todo.`,
+    `Lo fuerte del plan: el **${t.name}**. ${cap}. Entradas entre ${t.price}.`,
     `Por la tarde-noche, teatro en el **${t.name}** — ${t.what}. Entre ${t.price} la entrada. Cuando se apagan las luces es otra cosa.`,
+    `Hoy toca butaca y telón. **${t.name}** — ${t.what}. Entradas por ${t.price}. Merece muchísimo la pena.`,
+    `Para la noche, teatro en el **${t.name}**. ${cap}. Desde ${t.price} la entrada.`,
+    `Si no has ido al **${t.name}**, hoy es el día. ${cap}. El precio ronda ${t.price}.`,
+    `Barcelona y teatro van de la mano. Esta noche: el **${t.name}**. ${cap}. Entradas desde ${t.price}.`,
   ];
   return pick(templates);
 }
 
 function pMusic(v: CulturalSpot): string {
+  const cap = v.what.charAt(0).toUpperCase() + v.what.slice(1);
   const templates = [
-    `Por la noche, música en directo en el **${v.name}**. ${v.what.charAt(0).toUpperCase() + v.what.slice(1)}. Entrada unos ${v.price}.`,
-    `El plato fuerte: **${v.name}**. ${v.what.charAt(0).toUpperCase() + v.what.slice(1)}. Sobre ${v.price}.`,
+    `Por la noche, música en directo en el **${v.name}**. ${cap}. Entrada unos ${v.price}.`,
+    `El plato fuerte: **${v.name}**. ${cap}. Sobre ${v.price}.`,
     `Para la música, **${v.name}** — ${v.what}. Unos ${v.price}.`,
+    `Para los oídos: **${v.name}**. ${cap}. Las entradas cuestan ${v.price}. Barcelona suena diferente en vivo.`,
+    `Toca música en directo. **${v.name}** — ${v.what}. Entradas por ${v.price}.`,
+    `El plan musical: **${v.name}**. ${cap}. Desde ${v.price}. Vas a salir tarareando.`,
+    `La noche tiene banda sonora. **${v.name}**: ${v.what}. Precio: ${v.price}. Déjate llevar por lo que suene.`,
+  ];
+  return pick(templates);
+}
+
+function pCinema(cinema: CulturalSpot): string {
+  const cap = cinema.what.charAt(0).toUpperCase() + cinema.what.slice(1);
+  const templates = [
+    `Sesión de cine en el **${cinema.name}**. ${cap}. Entrada: ${cinema.price}. Palomitas opcionales pero recomendadas.`,
+    `Toca pantalla grande: **${cinema.name}**. ${cap}. Precio: ${cinema.price}. De esos cines que te recuerdan por qué ir a una sala mola.`,
+    `Para la peli, el **${cinema.name}** — ${cinema.what}. Entradas a ${cinema.price}. Cine como tiene que ser.`,
+    `Butaca y oscuridad: **${cinema.name}**. ${cap}. Desde ${cinema.price}. Barcelona tiene un cine independiente brutal.`,
+    `Nos metemos en el **${cinema.name}** a ver buen cine. ${cap}. La entrada ronda los ${cinema.price}. Prepárate para desconectar del mundo un rato.`,
+  ];
+  return pick(templates);
+}
+
+function pOutdoor(spot: OutdoorSpot): string {
+  const cap = spot.description.charAt(0).toUpperCase() + spot.description.slice(1);
+  const timeHint = spot.bestTime === "cualquier hora" ? "a cualquier hora del día" : `mejor por la ${spot.bestTime}`;
+  const templates = [
+    `Primer destino: **${spot.name}**. ${cap}. Ideal ${timeHint}. Respira hondo.`,
+    `Empiezas al aire libre en **${spot.name}** — ${spot.description}. Ve ${timeHint}. Hoy toca cielo abierto.`,
+    `Te vas directo a **${spot.name}**. ${cap}. Mejor ir ${timeHint}, que es cuando brilla de verdad.`,
+    `Hoy el techo es el cielo. **${spot.name}**: ${spot.description}. Ve ${timeHint} para pillarlo en su mejor momento.`,
+    `Arrancas en **${spot.name}** — ${spot.description}. El truco: ir ${timeHint}. Vas a alucinar.`,
   ];
   return pick(templates);
 }
 
 function pClosing(bar: Bar): string {
-  const closings = [
+  const cap = bar.vibe.charAt(0).toUpperCase() + bar.vibe.slice(1);
+  const templates = [
     `Si la noche se alarga, **${bar.name}** — ${bar.vibe}. De esos sitios donde siempre acabas bien.`,
-    `Y si queda cuerpo, una última en **${bar.name}**. ${bar.vibe.charAt(0).toUpperCase() + bar.vibe.slice(1)}.`,
-    `Para rematar, **${bar.name}**. ${bar.vibe.charAt(0).toUpperCase() + bar.vibe.slice(1)}. El broche perfecto.`,
+    `Y si queda cuerpo, una última en **${bar.name}**. ${cap}.`,
+    `Para rematar, **${bar.name}**. ${cap}. El broche perfecto.`,
+    `Para poner el punto final: **${bar.name}**. ${cap}. La última copa siempre sabe mejor.`,
+    `El cierre perfecto es **${bar.name}** — ${bar.vibe}. Mañana ya verás, hoy se disfruta.`,
+    `Y para acabar como se merece: **${bar.name}**. ${cap}. Un buen final para un buen día.`,
+    `Última copa en **${bar.name}**. ${cap}. La noche cierra redonda. Salud.`,
   ];
-  return pick(closings);
+  return pick(templates);
 }
 
 // ─── Zone-aware intro paragraph ───────────────────────────────
@@ -712,6 +896,10 @@ function pZoneIntro(zone: Zone): string {
     `Hoy el plan va por **${name}**. Uno de esos barrios que merece la pena explorar con calma.`,
     `Te propongo un plan centrado en **${name}** — para que no tengas que cruzar media ciudad.`,
     `Vamos a **${name}**. Todo lo que necesitas para un buen día está ahí.`,
+    `Hoy toca **${name}**. Uno de esos rincones de Barcelona que siempre tiene vida.`,
+    `El plan se cocina en **${name}**. Barrio con carácter y mil opciones.`,
+    `Nos vamos a **${name}**. Hay días que piden esta zona, y hoy es uno de ellos.`,
+    `Base de operaciones: **${name}**. Barcelona tiene muchos barrios, pero hoy manda este.`,
   ];
   return pick(intros);
 }
@@ -729,7 +917,6 @@ function generateRelax(zone: Zone | null): Plan {
   const restaurant = pick(budgetR);
   const bar1 = pick(bars);
 
-  // Try to inject a real event
   const expoEvent = pickEvent(zone, ["exposición", "museo", "galería"]);
   const cultureParagraph = expoEvent ? pEventExpo(expoEvent) : pCulture(spot1);
 
@@ -738,6 +925,8 @@ function generateRelax(zone: Zone | null): Plan {
     { title: "Sábado tranquilo", subtitle: "Arte, vermut y callejear" },
     { title: "Barcelona a tu ritmo", subtitle: "Cultura, comida honesta y un buen vermut" },
     { title: "Déjate llevar", subtitle: "Pasear, ver algo bonito y comer bien" },
+    { title: "Calma y buen plan", subtitle: "Paseo, cultura y algo rico" },
+    { title: "Sin reloj ni prisa", subtitle: "Arte, comida y vermut a tu aire" },
   ];
   const t = pick(titles);
 
@@ -759,7 +948,6 @@ function generateRomantic(zone: Zone | null): Plan {
   const restaurant = pick(premiumR);
   const [bar1, bar2] = pickN(bars, 2);
 
-  // Try to inject a real expo/gallery event
   const expoEvent = pickEvent(zone, ["exposición", "museo", "galería"]);
   const cultureParagraph = expoEvent ? pEventExpo(expoEvent) : pCulture(spot);
 
@@ -767,6 +955,8 @@ function generateRomantic(zone: Zone | null): Plan {
     { title: "Plan para dos", subtitle: "Arte, cena especial y cocktails" },
     { title: "Una tarde que se queda", subtitle: "Cultura, buena cena y la noche por delante" },
     { title: "Barcelona en pareja", subtitle: "Paseo, arte y cena con calma" },
+    { title: "Noche de esas", subtitle: "Arte, cena con velas y un cocktail final" },
+    { title: "La ciudad para dos", subtitle: "Paseo, exposición y cenar bien" },
   ];
   const t = pick(titles);
 
@@ -788,7 +978,6 @@ function generateBudget(zone: Zone | null): Plan {
   const restaurant = pick(budgetR);
   const bar = pick(bars);
 
-  // Try a free/cheap real event
   const expoEvent = pickEvent(zone, ["exposición", "museo", "galería"]);
   const cultureParagraph = expoEvent ? pEventExpo(expoEvent) : pCulture(spot);
 
@@ -796,6 +985,8 @@ function generateBudget(zone: Zone | null): Plan {
     { title: "Barcelona por la cara", subtitle: "Cultura, buen comer y gastar poco" },
     { title: "Plan sin rascarse el bolsillo", subtitle: "Todo lo bueno de la ciudad por cuatro duros" },
     { title: "Mucho por poco", subtitle: "Cultura gratis, comer bien y disfrutar" },
+    { title: "Buen plan, poco gasto", subtitle: "Barcelona tiene mucho gratis si sabes dónde" },
+    { title: "A coste cero (casi)", subtitle: "Arte gratuito, menú del día y cañas baratas" },
   ];
   const t = pick(titles);
 
@@ -803,6 +994,8 @@ function generateBudget(zone: Zone | null): Plan {
     `Buen dato: muchos museos tienen días gratuitos o tarifas reducidas. Empieza por ahí.`,
     `Barcelona tiene mucha cultura gratis si sabes dónde buscar. Primer domingo de mes varios museos abren gratis, y siempre hay expos con entrada libre.`,
     `El truco es saber cuándo ir. Muchos museos tienen tardes gratuitas, y las galerías siempre son gratis.`,
+    `No hace falta gastar para pasarlo bien. Barcelona está llena de galerías con entrada libre, plazas con vida y parques brutales.`,
+    `La mejor Barcelona no está detrás de un ticket caro. Muchas de las cosas más interesantes son gratis o casi gratis.`,
   ];
 
   const paragraphs = zone
@@ -821,7 +1014,6 @@ function generateMusic(zone: Zone | null): Plan {
   const venue = pick(venues);
   const [bar1, bar2] = pickN(bars, 2);
 
-  // Try a real music/festival event
   const musicEvent = pickEvent(zone, ["música", "festival"]);
   const musicParagraph = musicEvent ? pEventMusica(musicEvent) : pMusic(venue);
 
@@ -829,6 +1021,8 @@ function generateMusic(zone: Zone | null): Plan {
     { title: "La noche suena", subtitle: "Música en directo, cena y copas" },
     { title: "Noche de buen rollo", subtitle: "Cenar, escuchar y brindar" },
     { title: "Barcelona suena bien", subtitle: "Música, cena y la ciudad de noche" },
+    { title: "Sube el volumen", subtitle: "Cena, concierto y copas hasta tarde" },
+    { title: "La banda sonora de la noche", subtitle: "Música en vivo y buenos locales" },
   ];
   const t = pick(titles);
 
@@ -850,7 +1044,6 @@ function generateTeatro(zone: Zone | null): Plan {
   const restaurant = pick(premiumR);
   const bar = pick(bars);
 
-  // Try a real theater/dance event
   const teatroEvent = pickEvent(zone, ["teatro", "danza"]);
   const theaterParagraph = teatroEvent ? pEventTeatro(teatroEvent) : pTheater(theater);
 
@@ -858,6 +1051,8 @@ function generateTeatro(zone: Zone | null): Plan {
     { title: "Cuando se apagan las luces", subtitle: "Teatro, paseo y cena con calma" },
     { title: "Noche de escenario", subtitle: "Teatro, buena cena y un cocktail" },
     { title: "Cultura escénica", subtitle: "Paseo, teatro y cenar bien" },
+    { title: "Telón arriba", subtitle: "Paseo, obra de teatro y cena especial" },
+    { title: "Barcelona sobre las tablas", subtitle: "Teatro, buena mesa y copa final" },
   ];
   const t = pick(titles);
 
@@ -868,7 +1063,128 @@ function generateTeatro(zone: Zone | null): Plan {
   return { ...t, paragraphs };
 }
 
+function generateGastro(zone: Zone | null): Plan {
+  const walks = filterByZone(WALKS, zone);
+  const budgetR = filterByZone(RESTAURANTS_BUDGET, zone);
+  const premiumR = filterByZone(RESTAURANTS_PREMIUM, zone);
+  const bars = filterByZone(BARS, zone);
+
+  const walk = pick(walks);
+  const lunch = pick(budgetR);
+  const dinner = pick(premiumR);
+  const [bar1, bar2] = pickN(bars, 2);
+
+  const titles = [
+    { title: "Barcelona sabe bien", subtitle: "Un plan para comer, beber y repetir" },
+    { title: "De barra en barra", subtitle: "Hoy la ciudad se prueba, no se mira" },
+    { title: "Hoy se come bien", subtitle: "Barcelona entra por la boca" },
+    { title: "Ruta con tenedor", subtitle: "De restaurante en bar, sin parar" },
+    { title: "Mantel y copa", subtitle: "Tenedor en mano, copa en alto" },
+    { title: "La ciudad entre platos", subtitle: "Gastronomía sin filtros" },
+  ];
+  const t = pick(titles);
+
+  const paragraphs = zone
+    ? [pZoneIntro(zone), pWalkIntro(walk), pRestaurantBudget(lunch), pBarCasual(bar1), pRestaurantPremium(dinner), pClosing(bar2)]
+    : [pWalkIntro(walk), pRestaurantBudget(lunch), pBarCasual(bar1), pRestaurantPremium(dinner), pClosing(bar2)];
+
+  return { ...t, paragraphs };
+}
+
+function generateTaller(zone: Zone | null): Plan {
+  const walks = filterByZone(WALKS, zone);
+  const spots = filterByZone(CULTURAL_SPOTS, zone);
+  const budgetR = filterByZone(RESTAURANTS_BUDGET, zone);
+  const bars = filterByZone(BARS, zone);
+
+  const walk = pick(walks);
+  const spot = pick(spots);
+  const restaurant = pick(budgetR);
+  const bar = pick(bars);
+
+  const tallerEvent = pickEvent(zone, ["taller"]);
+  const tallerParagraph = tallerEvent ? pEventTaller(tallerEvent) : pCulture(spot);
+
+  const titles = [
+    { title: "Crea con tus manos", subtitle: "Un plan para crear, comer y disfrutar" },
+    { title: "Taller y buen plan", subtitle: "Hoy te llevas algo hecho por ti" },
+    { title: "Hoy se crea", subtitle: "Barcelona creativa: taller, paseo y buen comer" },
+    { title: "Arte en primera persona", subtitle: "Menos pantalla, más manos" },
+    { title: "Manos a la obra", subtitle: "Un día con las manos ocupadas y el alma llena" },
+  ];
+  const t = pick(titles);
+
+  const paragraphs = zone
+    ? [pZoneIntro(zone), tallerParagraph, pWalkIntro(walk), pRestaurantBudget(restaurant), pBarCasual(bar)]
+    : [tallerParagraph, pWalkIntro(walk), pRestaurantBudget(restaurant), pBarCasual(bar)];
+
+  return { ...t, paragraphs };
+}
+
+function generateCine(zone: Zone | null): Plan {
+  const walks = filterByZone(WALKS, zone);
+  const cinemas = filterByZone(CINEMAS, zone);
+  const premiumR = filterByZone(RESTAURANTS_PREMIUM, zone);
+  const bars = filterByZone(BARS, zone);
+
+  const walk = pick(walks);
+  const cinema = pick(cinemas);
+  const restaurant = pick(premiumR);
+  const bar = pick(bars);
+
+  const cineEvent = pickEvent(zone, ["cine"]);
+  const cinemaParagraph = cineEvent ? pEventCine(cineEvent) : pCinema(cinema);
+
+  const titles = [
+    { title: "Sesión continua", subtitle: "Cine, cena y copa. Lo clásico bien hecho" },
+    { title: "Palomitas y ciudad", subtitle: "Hoy toca pantalla grande y buen comer" },
+    { title: "Cine y buena mesa", subtitle: "Versión original, subtitulada con Barcelona" },
+    { title: "Pantalla grande, noche grande", subtitle: "Peli, cena y brindis. Noche redonda" },
+    { title: "Barcelona en versión original", subtitle: "Cine independiente y cenar bien" },
+    { title: "Luces, cámara, Barcelona", subtitle: "Una sesión de cine con todo lo que la rodea" },
+  ];
+  const t = pick(titles);
+
+  const paragraphs = zone
+    ? [pZoneIntro(zone), pWalkIntro(walk), cinemaParagraph, pRestaurantPremium(restaurant), pClosing(bar)]
+    : [pWalkIntro(walk), cinemaParagraph, pRestaurantPremium(restaurant), pClosing(bar)];
+
+  return { ...t, paragraphs };
+}
+
+function generateAireLibre(zone: Zone | null): Plan {
+  const outdoor = filterByZone(OUTDOOR_SPOTS, zone);
+  const walks = filterByZone(WALKS, zone);
+  const budgetR = filterByZone(RESTAURANTS_BUDGET, zone);
+  const bars = filterByZone(BARS, zone);
+
+  const spot = pick(outdoor);
+  const walk = pick(walks);
+  const restaurant = pick(budgetR);
+  const bar = pick(bars);
+
+  const titles = [
+    { title: "Barcelona al aire libre", subtitle: "Un día para respirar, caminar y comer bajo el cielo" },
+    { title: "Cielo abierto", subtitle: "Hoy el techo lo pone Barcelona" },
+    { title: "Sol y ciudad", subtitle: "Parques, paseos y terrazas. Lo bueno está fuera" },
+    { title: "Verde, azul y Barcelona", subtitle: "Sol, aire y buen rollo. Eso es todo" },
+    { title: "Fuera cuatro paredes", subtitle: "Barcelona se vive mejor al aire libre" },
+    { title: "El plan está fuera", subtitle: "Aire fresco, buenas vistas y comer bien" },
+  ];
+  const t = pick(titles);
+
+  const paragraphs = zone
+    ? [pZoneIntro(zone), pOutdoor(spot), pWalkIntro(walk), pRestaurantBudget(restaurant), pBarCasual(bar)]
+    : [pOutdoor(spot), pWalkIntro(walk), pRestaurantBudget(restaurant), pBarCasual(bar)];
+
+  return { ...t, paragraphs };
+}
+
 // ─── Main generator ────────────────────────────────────────────
+
+type Mood = "relax" | "romantic" | "budget" | "music" | "teatro" | "gastro" | "taller" | "cine" | "airelibre" | "random";
+
+const ALL_GENERATORS = [generateRelax, generateRomantic, generateBudget, generateMusic, generateTeatro, generateGastro, generateTaller, generateCine, generateAireLibre];
 
 export function generatePlan(mood: Mood, zone: Zone | null = null): Plan {
   switch (mood) {
@@ -877,27 +1193,34 @@ export function generatePlan(mood: Mood, zone: Zone | null = null): Plan {
     case "budget": return generateBudget(zone);
     case "music": return generateMusic(zone);
     case "teatro": return generateTeatro(zone);
-    default: return pick([generateRelax, generateRomantic, generateBudget, generateMusic, generateTeatro])(zone);
+    case "gastro": return generateGastro(zone);
+    case "taller": return generateTaller(zone);
+    case "cine": return generateCine(zone);
+    case "airelibre": return generateAireLibre(zone);
+    default: return pick(ALL_GENERATORS)(zone);
   }
 }
 
 export function matchMood(input: string): Mood {
   const lower = input.toLowerCase();
-  if (lower.includes("romántic") || lower.includes("pareja") || lower.includes("cena especial") || lower.includes("para dos")) {
-    return "romantic";
-  }
-  if (lower.includes("gast") || lower.includes("gratis") || lower.includes("barat") || lower.includes("sin gastar") || lower.includes("poco") || lower.includes("cara")) {
-    return "budget";
-  }
-  if (lower.includes("música") || lower.includes("concert") || lower.includes("noche") || lower.includes("copas") || lower.includes("fiesta") || lower.includes("directo")) {
-    return "music";
-  }
-  if (lower.includes("teatro") || lower.includes("teatre") || lower.includes("obra") || lower.includes("escen")) {
-    return "teatro";
-  }
-  if (lower.includes("tranquil") || lower.includes("relax") || lower.includes("prisas") || lower.includes("cultural") || lower.includes("paseo") || lower.includes("calma")) {
-    return "relax";
-  }
+  // Gastro — antes de budget para evitar conflicto con "comer"
+  if (/comer|gastronomía|gastro|tapas|foodie|restaurante|menú|comida/.test(lower)) return "gastro";
+  // Taller
+  if (/taller|workshop|crear|manualidad|cerámica|pintar|artesanía/.test(lower)) return "taller";
+  // Cine
+  if (/\bcine\b|película|peli\b|film|sesión de cine|pantalla/.test(lower)) return "cine";
+  // Aire libre
+  if (/aire libre|parque|playa|sol\b|jardín|exterior|picnic|naturaleza|al aire/.test(lower)) return "airelibre";
+  // Romántico
+  if (/romántic|pareja|cena especial|para dos|cita|amor/.test(lower)) return "romantic";
+  // Budget
+  if (/gratis|barat|sin gastar|poco|por la cara|económic|barato/.test(lower)) return "budget";
+  // Música
+  if (/música|concert|noche|copas|fiesta|directo|jazz|electrónica/.test(lower)) return "music";
+  // Teatro
+  if (/teatro|teatre|obra|escen|comedia|drama|danza/.test(lower)) return "teatro";
+  // Relax
+  if (/tranquil|relax|prisas|cultural|paseo|calma|desconectar/.test(lower)) return "relax";
   return "random";
 }
 
