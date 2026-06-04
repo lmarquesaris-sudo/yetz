@@ -3,6 +3,10 @@
     {
       "path": "/api/newsletter/send",
       "schedule": "0 9 1 * *"
+    },
+    {
+      "path": "/api/refresh-events",
+      "schedule": "0 6 * * *"
     }
   ]
 }

@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 import Navbar from "@/components/Navbar";
 import { events as fallbackEvents } from "@/lib/data";
+import { MOCK_EVENTS } from "@/lib/mock-events";
 import { Event } from "@/lib/types";
 import Link from "next/link";
 
@@ -38,10 +39,22 @@ const categoryLabels: Record<string, string> = {
   museo: "Museo",
   galería: "Galería",
   taller: "Taller",
+  teatro: "Teatro",
+  música: "Música",
+  danza: "Danza",
+  cine: "Cine",
+  festival: "Festival",
 };
 
+/** Merge mock events with fetched events, deduplicating by title (case-insensitive) */
+function mergeEvents(fetched: Event[], mocks: Event[]): Event[] {
+  const titleSet = new Set(fetched.map(e => e.title.toLowerCase().trim()));
+  const unique = mocks.filter(e => !titleSet.has(e.title.toLowerCase().trim()));
+  return [...fetched, ...unique];
+}
+
 export default function EstaSemanaPage() {
-  const [events, setEvents] = useState<Event[]>(fallbackEvents);
+  const [events, setEvents] = useState<Event[]>(() => mergeEvents(fallbackEvents, MOCK_EVENTS));
   const [saved, setSaved] = useState<string[]>([]);
   const [mounted, setMounted] = useState(false);
   const [activeFilter, setActiveFilter] = useState<string>("todas");
@@ -54,9 +67,15 @@ export default function EstaSemanaPage() {
     fetch("/events.json")
       .then((res) => res.json())
       .then((data: Event[]) => {
-        if (data.length > 0) setEvents(data);
+        if (data.length > 0) {
+          setEvents(mergeEvents(data, MOCK_EVENTS));
+        } else {
+          setEvents(mergeEvents(fallbackEvents, MOCK_EVENTS));
+        }
       })
-      .catch(() => {});
+      .catch(() => {
+        setEvents(mergeEvents(fallbackEvents, MOCK_EVENTS));
+      });
   }, []);
 
   function toggleSave(id: string) {
@@ -72,10 +91,52 @@ export default function EstaSemanaPage() {
   const { monday, sunday } = getWeekRange();
 
   const weekEvents = useMemo(() => {
-    return events.filter((e) => {
+    const now = new Date();
+    const filtered = events.filter((e) => {
       const start = new Date(e.startDate);
       const end = e.endDate ? new Date(e.endDate) : new Date("2099-12-31");
       return start <= sunday && end >= monday;
+    });
+
+    // Smart sort: temporal events first, permanents last, diversity mix
+    return filtered.sort((a, b) => {
+      const aEnd = a.endDate ? new Date(a.endDate) : null;
+      const bEnd = b.endDate ? new Date(b.endDate) : null;
+      const aStart = new Date(a.startDate);
+      const bStart = new Date(b.startDate);
+
+      // 1. Is it permanent? (no end date or end > 1 year away)
+      const oneYear = new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000);
+      const aPerm = !aEnd || aEnd > oneYear;
+      const bPerm = !bEnd || bEnd > oneYear;
+      if (aPerm !== bPerm) return aPerm ? 1 : -1; // temporal first
+
+      // 2. Among temporal: ending soon = higher urgency
+      if (!aPerm && !bPerm && aEnd && bEnd) {
+        const aDaysLeft = (aEnd.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
+        const bDaysLeft = (bEnd.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
+        // Ending within 7 days gets big boost
+        const aUrgent = aDaysLeft <= 7 ? 0 : 1;
+        const bUrgent = bDaysLeft <= 7 ? 0 : 1;
+        if (aUrgent !== bUrgent) return aUrgent - bUrgent;
+      }
+
+      // 3. New this week (started this week) gets boost
+      const aNew = aStart >= monday ? 0 : 1;
+      const bNew = bStart >= monday ? 0 : 1;
+      if (aNew !== bNew) return aNew - bNew;
+
+      // 4. Tier (better venues first)
+      const aTier = a.tier || 3;
+      const bTier = b.tier || 3;
+      if (aTier !== bTier) return aTier - bTier;
+
+      // 5. Has real image vs fallback
+      const aImg = a.imageUrl.includes("estatics") ? 0 : 1;
+      const bImg = b.imageUrl.includes("estatics") ? 0 : 1;
+      if (aImg !== bImg) return aImg - bImg;
+
+      return 0;
     });
   }, [events, monday, sunday]);
 
@@ -85,8 +146,27 @@ export default function EstaSemanaPage() {
     return weekEvents.filter((e) => e.category === activeFilter);
   }, [weekEvents, activeFilter]);
 
-  // Pick a hero event (featured or first tier-1 event)
-  const heroEvent = weekEvents.find((e) => e.featured) || weekEvents.find((e) => e.tier === 1) || weekEvents[0];
+  // Pick a hero event: prefer featured temporal events with API images
+  const heroEvent = useMemo(() => {
+    const hasApiImage = (e: Event) => e.imageUrl.includes("estatics");
+    const isTemporal = (e: Event) => {
+      if (!e.endDate) return false;
+      const end = new Date(e.endDate);
+      const oneYear = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
+      return end < oneYear;
+    };
+    // Best: featured + temporal + good image
+    const best = weekEvents.find((e) => e.featured && isTemporal(e) && hasApiImage(e));
+    if (best) return best;
+    // Good: tier 1 temporal with image
+    const good = weekEvents.find((e) => (e.tier === 1) && isTemporal(e) && hasApiImage(e));
+    if (good) return good;
+    // OK: any temporal with image
+    const ok = weekEvents.find((e) => isTemporal(e) && hasApiImage(e));
+    if (ok) return ok;
+    // Fallback
+    return weekEvents.find((e) => e.featured) || weekEvents[0];
+  }, [weekEvents]);
   const freeCount = weekEvents.filter((e) => e.price === null).length;
 
   if (!mounted) return null;
@@ -164,7 +244,11 @@ export default function EstaSemanaPage() {
             { value: "todas", label: "Todos" },
             { value: "exposición", label: "Exposiciones" },
             { value: "museo", label: "Museos" },
-            { value: "galería", label: "Galerías" },
+            { value: "teatro", label: "Teatro" },
+            { value: "música", label: "Música" },
+            { value: "danza", label: "Danza" },
+            { value: "cine", label: "Cine" },
+            { value: "festival", label: "Festivales" },
             { value: "taller", label: "Talleres" },
             { value: "gratis", label: "Gratis" },
           ].map((f) => (
@@ -238,7 +322,7 @@ export default function EstaSemanaPage() {
                 </div>
                 <div className="mt-8 flex items-center gap-4">
                   <span className="btn-ghost text-[12px] group-hover:bg-neutral-900 group-hover:text-white transition-all duration-500">
-                    Ver exposicion
+                    Ver evento
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="ml-2 inline-block">
                       <path d="M5 12h14M12 5l7 7-7 7" />
                     </svg>

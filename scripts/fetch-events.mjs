@@ -1,6 +1,6 @@
 /**
- * YetzArt — Fetch de eventos de PINTURA de Barcelona
- * Solo pintura, dibujo, arte visual. Nada más.
+ * YetzArt — Fetch de eventos CULTURALES de Barcelona
+ * Exposiciones, teatro, música, cine, danza, talleres, festivales.
  *
  * Run: node scripts/fetch-events.mjs
  */
@@ -38,7 +38,18 @@ const TIER_1_EXTENDED = [
   "fundació catalunya la pedrera", "la pedrera",
 ];
 
-// ── Tier 2: espacios notables con exposiciones de pintura ──
+// ── Tier 1: grandes salas de teatro, música y cine ──
+const TIER_1_PERFORMING = [
+  "teatre lliure", "teatre nacional de catalunya", "tnc",
+  "gran teatre del liceu", "liceu",
+  "mercat de les flors",
+  "palau de la música", "palau de la música catalana",
+  "razzmatazz", "sala apolo",
+  "l'auditori", "auditori",
+  "filmoteca de catalunya", "filmoteca",
+];
+
+// ── Tier 2: espacios notables con exposiciones / salas ──
 const VENUE_TIER_2 = [
   "museu reial monestir de santa maria de pedralbes",
   "museu diocesà de barcelona",
@@ -51,122 +62,230 @@ const VENUE_TIER_2 = [
   "oliva artés",
   "casa padellàs",
   "disseny hub barcelona",
+  "sala beckett", "teatre romea", "teatre poliorama",
+  "teatre tívoli", "teatre victòria", "teatre condal",
+  "jamboree", "harlem jazz club",
 ];
 
 function getVenueTier(venueName) {
   const v = (venueName || "").toLowerCase();
   if (TIER_1_CORE.some(t => v.includes(t))) return 1;
   if (TIER_1_EXTENDED.some(t => v.includes(t))) return 1;
+  if (TIER_1_PERFORMING.some(t => v.includes(t))) return 1;
   if (VENUE_TIER_2.some(t => v.includes(t))) return 2;
   return 3;
 }
 
-// ── Filtro: solo pintura/arte visual ──────────────────────
-// Clasificaciones del Ajuntament que SÍ queremos
-const PAINTING_CLASSIFICATIONS = new Set([
-  "exposicions",
-  "pintura",
-  "dibuix i pintura",
-  "dibuix",
-  "escultura",
-  "arts visuals",
-  "arts plàstiques",
-  "gravat",
-  "il·lustració",
-  "art contemporani",
+// ── Clasificaciones del Ajuntament que queremos ──────────
+const CULTURAL_CLASSIFICATIONS = new Set([
+  // Visual arts
+  "exposicions", "pintura", "dibuix i pintura", "dibuix",
+  "escultura", "arts visuals", "arts plàstiques",
+  "gravat", "il·lustració", "art contemporani",
+  // Theater / performing
+  "teatre", "dansa", "circ", "arts escèniques",
+  "espectacles", "arts de carrer",
+  // Music
+  "concerts", "música", "música clàssica", "jazz",
+  "festivals de música", "recitals",
+  // Cinema
+  "cinema", "audiovisuals", "curtmetratges",
+  // Workshops / courses (cultural)
+  "tallers", "tallers d'art",
+  // General cultural
+  "cultura", "activitats culturals",
 ]);
 
-// Keywords que indican pintura/arte visual
-const PAINTING_KEYWORDS = [
+// Keywords que indican evento cultural
+const CULTURAL_KEYWORDS = [
+  // Visual arts
   "exposic", "pintura", "museu", "galeria", "galería",
   "escultura", "art contempor", "arts visual", "arts plàstic",
   "dibuix", "gravat", "il·lustrac", "retrat", "aquarel",
   "oleo", "oli sobre", "obra gràfica", "col·lecció",
   "instal·lació artística",
+  // Theater
+  "teatre", "teatro", "òpera", "opera", "comèdia",
+  "dramatúrgia", "escenari", "escènic",
+  // Music
+  "concert", "recital", "música", "musica",
+  "festival", "jazz", "orquestra", "simfònic",
+  // Dance
+  "dansa", "danza", "ballet", "coreograf",
+  // Cinema
+  "cinema", "documental", "audiovisual", "filmoteca",
+  "curtmetratge", "projecc",
+  // Workshops
+  "taller", "curs d'art", "workshop",
 ];
 
-// Keywords que EXCLUYEN (no es pintura)
+// Keywords que EXCLUYEN (no es cultural)
 const EXCLUDE_KEYWORDS = [
-  "fotografia", "fotografía", "foto ",
-  "concert", "recital", "música", "musica",
-  "dansa", "danza", "ballet",
-  "cinema", "audiovisual", "documental",
-  "teatre", "teatro", "òpera", "opera",
-  "ceràmica", "ceramica",
-  "costura", "teixit", "textil",
   "cuina", "cocina", "gastronom",
-  "ioga", "yoga", "tai chi", "pilates",
+  "ioga", "yoga", "tai chi", "pilates", "fitness",
   "informàtica", "arduino", "programació",
-  "idioma", "anglès", "francès",
+  "idioma", "anglès", "francès", "curs d'anglès",
   "jardiner", "jardinería", "hort ",
   "escombra", "espart",
   "paper maixé", "manualitats",
-  "casal d'estiu",
+  "casal d'estiu", "casal estiu",
+  "costura", "teixit", "textil",
+  "natació", "piscina",
+  "excursió", "senderisme",
 ];
 
-function isPaintingEvent(raw) {
+function isCulturalEvent(raw) {
   const name = (raw.name || "").toLowerCase();
   const body = (raw.body || "").toLowerCase();
-  const text = name + " " + body;
-  const venue = (raw.addresses?.[0]?.place || "").toLowerCase();
+  const venue = (raw.addresses?.[0]?.place || raw.addresses?.[0]?.address_name || "").toLowerCase();
 
-  // If it's at a tier 1 museum, keep it unless clearly not art
-  const tier = getVenueTier(raw.addresses?.[0]?.place || raw.addresses?.[0]?.address_name || "");
-  const isMajorMuseum = tier === 1;
+  // Explicit exclusions first
+  if (EXCLUDE_KEYWORDS.some(kw => name.includes(kw))) return false;
 
-  // Explicit exclusions (even at major museums, skip concerts/dance/cinema)
-  const hardExclude = ["concert", "recital", "música", "dansa", "ballet",
-    "òpera", "cinema", "teatre", "casal d'estiu"];
-  if (hardExclude.some(kw => name.includes(kw))) return false;
+  // If it's at a tier 1 venue, keep it
+  const tier = getVenueTier(venue);
+  if (tier === 1) return true;
 
-  // At major museums: keep expositions, workshops, installations
-  if (isMajorMuseum) {
-    // Only exclude if it's clearly not visual art
-    if (EXCLUDE_KEYWORDS.some(kw => name.includes(kw))) return false;
-    return true;
-  }
-
-  // For other venues: must match painting classifications or keywords
+  // Check classifications from the API
   const classNames = (raw.classifications_data || []).map(c => (c.name || "").toLowerCase());
-  const hasPaintingClass = classNames.some(n => PAINTING_CLASSIFICATIONS.has(n));
-
-  // Check secondary filters too
   const secondaryNames = (raw.secondary_filters_data || []).map(c => (c.name || "").toLowerCase());
-  const hasSecondaryPainting = secondaryNames.some(n => PAINTING_CLASSIFICATIONS.has(n));
+  const allClassNames = [...classNames, ...secondaryNames];
 
-  if (hasPaintingClass || hasSecondaryPainting) {
-    // Has painting classification, but check exclusions
-    if (EXCLUDE_KEYWORDS.some(kw => name.includes(kw))) return false;
-    return true;
-  }
+  const hasCulturalClass = allClassNames.some(n => CULTURAL_CLASSIFICATIONS.has(n));
+  if (hasCulturalClass) return true;
 
   // Keyword match in name
-  if (PAINTING_KEYWORDS.some(kw => name.includes(kw))) {
-    if (EXCLUDE_KEYWORDS.some(kw => name.includes(kw))) return false;
-    return true;
-  }
+  if (CULTURAL_KEYWORDS.some(kw => name.includes(kw))) return true;
 
   return false;
 }
 
-// ── Categorías (solo pintura) ──────────────────────────
+// ── Categorías ──────────────────────────────────────────
 function classifyCategory(raw) {
   const classNames = (raw.classifications_data || []).map(c => c.name?.toLowerCase() || "").join(" ");
+  const secondaryNames = (raw.secondary_filters_data || []).map(c => c.name?.toLowerCase() || "").join(" ");
   const name = (raw.name || "").toLowerCase();
-  const combined = classNames + " " + name;
+  const venue = (raw.addresses?.[0]?.place || "").toLowerCase();
+  // Use name + classifications (NOT venue) to avoid venue-name pollution
+  const nameAndClass = classNames + " " + secondaryNames + " " + name;
+  const combined = nameAndClass + " " + venue;
 
-  if (combined.includes("taller") || combined.includes("curs")) return "taller";
+  // ── Name-based overrides FIRST (most reliable signal) ──
+
+  // Exposición: if the name says "exposició/exposición/col·lecció", it's an exhibition
+  if (name.includes("exposic") || name.includes("col·lecci") || name.includes("colecci") ||
+      name.includes("mostra ")) return "exposición";
+
+  // Concert/recital in the name → always música (even if API says "dansa")
+  if (name.includes("concert") || name.includes("recital") || name.includes("jam session")) return "música";
+
+  // Taller/curs in the name → always taller
+  if (name.startsWith("taller") || name.startsWith("curs ")) return "taller";
+
+  // ── Classification-based (API metadata + name combined) ──
+
+  // Theater
+  if (nameAndClass.includes("teatre") || nameAndClass.includes("teatro") ||
+      nameAndClass.includes("òpera") || nameAndClass.includes("opera") ||
+      nameAndClass.includes("circ") || nameAndClass.includes("arts escèniques") ||
+      nameAndClass.includes("comèdia")) return "teatro";
+
+  // Dance — only if name or classifications explicitly say dance
+  if (nameAndClass.includes("dansa") || nameAndClass.includes("danza") ||
+      nameAndClass.includes("ballet") || nameAndClass.includes("coreograf")) return "danza";
+
+  // Music
+  if (nameAndClass.includes("concert") || nameAndClass.includes("recital") ||
+      nameAndClass.includes("música") || nameAndClass.includes("musica") ||
+      nameAndClass.includes("jazz") || nameAndClass.includes("orquestra") ||
+      nameAndClass.includes("simfònic")) return "música";
+
+  // Festival
+  if (combined.includes("festival")) return "festival";
+
+  // Cinema
+  if (combined.includes("cinema") || combined.includes("audiovisual") ||
+      combined.includes("documental") || combined.includes("filmoteca") ||
+      combined.includes("curtmetratge")) return "cine";
+
+  // Workshop — only from name/classifications, not venue
+  if (nameAndClass.includes("taller") || nameAndClass.includes("curs")) return "taller";
+
+  // Museum — venue IS relevant here (events AT museums are museum events)
   if (combined.includes("museu")) return "museo";
+
+  // Gallery
   if (combined.includes("galeri")) return "galería";
+
   return "exposición";
 }
 
-const FALLBACK_IMAGES = {
-  exposición: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=500&fit=crop",
-  museo: "https://images.unsplash.com/photo-1572947650440-e8a97ef053b2?w=800&h=500&fit=crop",
-  galería: "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=800&h=500&fit=crop",
-  taller: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&h=500&fit=crop",
+// ── Fallback images by category (pool of 4-5 each) ──────
+const FALLBACK_IMAGE_POOLS = {
+  exposición: [
+    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1531913764164-f85c3e01b2aa?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1545128485-c400e7702796?w=800&h=500&fit=crop",
+  ],
+  museo: [
+    "https://images.unsplash.com/photo-1572947650440-e8a97ef053b2?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1580136579312-94651dfd596d?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1594794312433-05a69a98b7a0?w=800&h=500&fit=crop",
+  ],
+  galería: [
+    "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1531913764164-f85c3e01b2aa?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1545128485-c400e7702796?w=800&h=500&fit=crop",
+  ],
+  taller: [
+    "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1533328818-4e19e4aa4288?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1580477667995-2b94f01c9516?w=800&h=500&fit=crop",
+  ],
+  teatro: [
+    "https://images.unsplash.com/photo-1503095396549-807759245b35?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1507924538820-ede94a04019d?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1547153760-18fc86324498?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1516307365426-bea591f05011?w=800&h=500&fit=crop",
+  ],
+  música: [
+    "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=800&h=500&fit=crop",
+  ],
+  cine: [
+    "https://images.unsplash.com/photo-1587974928442-77dc3e0748ae?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1595769816263-9b910be24d5f?w=800&h=500&fit=crop",
+  ],
+  danza: [
+    "https://images.unsplash.com/photo-1508807526345-15e9b5f4eaff?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1547153760-18fc86324498?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1518834107812-67b0b7c58434?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1504609813442-a8924e83f76e?w=800&h=500&fit=crop",
+  ],
+  festival: [
+    "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1506157786151-b8491531f063?w=800&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=800&h=500&fit=crop",
+  ],
 };
+
+function getRandomFallback(category) {
+  const pool = FALLBACK_IMAGE_POOLS[category] || FALLBACK_IMAGE_POOLS["exposición"];
+  return pool[Math.floor(Math.random() * pool.length)];
+}
 
 function getImageUrl(raw, category) {
   if (raw.image_data) {
@@ -177,7 +296,7 @@ function getImageUrl(raw, category) {
     if (raw.image_data.image_optimized) return raw.image_data.image_optimized;
     if (raw.image_data.image) return raw.image_data.image;
   }
-  return FALLBACK_IMAGES[category];
+  return getRandomFallback(category);
 }
 
 function getWebUrl(raw) {
@@ -253,7 +372,7 @@ async function main() {
   let artEvents = data
     .filter(raw => {
       if (raw.status !== "published") return false;
-      if (!isPaintingEvent(raw)) return false;
+      if (!isCulturalEvent(raw)) return false;
       if (raw.end_date && raw.end_date.split("T")[0] < todayStr) return false;
       return true;
     })
@@ -262,6 +381,12 @@ async function main() {
       if (a.tier !== b.tier) return a.tier - b.tier;
       return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
     });
+
+  // ── Limit low-quality talleres: keep only tier 1-2, or tier 3 with API images (max 80) ──
+  const tallerTier12 = artEvents.filter(e => e.category === "taller" && e.tier <= 2);
+  const tallerTier3WithImg = artEvents.filter(e => e.category === "taller" && e.tier === 3 && e.imageUrl.includes("estatics-nasia")).slice(0, 80);
+  const tallerIds = new Set([...tallerTier12, ...tallerTier3WithImg].map(e => e.id));
+  artEvents = artEvents.filter(e => e.category !== "taller" || tallerIds.has(e.id));
 
   // Featured: tier 1 events with API images
   const tier1WithImg = artEvents.filter(e => e.tier === 1 && e.imageUrl.includes("estatics-nasia"));
@@ -277,13 +402,19 @@ async function main() {
   const tier2 = artEvents.filter(e => e.tier === 2);
   const tier3 = artEvents.filter(e => e.tier === 3);
 
-  console.log(`\nPainting events (active): ${artEvents.length}`);
-  console.log(`  Tier 1 (museos principales): ${tier1.length}`);
+  console.log(`\nCultural events (active): ${artEvents.length}`);
+  console.log(`  Tier 1 (museos/teatros principales): ${tier1.length}`);
   console.log(`  Tier 2 (espacios notables): ${tier2.length}`);
   console.log(`  Tier 3 (otros): ${tier3.length}`);
   console.log(`With API images: ${artEvents.filter(e => e.imageUrl.includes("estatics-nasia")).length}`);
   console.log(`Featured: ${featuredIds.size}`);
   console.log(`Categories: ${[...new Set(artEvents.map(e => e.category))].join(", ")}`);
+
+  // Category breakdown
+  const catCounts = {};
+  artEvents.forEach(e => { catCounts[e.category] = (catCounts[e.category] || 0) + 1; });
+  console.log(`\n── Category breakdown ──`);
+  Object.entries(catCounts).sort((a,b) => b[1]-a[1]).forEach(([c, n]) => console.log(`  ${n} | ${c}`));
 
   // Show tier 1 summary
   console.log(`\n── Tier 1 venues ──`);
