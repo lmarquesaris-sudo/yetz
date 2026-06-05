@@ -3,9 +3,116 @@
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { useState, useEffect, useMemo, useRef } from "react";
-import { MOCK_EVENTS, getEventsForDate, getEventDatesForMonth } from "@/lib/mock-events";
+import { MOCK_EVENTS } from "@/lib/mock-events";
 import { CategoryFilter, CATEGORY_FILTERS, getCategoryFilter } from "@/lib/types";
 import type { Event } from "@/lib/types";
+
+/** Merge fetched events with mock events, deduplicate by title */
+function mergeEvents(fetched: Event[], mocks: Event[]): Event[] {
+  const titleSet = new Set(fetched.map(e => e.title.toLowerCase().trim()));
+  const unique = mocks.filter(e => !titleSet.has(e.title.toLowerCase().trim()));
+  return [...fetched, ...unique];
+}
+
+/** Relevance score for an event on a specific date (higher = more relevant) */
+function getRelevanceScore(e: Event, dateStr: string): number {
+  let score = 0;
+  const end = e.endDate ? new Date(e.endDate) : null;
+  const start = new Date(e.startDate);
+  const ref = new Date(dateStr);
+  const oneYear = new Date(ref.getTime() + 365 * 24 * 60 * 60 * 1000);
+
+  // Permanent = lowest priority
+  const isPerm = !end || end > oneYear;
+  if (isPerm) return 0;
+
+  // Base: temporal event
+  score += 50;
+
+  // Single-day event (concert, recital) = most unique to this day
+  if (e.startDate === e.endDate) score += 40;
+
+  // Starts TODAY = premiere/opening
+  if (e.startDate === dateStr) score += 30;
+
+  // Ending within 3 days = "últimos días!"
+  if (end) {
+    const daysLeft = (end.getTime() - ref.getTime()) / 86400000;
+    if (daysLeft <= 3) score += 25;
+    else if (daysLeft <= 7) score += 15;
+    else if (daysLeft <= 14) score += 5;
+  }
+
+  // Short duration (< 7 days) = more special
+  if (end) {
+    const duration = (end.getTime() - start.getTime()) / 86400000;
+    if (duration <= 1) score += 20;
+    else if (duration <= 7) score += 10;
+    else if (duration <= 30) score += 5;
+  }
+
+  // Tier bonus
+  const tier = e.tier || 3;
+  if (tier === 1) score += 10;
+  else if (tier === 2) score += 5;
+
+  // Has real API image
+  if (e.imageUrl.includes("estatics")) score += 5;
+
+  return score;
+}
+
+/** Get events active on a specific date, sorted by relevance */
+function getEventsForDate(allEvents: Event[], date: Date): Event[] {
+  const dateStr = date.toISOString().split("T")[0];
+
+  const dayEvents = allEvents.filter((e) => {
+    const end = e.endDate || "2099-12-31";
+    return dateStr >= e.startDate && dateStr <= end;
+  });
+
+  // Sort by relevance score (descending)
+  return dayEvents.sort((a, b) => {
+    const aScore = getRelevanceScore(a, dateStr);
+    const bScore = getRelevanceScore(b, dateStr);
+    if (aScore !== bScore) return bScore - aScore;
+    // Tiebreaker: tier then image
+    const aTier = a.tier || 3;
+    const bTier = b.tier || 3;
+    if (aTier !== bTier) return aTier - bTier;
+    const aImg = a.imageUrl.includes("estatics") ? 0 : 1;
+    const bImg = b.imageUrl.includes("estatics") ? 0 : 1;
+    return aImg - bImg;
+  });
+}
+
+/** Get event date counts for calendar dots */
+function getEventDatesForMonth(allEvents: Event[], year: number, month: number): Map<string, { total: number; arte: number; musica: number; teatro: number }> {
+  const counts = new Map<string, { total: number; arte: number; musica: number; teatro: number }>();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const date = new Date(year, month, day);
+    const dateStr = date.toISOString().split("T")[0];
+    const eventsForDay = allEvents.filter(
+      (e) => {
+        const end = e.endDate || "2099-12-31";
+        return dateStr >= e.startDate && dateStr <= end;
+      }
+    );
+    if (eventsForDay.length > 0) {
+      let arte = 0, musica = 0, teatro = 0;
+      for (const e of eventsForDay) {
+        const cat = e.category;
+        if (cat === "exposición" || cat === "museo" || cat === "galería" || cat === "taller") arte++;
+        else if (cat === "música" || cat === "festival") musica++;
+        else teatro++;
+      }
+      counts.set(dateStr, { total: eventsForDay.length, arte, musica, teatro });
+    }
+  }
+  return counts;
+}
 
 const MONTHS_ES = [
   "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
@@ -31,23 +138,37 @@ export default function CalendarPage() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [activeFilter, setActiveFilter] = useState<CategoryFilter>("todos");
   const [mounted, setMounted] = useState(false);
+  const [allEvents, setAllEvents] = useState<Event[]>(MOCK_EVENTS);
+  const [showAll, setShowAll] = useState(false);
+  const MAX_PER_CATEGORY = 2;
   const detailRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
+    // Load fresh events from events.json
+    fetch("/events.json")
+      .then((res) => res.json())
+      .then((data: Event[]) => {
+        if (data.length > 0) {
+          setAllEvents(mergeEvents(data, MOCK_EVENTS));
+        }
+      })
+      .catch(() => {
+        // Keep mock events as fallback
+      });
   }, []);
 
   const eventDates = useMemo(
-    () => getEventDatesForMonth(currentYear, currentMonth),
-    [currentYear, currentMonth]
+    () => getEventDatesForMonth(allEvents, currentYear, currentMonth),
+    [allEvents, currentYear, currentMonth]
   );
 
   const selectedEvents = useMemo(() => {
     if (!selectedDate) return [];
-    const events = getEventsForDate(selectedDate);
+    const events = getEventsForDate(allEvents, selectedDate);
     if (activeFilter === "todos") return events;
     return events.filter((e) => getCategoryFilter(e.category) === activeFilter);
-  }, [selectedDate, activeFilter]);
+  }, [allEvents, selectedDate, activeFilter]);
 
   // Calendar grid math
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
@@ -71,15 +192,22 @@ export default function CalendarPage() {
   const handleDayClick = (day: number) => {
     setSelectedDate(new Date(currentYear, currentMonth, day));
     setActiveFilter("todos");
+    setShowAll(false);
     // Scroll to detail on mobile
     setTimeout(() => {
       detailRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 100);
   };
 
-  const isToday = (day: number) => {
+  const [today, setToday] = useState<{ day: number; month: number; year: number } | null>(null);
+  useEffect(() => {
     const t = new Date();
-    return t.getDate() === day && t.getMonth() === currentMonth && t.getFullYear() === currentYear;
+    setToday({ day: t.getDate(), month: t.getMonth(), year: t.getFullYear() });
+  }, []);
+
+  const isToday = (day: number) => {
+    if (!today) return false;
+    return today.day === day && today.month === currentMonth && today.year === currentYear;
   };
 
   const isSelected = (day: number) => {
@@ -91,6 +219,7 @@ export default function CalendarPage() {
   return (
     <div className="min-h-screen" style={{ background: "var(--ice)" }}>
       <Navbar />
+      {!mounted ? <div className="pt-[80px]" /> : (<>
 
       {/* ── HERO: Full-width calendar ─────────────── */}
       <main className="pt-[80px]">
@@ -268,16 +397,17 @@ export default function CalendarPage() {
                     })}
                   </h2>
                   <p className="text-[13px] text-neutral-400 font-light mt-1.5">
-                    {getEventsForDate(selectedDate).length} eventos culturales
+                    {selectedDate ? getEventsForDate(allEvents, selectedDate).length : 0} eventos culturales
                   </p>
                 </div>
 
                 {/* Category filters */}
                 <div className="flex items-center gap-2">
                   {CATEGORY_FILTERS.map((f) => {
+                    const dayEvents = selectedDate ? getEventsForDate(allEvents, selectedDate) : [];
                     const count = f.key === "todos"
-                      ? getEventsForDate(selectedDate).length
-                      : getEventsForDate(selectedDate).filter(e => getCategoryFilter(e.category) === f.key).length;
+                      ? dayEvents.length
+                      : dayEvents.filter(e => getCategoryFilter(e.category) === f.key).length;
                     return (
                       <button
                         key={f.key}
@@ -313,17 +443,46 @@ export default function CalendarPage() {
                   </button>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {selectedEvents.map((evt, idx) => (
-                    <EventCard key={evt.id} event={evt} index={idx} />
-                  ))}
-                </div>
+                (() => {
+                  // When not filtering by category and not showing all: limit to MAX_PER_CATEGORY per category
+                  let visibleEvents = selectedEvents;
+                  if (!showAll && activeFilter === "todos") {
+                    const catCounts: Record<string, number> = {};
+                    visibleEvents = selectedEvents.filter((e) => {
+                      const cat = e.category;
+                      catCounts[cat] = (catCounts[cat] || 0) + 1;
+                      return catCounts[cat] <= MAX_PER_CATEGORY;
+                    });
+                  }
+                  const hiddenCount = selectedEvents.length - visibleEvents.length;
+
+                  return (
+                    <>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {visibleEvents.map((evt, idx) => (
+                          <EventCard key={evt.id} event={evt} index={idx} dateStr={selectedDate?.toISOString().split("T")[0] || ""} />
+                        ))}
+                      </div>
+                      {!showAll && hiddenCount > 0 && (
+                        <div className="flex justify-center mt-8">
+                          <button
+                            onClick={() => setShowAll(true)}
+                            className="px-8 py-3 rounded-full text-[13px] font-medium text-neutral-900 bg-white shadow-sm hover:shadow-md border border-neutral-100 transition-all duration-300"
+                          >
+                            Explorar {hiddenCount} eventos más
+                          </button>
+                        </div>
+                      )}
+                    </>
+                  );
+                })()
               )}
             </div>
           )}
         </div>
       </main>
 
+      </>)}
       {/* Footer */}
       <footer className="border-t border-neutral-100">
         <div className="max-w-[1200px] mx-auto px-8 py-16 flex flex-col sm:flex-row items-center justify-between gap-6">
@@ -345,8 +504,16 @@ export default function CalendarPage() {
 }
 
 /* ── Event Card Component ─────────────────────── */
-function EventCard({ event, index }: { event: Event; index: number }) {
+function EventCard({ event, index, dateStr }: { event: Event; index: number; dateStr: string }) {
   const filter = getCategoryFilter(event.category);
+
+  // Relevance badges
+  const isSingleDay = event.startDate === event.endDate;
+  const isOpening = event.startDate === dateStr;
+  const isLastDays = event.endDate ? (() => {
+    const daysLeft = (new Date(event.endDate).getTime() - new Date(dateStr).getTime()) / 86400000;
+    return daysLeft <= 3 && daysLeft >= 0;
+  })() : false;
 
   const formatDate = (start: string, end: string) => {
     if (start === end) {
@@ -380,6 +547,20 @@ function EventCard({ event, index }: { event: Event; index: number }) {
             {event.category}
           </span>
         </div>
+        {/* Relevance badge */}
+        {(isSingleDay || isOpening || isLastDays) && (
+          <div className="absolute bottom-3 left-3">
+            <span className={`text-[9px] font-bold uppercase tracking-[0.08em] px-2 py-0.5 rounded-full backdrop-blur-sm ${
+              isLastDays
+                ? "bg-red-500/90 text-white"
+                : isOpening
+                ? "bg-blue-500/90 text-white"
+                : "bg-neutral-900/80 text-white"
+            }`}>
+              {isLastDays ? "Últimos días" : isOpening ? "Estreno" : "Solo hoy"}
+            </span>
+          </div>
+        )}
         {/* Price badge */}
         <div className="absolute top-3 right-3">
           <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full backdrop-blur-sm ${
