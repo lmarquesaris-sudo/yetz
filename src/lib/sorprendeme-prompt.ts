@@ -13,29 +13,32 @@ import { MOCK_EVENTS } from "./mock-events";
 
 /* ── Zone-aware helpers ─────────────────────────────────── */
 
+// ONLY truly walkable neighbors (15 min max). No distant zones.
 const NEIGHBOR_ZONES: Record<string, string[]> = {
-  "born-gotic": ["raval", "barceloneta", "eixample"],
-  "raval": ["born-gotic", "sant-antoni", "montjuic-poblesec"],
-  "eixample": ["gracia", "sant-antoni", "born-gotic"],
-  "gracia": ["eixample", "sarria-pedralbes", "horta-guinardo"],
-  "poblenou": ["barceloneta", "born-gotic", "clot", "sant-marti"],
-  "barceloneta": ["born-gotic", "poblenou"],
-  "montjuic-poblesec": ["raval", "sant-antoni", "eixample"],
-  "sarria-pedralbes": ["gracia", "eixample", "les-corts"],
-  "sant-antoni": ["raval", "eixample", "montjuic-poblesec"],
-  "horta-guinardo": ["gracia", "nou-barris", "sant-andreu", "clot"],
-  "nou-barris": ["horta-guinardo", "sant-andreu"],
-  "sant-andreu": ["nou-barris", "horta-guinardo", "clot"],
-  "sant-marti": ["poblenou", "clot", "born-gotic"],
-  "les-corts": ["sarria-pedralbes", "eixample", "montjuic-poblesec"],
-  "clot": ["poblenou", "sant-marti", "sant-andreu", "horta-guinardo"],
+  "gotic": ["born", "raval"],                        // Gòtic toca Born y Raval
+  "born": ["gotic", "barceloneta"],                   // Born toca Gòtic y Barceloneta
+  "raval": ["gotic", "sant-antoni"],                  // Raval toca Gòtic y Sant Antoni
+  "barceloneta": ["born"],                            // Barceloneta solo toca Born
+  "sant-antoni": ["raval", "poble-sec", "eixample-esquerra"], // Sant Antoni es céntrico
+  "poble-sec": ["raval", "sant-antoni"],              // Poble-sec toca Raval y Sant Antoni
+  "eixample-esquerra": ["sant-antoni", "eixample-dreta"], // Eixample Esq toca Sant Antoni y Dreta
+  "eixample-dreta": ["eixample-esquerra", "sagrada-familia"], // Eix Dreta toca Esq y Sagrada F
+  "sagrada-familia": ["eixample-dreta"],              // Sagrada F solo toca Eix Dreta
+  "gracia": ["eixample-dreta"],                       // Gràcia solo toca Eixample Dreta
+  "poblenou": ["vila-olimpica", "sant-marti"],        // Poblenou toca Vila O y Sant Martí
+  "vila-olimpica": ["poblenou", "barceloneta"],       // Vila O toca Poblenou y Barceloneta
+  "sant-marti": ["poblenou"],                         // Sant Martí solo toca Poblenou
+  "sant-andreu": [],                                  // Sant Andreu sin vecinos andando
+  "nou-barris": [],                                   // Nou Barris sin vecinos andando
+  "sarria-pedralbes": ["les-corts"],                  // Sarrià toca Les Corts
+  "les-corts": ["sarria-pedralbes"],                  // Les Corts toca Sarrià
+  "horta-guinardo": [],                               // Horta sin vecinos andando
 };
 
 function filterByZone<T extends { zone: string }>(items: T[], zone: string | null): T[] {
   if (!zone) return items;
   const direct = items.filter(i => i.zone === zone);
-  if (direct.length >= 3) return direct;
-  // Not enough — add neighbors
+  if (direct.length > 0) return direct;  // Only fall back to neighbors if ZERO in the zone
   const neighbors = NEIGHBOR_ZONES[zone] || [];
   return items.filter(i => i.zone === zone || neighbors.includes(i.zone));
 }
