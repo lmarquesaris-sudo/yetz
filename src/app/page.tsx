@@ -25,29 +25,29 @@ function getWeekRange() {
 function formatWeekLabel() {
   const { monday, sunday } = getWeekRange();
   const opts: Intl.DateTimeFormatOptions = { day: "numeric", month: "long" };
-  return `${monday.toLocaleDateString("es-ES", opts)} — ${sunday.toLocaleDateString("es-ES", opts)}`;
+  return `${monday.toLocaleDateString("ca-ES", opts)} — ${sunday.toLocaleDateString("ca-ES", opts)}`;
 }
 
 function formatDateRange(start: string, end: string) {
-  if (!end) return "Permanente";
+  if (!end) return "Permanent";
   const s = new Date(start);
   const e = new Date(end);
   const oneYear = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
-  if (e > oneYear) return "Permanente";
-  const sStr = s.toLocaleDateString("es-ES", { day: "numeric", month: "short" });
-  const eStr = e.toLocaleDateString("es-ES", { day: "numeric", month: "short" });
+  if (e > oneYear) return "Permanent";
+  const sStr = s.toLocaleDateString("ca-ES", { day: "numeric", month: "short" });
+  const eStr = e.toLocaleDateString("ca-ES", { day: "numeric", month: "short" });
   return sStr === eStr ? sStr : `${sStr} — ${eStr}`;
 }
 
 const categoryLabels: Record<string, string> = {
-  exposición: "Exposición",
-  museo: "Museo",
-  galería: "Galería",
+  exposición: "Exposició",
+  museo: "Museu",
+  galería: "Galeria",
   taller: "Taller",
-  teatro: "Teatro",
+  teatro: "Teatre",
   música: "Música",
-  danza: "Danza",
-  cine: "Cine",
+  danza: "Dansa",
+  cine: "Cinema",
   festival: "Festival",
 };
 
@@ -208,15 +208,15 @@ export default function EstaSemanaPage() {
               <h1
                 className="animate-fade-up animation-delay-100 text-[clamp(36px,8vw,80px)] font-normal text-white tracking-[-0.03em] leading-[1.0] font-editorial"
               >
-                Lo que pasa
+                El que passa
                 <br />
                 <span className="italic text-white/60">
-                  esta semana
+                  aquesta setmana
                 </span>
               </h1>
 
               <p className="animate-fade-up animation-delay-200 mt-6 text-[15px] text-white/40 font-light leading-relaxed max-w-md">
-                Exposiciones, teatro, música y planes culturales en Barcelona.
+                Exposicions, teatre, música i plans culturals a Barcelona.
               </p>
 
               {/* Stats row */}
@@ -225,7 +225,7 @@ export default function EstaSemanaPage() {
                   <span className="text-[42px] font-normal text-white leading-none font-editorial">
                     {weekEvents.length}
                   </span>
-                  <span className="text-[11px] text-white/30 tracking-[0.1em] uppercase">eventos</span>
+                  <span className="text-[11px] text-white/30 tracking-[0.1em] uppercase">esdeveniments</span>
                 </div>
                 <div className="h-8 w-px bg-white/10" />
                 <div className="flex items-baseline gap-2">
@@ -244,9 +244,9 @@ export default function EstaSemanaPage() {
                 className="animate-fade-up animation-delay-400 group inline-flex items-center gap-4 mt-12 px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/10 hover:bg-white/15 transition-all duration-500"
               >
                 <div className="flex-1 min-w-0">
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-white/40 mb-1">Destacado</p>
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-white/40 mb-1">Destacat</p>
                   <p className="text-[14px] text-white font-medium truncate">Aude La Habitación Sonora</p>
-                  <p className="text-[12px] text-white/40 mt-0.5">Poblenou · Una experiencia inmersiva para escuchar música</p>
+                  <p className="text-[12px] text-white/40 mt-0.5">Poblenou · Una experiència immersiva per escoltar música</p>
                 </div>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-white/30 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 flex-shrink-0">
                   <path d="M5 12h14M12 5l7 7-7 7" />
@@ -271,12 +271,12 @@ export default function EstaSemanaPage() {
           <div className="flex items-center gap-6">
             <span className="text-[24px] text-white/20 font-editorial italic">?</span>
             <div>
-              <p className="text-[13px] font-medium text-white tracking-[0.02em]">No sabes qué hacer</p>
-              <p className="text-[11px] text-white/30 font-light">Te montamos un plan cultural a medida</p>
+              <p className="text-[13px] font-medium text-white tracking-[0.02em]">No saps què fer?</p>
+              <p className="text-[11px] text-white/30 font-light">Et muntem un pla cultural a mida</p>
             </div>
           </div>
           <span className="btn-ghost !border-white/20 !text-white/60 group-hover:!bg-white group-hover:!text-[var(--gallery-black)] !py-3 !px-6 text-[10px]">
-            Sorpréndeme
+            Sorprèn-me
           </span>
         </Link>
       </section>
@@ -288,17 +288,17 @@ export default function EstaSemanaPage() {
           <div className="flex items-end justify-between mb-16">
             <div>
               <span className="text-[10px] font-medium tracking-[0.3em] uppercase text-[var(--accent)]">
-                Exposiciones y pintura
+                Exposicions i pintura
               </span>
               <h2 className="text-[clamp(28px,4vw,48px)] font-normal text-[var(--gallery-black)] tracking-[-0.03em] leading-[1.1] mt-3 font-editorial">
-                Lo imprescindible
+                L'imprescindible
               </h2>
             </div>
             <Link
               href="/calendario"
               className="hidden sm:flex items-center gap-2 text-[11px] tracking-[0.1em] uppercase text-neutral-400 hover:text-[var(--gallery-black)] transition-colors duration-300 pb-2"
             >
-              Ver calendario
+              Veure calendari
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
@@ -391,18 +391,18 @@ export default function EstaSemanaPage() {
                 Explorar
               </span>
               <h2 className="text-[clamp(24px,3.5vw,40px)] font-normal text-[var(--gallery-black)] tracking-[-0.02em] leading-[1.1] mt-3 font-editorial">
-                Toda la agenda
+                Tota l'agenda
               </h2>
             </div>
 
             {/* Filters */}
             <div className="flex flex-wrap items-center gap-2">
               {[
-                { value: "todas", label: "Todo" },
-                { value: "exposición", label: "Exposiciones" },
-                { value: "teatro", label: "Teatro" },
+                { value: "todas", label: "Tot" },
+                { value: "exposición", label: "Exposicions" },
+                { value: "teatro", label: "Teatre" },
                 { value: "música", label: "Música" },
-                { value: "gratis", label: "Gratis" },
+                { value: "gratis", label: "Gratuït" },
               ].map((f) => (
                 <button
                   key={f.value}
@@ -494,7 +494,7 @@ export default function EstaSemanaPage() {
                         }}
                         className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-medium tracking-[0.08em] uppercase bg-[var(--gallery-black)] text-white hover:bg-black transition-colors duration-300"
                       >
-                        Asistir
+                        Assistir
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                           <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
                         </svg>
@@ -532,7 +532,7 @@ export default function EstaSemanaPage() {
           {filteredEvents.length === 0 && (
             <div className="text-center py-24">
               <p className="text-neutral-300 text-lg font-light font-editorial italic">
-                No hay eventos de esta categoría esta semana.
+                No hi ha esdeveniments d'aquesta categoria aquesta setmana.
               </p>
             </div>
           )}
@@ -550,24 +550,26 @@ export default function EstaSemanaPage() {
                 </span>
               </Link>
               <p className="text-[13px] text-white/30 font-light mt-4 max-w-xs leading-relaxed">
-                Tu portal cultural de Barcelona.
-                Exposiciones, teatro, música y los mejores planes de la ciudad.
+                El teu portal cultural de Barcelona.
+                Exposicions, teatre, música i els millors plans de la ciutat.
               </p>
             </div>
 
             <div className="flex gap-16">
               <div>
                 <p className="text-[10px] font-medium tracking-[0.2em] uppercase text-white/20 mb-4">Navegar</p>
+
                 <div className="flex flex-col gap-3">
                   <Link href="/" className="text-[13px] text-white/50 hover:text-white transition-colors">Agenda</Link>
-                  <Link href="/calendario" className="text-[13px] text-white/50 hover:text-white transition-colors">Calendario</Link>
-                  <Link href="/sorprendeme" className="text-[13px] text-white/50 hover:text-white transition-colors">Sorpréndeme</Link>
+                  <Link href="/calendario" className="text-[13px] text-white/50 hover:text-white transition-colors">Calendari</Link>
+                  <Link href="/sorprendeme" className="text-[13px] text-white/50 hover:text-white transition-colors">Sorprèn-me</Link>
                 </div>
               </div>
               <div>
                 <p className="text-[10px] font-medium tracking-[0.2em] uppercase text-white/20 mb-4">Info</p>
                 <div className="flex flex-col gap-3">
                   <Link href="/about" className="text-[13px] text-white/50 hover:text-white transition-colors">Sobre Yetz</Link>
+
                 </div>
               </div>
             </div>
@@ -575,10 +577,10 @@ export default function EstaSemanaPage() {
 
           <div className="mt-16 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <p className="text-[10px] text-white/20 tracking-[0.1em]">
-              2026 YETZ. HECHO EN BARCELONA.
+              2026 YETZ. FET A BARCELONA.
             </p>
             <p className="text-[10px] text-white/20 tracking-[0.05em]">
-              Datos: Ajuntament de Barcelona Open Data
+              Dades: Ajuntament de Barcelona Open Data
             </p>
           </div>
         </div>

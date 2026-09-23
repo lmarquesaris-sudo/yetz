@@ -16,9 +16,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Yetz — Cultura en Barcelona",
+  title: "Yetz — Cultura a Barcelona",
   description:
-    "Tu portal cultural de Barcelona: exposiciones, teatro, música y eventos. Descubre qué hacer cada día en la ciudad.",
+    "El teu portal cultural de Barcelona: exposicions, teatre, música i esdeveniments. Descobreix què fer cada dia a la ciutat.",
 };
 
 export default function RootLayout({
@@ -27,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${geist.variable} ${playfair.variable} h-full antialiased`}>
+    <html lang="ca" className={`${geist.variable} ${playfair.variable} h-full antialiased`}>
       <body className="min-h-full">{children}</body>
     </html>
   );

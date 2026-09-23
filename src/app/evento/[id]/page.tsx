@@ -9,7 +9,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString("es-ES", {
+  return new Date(dateStr).toLocaleDateString("ca-ES", {
     weekday: "long",
     day: "numeric",
     month: "long",
@@ -18,14 +18,14 @@ function formatDate(dateStr: string) {
 }
 
 const categoryLabels: Record<string, string> = {
-  exposición: "Exposición",
-  museo: "Museo",
-  galería: "Galería",
+  exposición: "Exposició",
+  museo: "Museu",
+  galería: "Galeria",
   taller: "Taller",
-  teatro: "Teatro",
+  teatro: "Teatre",
   música: "Música",
-  danza: "Danza",
-  cine: "Cine",
+  danza: "Dansa",
+  cine: "Cinema",
   festival: "Festival",
 };
 
@@ -83,13 +83,13 @@ export default function EventoPage() {
         <Navbar />
         <div className="max-w-[800px] mx-auto px-8 pt-40 text-center">
           <p className="text-neutral-300 text-[20px] font-light font-editorial italic">
-            Evento no encontrado.
+            Esdeveniment no trobat.
           </p>
           <Link
             href="/"
             className="inline-block mt-8 text-[11px] uppercase tracking-[0.15em] text-neutral-400 hover:text-[var(--gallery-black)] transition-colors"
           >
-            Volver a la agenda
+            Tornar a l'agenda
           </Link>
         </div>
       </div>
@@ -122,7 +122,7 @@ export default function EventoPage() {
             <path d="M19 12H5M12 19l-7-7 7-7" />
           </svg>
           <span className="text-[11px] uppercase tracking-[0.15em] font-medium opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300">
-            Volver
+            Tornar
           </span>
         </Link>
       </div>
@@ -160,12 +160,12 @@ export default function EventoPage() {
         <div className="animate-fade-up animation-delay-200 mt-14 grid grid-cols-2 sm:grid-cols-3 gap-8 py-10 border-y border-neutral-200/50">
           <div>
             <span className="text-[9px] font-medium uppercase tracking-[0.25em] text-neutral-300 block mb-3">
-              Fechas
+              Dates
             </span>
             <span className="text-[14px] text-[var(--gallery-black)] leading-relaxed">
               {event.endDate
                 ? `${formatDate(event.startDate)}`
-                : `Desde ${formatDate(event.startDate)}`}
+                : `Des de ${formatDate(event.startDate)}`}
             </span>
             {event.endDate && event.endDate !== event.startDate && (
               <span className="block text-[14px] text-[var(--gallery-black)] mt-1">
@@ -175,16 +175,16 @@ export default function EventoPage() {
           </div>
           <div>
             <span className="text-[9px] font-medium uppercase tracking-[0.25em] text-neutral-300 block mb-3">
-              Precio
+              Preu
             </span>
             <span className={`text-[14px] ${event.price === null ? "text-emerald-600" : "text-[var(--gallery-black)]"}`}>
-              {event.price === null ? "Entrada gratuita" : `${event.price} €`}
+              {event.price === null ? "Entrada gratuïta" : `${event.price} €`}
             </span>
           </div>
           {event.address && (
             <div>
               <span className="text-[9px] font-medium uppercase tracking-[0.25em] text-neutral-300 block mb-3">
-                Dirección
+                Adreça
               </span>
               <span className="text-[14px] text-[var(--gallery-black)]">
                 {event.address}
@@ -215,7 +215,7 @@ export default function EventoPage() {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
               </svg>
-              {event.price !== null ? "Comprar entradas" : "Más información"}
+              {event.price !== null ? "Comprar entrades" : "Més informació"}
             </a>
           )}
 
@@ -229,7 +229,7 @@ export default function EventoPage() {
               <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
               <circle cx="12" cy="10" r="3" />
             </svg>
-            Cómo llegar
+            Com arribar-hi
           </a>
 
           <button
@@ -262,7 +262,7 @@ export default function EventoPage() {
             <svg width="14" height="14" viewBox="0 0 24 24" fill={saved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.5">
               <path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
             </svg>
-            {saved ? "Guardado" : "Guardar"}
+            {saved ? "Desat" : "Desar"}
           </button>
         </div>
 
@@ -275,7 +275,7 @@ export default function EventoPage() {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
               <path d="M19 12H5M12 19l-7-7 7-7" />
             </svg>
-            Volver a la agenda
+            Tornar a l'agenda
           </Link>
         </div>
       </div>
