@@ -161,11 +161,13 @@ export default function EstaSemanaPage() {
     return weekEvents.find((e) => e.featured) || weekEvents[0];
   }, [weekEvents]);
 
-  // Top picks: 6 best events excluding hero
+  // Top picks: prioritise exposiciones, museos y galerías
   const topPicks = useMemo(() => {
-    return weekEvents
-      .filter((e) => e.id !== heroEvent?.id)
-      .slice(0, 6);
+    const artCategories = ["exposición", "museo", "galería"];
+    const pool = weekEvents.filter((e) => e.id !== heroEvent?.id);
+    const art = pool.filter((e) => artCategories.includes(e.category));
+    const rest = pool.filter((e) => !artCategories.includes(e.category));
+    return [...art, ...rest].slice(0, 6);
   }, [weekEvents, heroEvent]);
 
   const freeCount = weekEvents.filter((e) => e.price === null).length;
@@ -284,7 +286,7 @@ export default function EstaSemanaPage() {
           <div className="flex items-end justify-between mb-16">
             <div>
               <span className="text-[10px] font-medium tracking-[0.3em] uppercase text-[var(--accent)]">
-                Selección
+                Exposiciones y pintura
               </span>
               <h2 className="text-[clamp(28px,4vw,48px)] font-normal text-[var(--gallery-black)] tracking-[-0.03em] leading-[1.1] mt-3 font-editorial">
                 Lo imprescindible
