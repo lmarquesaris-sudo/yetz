@@ -236,22 +236,22 @@ export default function EstaSemanaPage() {
                 </div>
               </div>
 
-              {/* Hero event tag */}
-              {heroEvent && (
-                <Link
-                  href={`/evento/${heroEvent.id}`}
-                  className="animate-fade-up animation-delay-400 group inline-flex items-center gap-4 mt-12 px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/10 hover:bg-white/15 transition-all duration-500"
-                >
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-white/40 mb-1">Destacado</p>
-                    <p className="text-[14px] text-white font-medium truncate">{heroEvent.title}</p>
-                    <p className="text-[12px] text-white/40 mt-0.5">{heroEvent.venue}</p>
-                  </div>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-white/30 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 flex-shrink-0">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                </Link>
-              )}
+              {/* Featured highlight */}
+              <a
+                href="https://audelahabitacionsonora.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="animate-fade-up animation-delay-400 group inline-flex items-center gap-4 mt-12 px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/10 hover:bg-white/15 transition-all duration-500"
+              >
+                <div className="flex-1 min-w-0">
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-white/40 mb-1">Destacado</p>
+                  <p className="text-[14px] text-white font-medium truncate">Au Delà — Habitación Sonora</p>
+                  <p className="text-[12px] text-white/40 mt-0.5">Poblenou · Una experiencia inmersiva para escuchar música</p>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-white/30 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 flex-shrink-0">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </a>
             </div>
           </div>
         </div>
