@@ -16,8 +16,8 @@ export default function AvisLegal() {
           <section>
             <h2 className="text-[var(--gallery-black)] font-medium text-[16px] mb-2">Titular del lloc web</h2>
             <p>
-              Yetz és un projecte personal de Luis Marques.<br />
-              Correu electrònic de contacte: <a href="mailto:lmarquesaris@gmail.com" className="text-[var(--accent)] hover:text-[var(--gallery-black)] transition-colors">lmarquesaris@gmail.com</a>
+              Yetz — Cultura a Barcelona<br />
+              Correu electrònic de contacte: <a href="mailto:hola@yetz.cat" className="text-[var(--accent)] hover:text-[var(--gallery-black)] transition-colors">hola@yetz.cat</a>
             </p>
           </section>
 

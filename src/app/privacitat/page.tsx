@@ -16,8 +16,8 @@ export default function Privacitat() {
           <section>
             <h2 className="text-[var(--gallery-black)] font-medium text-[16px] mb-2">Responsable del tractament</h2>
             <p>
-              Luis Marques<br />
-              Correu: <a href="mailto:lmarquesaris@gmail.com" className="text-[var(--accent)] hover:text-[var(--gallery-black)] transition-colors">lmarquesaris@gmail.com</a>
+              Yetz — Cultura a Barcelona<br />
+              Correu: <a href="mailto:hola@yetz.cat" className="text-[var(--accent)] hover:text-[var(--gallery-black)] transition-colors">hola@yetz.cat</a>
             </p>
           </section>
 
@@ -52,7 +52,7 @@ export default function Privacitat() {
             </ul>
             <p className="mt-3">
               Per exercir qualsevol d&apos;aquests drets, contacta&apos;ns a{" "}
-              <a href="mailto:lmarquesaris@gmail.com" className="text-[var(--accent)] hover:text-[var(--gallery-black)] transition-colors">lmarquesaris@gmail.com</a>.
+              <a href="mailto:hola@yetz.cat" className="text-[var(--accent)] hover:text-[var(--gallery-black)] transition-colors">hola@yetz.cat</a>.
             </p>
           </section>
 
