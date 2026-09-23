@@ -245,7 +245,7 @@ export default function EstaSemanaPage() {
               >
                 <div className="flex-1 min-w-0">
                   <p className="text-[10px] uppercase tracking-[0.2em] text-white/40 mb-1">Destacado</p>
-                  <p className="text-[14px] text-white font-medium truncate">Au Delà — Habitación Sonora</p>
+                  <p className="text-[14px] text-white font-medium truncate">Aude La Habitación Sonora</p>
                   <p className="text-[12px] text-white/40 mt-0.5">Poblenou · Una experiencia inmersiva para escuchar música</p>
                 </div>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-white/30 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 flex-shrink-0">
