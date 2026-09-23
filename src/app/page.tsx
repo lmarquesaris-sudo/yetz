@@ -473,11 +473,25 @@ export default function EstaSemanaPage() {
                     </span>
                   </div>
 
-                  {/* Price + Save */}
+                  {/* Price + Web + Save */}
                   <div className="flex items-center gap-3 flex-shrink-0">
                     <span className={`text-[12px] font-medium ${event.price === null ? "text-emerald-600" : "text-neutral-400"}`}>
                       {event.price === null ? "Gratis" : `${event.price} €`}
                     </span>
+                    {event.url && (
+                      <a
+                        href={event.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-medium tracking-[0.08em] uppercase bg-[var(--gallery-black)] text-white hover:bg-black transition-colors duration-300"
+                      >
+                        Asistir
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
+                        </svg>
+                      </a>
+                    )}
                     <button
                       onClick={(e) => {
                         e.preventDefault();

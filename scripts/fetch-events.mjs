@@ -300,10 +300,35 @@ function getImageUrl(raw, category) {
 }
 
 function getWebUrl(raw) {
+  // 1. Try "Web" attribute
   const webAttr = raw.attribute_categories
     ?.flatMap(cat => cat.attributes || [])
     ?.find(attr => attr.name === "Web");
-  return webAttr?.values?.[0]?.url_value || "";
+  if (webAttr?.values?.[0]?.url_value) return webAttr.values[0].url_value;
+
+  // 2. Try "Enllaç" or "URL" attributes
+  const linkAttr = raw.attribute_categories
+    ?.flatMap(cat => cat.attributes || [])
+    ?.find(attr => ["Enllaç", "URL", "Lloc web", "Més informació", "Link"].includes(attr.name));
+  if (linkAttr?.values?.[0]?.url_value) return linkAttr.values[0].url_value;
+
+  // 3. Try tickets_data for purchase URLs
+  const ticketUrl = (raw.tickets_data || [])
+    .map(t => t.url || t.buy_url || "")
+    .find(u => u.length > 0);
+  if (ticketUrl) return ticketUrl;
+
+  // 4. Try extracting URL from timetable HTML
+  const timetableHtml = raw.timetable?.html || "";
+  const hrefMatch = timetableHtml.match(/href="(https?:\/\/[^"]+)"/i);
+  if (hrefMatch) return hrefMatch[1];
+
+  // 5. Try the event's own Barcelona agenda permalink
+  if (raw.register_id) {
+    return `https://www.barcelona.cat/barcelonacultura/ca/recomanem/agenda-702/${raw.register_id}`;
+  }
+
+  return "";
 }
 
 function getPrice(raw) {

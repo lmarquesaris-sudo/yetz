@@ -300,18 +300,315 @@ async function fetchMacba() {
   }
 }
 
+// ── RAZZMATAZZ (sitemap → conciertos) ────────────────────
+
+async function fetchRazzmatazz() {
+  console.log("  Razzmatazz...");
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+    const res = await fetch("https://www.salarazzmatazz.com/__sitemap__/es.xml", {
+      headers: { "User-Agent": "Yetz/1.0", "Accept": "application/xml,text/xml" },
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const xml = await res.text();
+
+    const todayStr = new Date().toISOString().split("T")[0];
+    const events = [];
+    const seenSlugs = new Set();
+
+    // Known recurring club nights to skip
+    const SKIP_SLUGS = ["la-electronica", "mandanga-pika-pika", "perreo-room", "karaoke-room", "fury1"];
+
+    // Extract all /agenda/DD-MM-YYYY-slug/ URLs
+    const urlPattern = /<loc>\s*(https:\/\/www\.salarazzmatazz\.com\/agenda\/(\d{2})-(\d{2})-(\d{4})-([^/]+)\/)\s*<\/loc>/gi;
+    let match;
+
+    while ((match = urlPattern.exec(xml)) !== null) {
+      const [, url, dd, mm, yyyy, slug] = match;
+      const startDate = `${yyyy}-${mm}-${dd}`;
+
+      // Only future dates
+      if (startDate < todayStr) continue;
+
+      // Skip known recurring club nights
+      if (SKIP_SLUGS.some(s => slug.includes(s))) continue;
+
+      // Dedup: same slug across different dates = recurring event, keep only first
+      if (seenSlugs.has(slug)) continue;
+      seenSlugs.add(slug);
+
+      // Parse title from slug: replace hyphens with spaces, capitalize
+      const title = slug
+        .replace(/-/g, " ")
+        .replace(/\b\w/g, c => c.toUpperCase());
+
+      events.push({
+        id: `razz-${dd}${mm}${yyyy}-${slug.slice(0, 20)}`,
+        title,
+        venue: "Razzmatazz",
+        category: "música",
+        description: `Concierto en Razzmatazz`,
+        imageUrl: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=500&fit=crop",
+        startDate,
+        endDate: startDate,
+        price: 18,
+        address: "Carrer dels Almogàvers, 122",
+        neighborhood: "Poblenou",
+        url,
+        featured: false,
+        tier: 1,
+        source: "razzmatazz",
+      });
+    }
+
+    console.log(`  Razzmatazz: ${events.length} events`);
+    return events;
+  } catch (err) {
+    console.warn(`  Razzmatazz failed: ${err.message}`);
+    return [];
+  }
+}
+
+// ── CCCB (Centre de Cultura Contemporània) ───────────────
+
+async function fetchCCCB() {
+  console.log("  CCCB...");
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+    const res = await fetch("https://www.cccb.org/ca/calendari", {
+      headers: { "User-Agent": "Yetz/1.0", "Accept": "text/html" },
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const html = await res.text();
+
+    const events = [];
+    const todayStr = new Date().toISOString().split("T")[0];
+
+    const monthMapCat = {
+      gener: "01", febrer: "02", març: "03", abril: "04", maig: "05", juny: "06",
+      juliol: "07", agost: "08", setembre: "09", octubre: "10", novembre: "11", desembre: "12",
+    };
+    const monthMapEs = {
+      enero: "01", febrero: "02", marzo: "03", abril: "04", mayo: "05", junio: "06",
+      julio: "07", agosto: "08", septiembre: "09", octubre: "10", noviembre: "11", diciembre: "12",
+    };
+    const allMonths = { ...monthMapCat, ...monthMapEs };
+
+    // Find links to exhibitions: /ca/exposicions/* or /ca/activitats/*
+    const linkPattern = /<a[^>]*href="(https?:\/\/www\.cccb\.org\/ca\/(?:exposicions|activitats)\/[^"]*)"[^>]*>([\s\S]*?)<\/a>/gi;
+    let match;
+
+    while ((match = linkPattern.exec(html)) !== null) {
+      const [fullMatch, link, innerHtml] = match;
+
+      // Extract text title (strip HTML tags)
+      const title = innerHtml.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+      if (!title || title.length < 3) continue;
+
+      const isExhibition = link.includes("/exposicions/");
+      const category = isExhibition ? "exposición" : "exposición";
+
+      // Look for dates in surrounding context
+      const after = html.slice(match.index, match.index + 600);
+      const before = html.slice(Math.max(0, match.index - 400), match.index);
+      const context = before + after;
+
+      let startDate = todayStr;
+      let endDate = "";
+
+      // Pattern: "Del DD de month YYYY al DD de month YYYY"
+      const rangeMatch = context.match(/[Dd]el\s+(\d{1,2})\s+(?:de\s+)?(\w+)\s+(?:de\s+)?(\d{4})\s+al\s+(\d{1,2})\s+(?:de\s+)?(\w+)\s+(?:de\s+)?(\d{4})/i);
+      if (rangeMatch) {
+        const sm = allMonths[rangeMatch[2].toLowerCase()];
+        const em = allMonths[rangeMatch[5].toLowerCase()];
+        if (sm) startDate = `${rangeMatch[3]}-${sm}-${String(rangeMatch[1]).padStart(2, "0")}`;
+        if (em) endDate = `${rangeMatch[6]}-${em}-${String(rangeMatch[4]).padStart(2, "0")}`;
+      }
+
+      // Pattern: DD/MM/YYYY
+      if (!rangeMatch) {
+        const simpleDate = context.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+        if (simpleDate) {
+          startDate = `${simpleDate[3]}-${simpleDate[2]}-${simpleDate[1]}`;
+        }
+      }
+
+      // Skip past events
+      const checkEnd = endDate || startDate;
+      if (checkEnd && checkEnd < todayStr) continue;
+
+      // Image
+      const imgMatch = context.match(/src="([^"]*(?:\.jpg|\.png|\.webp)[^"]*)"/i);
+      let imageUrl = "";
+      if (imgMatch) {
+        imageUrl = imgMatch[1];
+        if (imageUrl.startsWith("/")) imageUrl = `https://www.cccb.org${imageUrl}`;
+      }
+
+      events.push({
+        id: `cccb-${events.length}`,
+        title,
+        venue: "CCCB — Centre de Cultura Contemporània de Barcelona",
+        category,
+        description: isExhibition ? `Exposició al CCCB` : `Activitat al CCCB`,
+        imageUrl: imageUrl || "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=500&fit=crop",
+        startDate,
+        endDate: endDate || startDate,
+        price: 6,
+        address: "Montalegre, 5",
+        neighborhood: "El Raval",
+        url: link.startsWith("http") ? link : `https://www.cccb.org${link}`,
+        featured: false,
+        tier: 1,
+        source: "cccb",
+      });
+    }
+
+    // Dedup by title
+    const unique = new Map();
+    events.forEach(e => { if (!unique.has(e.title.toLowerCase())) unique.set(e.title.toLowerCase(), e); });
+    const result = [...unique.values()];
+    console.log(`  CCCB: ${result.length} events`);
+    return result;
+  } catch (err) {
+    console.warn(`  CCCB failed: ${err.message}`);
+    return [];
+  }
+}
+
+// ── TEATRE LLIURE ────────────────────────────────────────
+
+async function fetchTeatreLliure() {
+  console.log("  Teatre Lliure...");
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+    const res = await fetch("https://www.teatrelliure.com/ca/temporada-26-27", {
+      headers: { "User-Agent": "Yetz/1.0", "Accept": "text/html" },
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const html = await res.text();
+
+    const events = [];
+    const todayStr = new Date().toISOString().split("T")[0];
+
+    // Map salas to neighborhoods
+    const salaMap = {
+      "sala fabià puigserver": { venue: "Teatre Lliure — Sala Fabià Puigserver", neighborhood: "Poble-sec" },
+      "espai lliure": { venue: "Teatre Lliure — Espai Lliure", neighborhood: "Poble-sec" },
+      "lliure de gràcia": { venue: "Teatre Lliure de Gràcia", neighborhood: "Gràcia" },
+      "lliure de gracia": { venue: "Teatre Lliure de Gràcia", neighborhood: "Gràcia" },
+    };
+
+    // Find show blocks: look for links with titles + date patterns
+    // Dates appear as DD/MM–DD/MM/YY or DD/MM/YY
+    const blockPattern = /<a[^>]*href="(\/ca\/[^"]*)"[^>]*>([\s\S]*?)<\/a>/gi;
+    let match;
+
+    while ((match = blockPattern.exec(html)) !== null) {
+      const [fullMatch, link, innerHtml] = match;
+      const context = html.slice(match.index, match.index + 800);
+      const before = html.slice(Math.max(0, match.index - 300), match.index);
+      const fullContext = before + context;
+
+      // Extract title: look for text in strong/h2/h3 or uppercase text
+      let title = innerHtml.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+      if (!title || title.length < 3 || title.length > 120) continue;
+      // Skip navigation links and generic items
+      if (title.toLowerCase().includes("temporada") || title.toLowerCase().includes("abona") || title.toLowerCase().includes("entrad")) continue;
+
+      // Date pattern: DD/MM–DD/MM/YY or DD/MM/YY–DD/MM/YY
+      const dateRangeMatch = fullContext.match(/(\d{1,2})\/(\d{2})[\s]*[–\-][\s]*(\d{1,2})\/(\d{2})\/(\d{2})/);
+      const singleDateMatch = fullContext.match(/(\d{1,2})\/(\d{2})\/(\d{2})/);
+
+      let startDate = "";
+      let endDate = "";
+
+      if (dateRangeMatch) {
+        const [, startDay, startMonth, endDay, endMonth, yearShort] = dateRangeMatch;
+        const year = `20${yearShort}`;
+        startDate = `${year}-${startMonth}-${String(startDay).padStart(2, "0")}`;
+        endDate = `${year}-${endMonth}-${String(endDay).padStart(2, "0")}`;
+      } else if (singleDateMatch) {
+        const [, day, month, yearShort] = singleDateMatch;
+        const year = `20${yearShort}`;
+        startDate = `${year}-${month}-${String(day).padStart(2, "0")}`;
+        endDate = startDate;
+      }
+
+      if (!startDate) continue;
+
+      // Skip past events
+      if (endDate && endDate < todayStr) continue;
+      if (!endDate && startDate < todayStr) continue;
+
+      // Detect sala
+      const salaMatch = fullContext.match(/(Sala Fabià Puigserver|Espai Lliure|Lliure de Gràcia|Lliure de Gracia)/i);
+      const salaKey = salaMatch ? salaMatch[1].toLowerCase() : "sala fabià puigserver";
+      const salaInfo = salaMap[salaKey] || salaMap["sala fabià puigserver"];
+
+      // Image: look for teatrelliure.com/images/ URL
+      const imgMatch = fullContext.match(/(?:src|data-src)="((?:https?:\/\/www\.teatrelliure\.com)?\/images\/[^"]+)"/i);
+      let imageUrl = "";
+      if (imgMatch) {
+        imageUrl = imgMatch[1];
+        if (imageUrl.startsWith("/")) imageUrl = `https://www.teatrelliure.com${imageUrl}`;
+      }
+
+      events.push({
+        id: `lliure-${events.length}`,
+        title,
+        venue: salaInfo.venue,
+        category: "teatro",
+        description: `Teatre Lliure — ${salaInfo.venue}`,
+        imageUrl: imageUrl || "https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=800&h=500&fit=crop",
+        startDate,
+        endDate: endDate || startDate,
+        price: 22,
+        address: salaKey.includes("gràcia") || salaKey.includes("gracia") ? "Carrer de Montseny, 47" : "Plaça Margarida Xirgu, 1",
+        neighborhood: salaInfo.neighborhood,
+        url: `https://www.teatrelliure.com${link}`,
+        featured: false,
+        tier: 1,
+        source: "teatrelliure",
+      });
+    }
+
+    // Dedup by title
+    const unique = new Map();
+    events.forEach(e => { if (!unique.has(e.title.toLowerCase())) unique.set(e.title.toLowerCase(), e); });
+    const result = [...unique.values()];
+    console.log(`  Teatre Lliure: ${result.length} shows`);
+    return result;
+  } catch (err) {
+    console.warn(`  Teatre Lliure failed: ${err.message}`);
+    return [];
+  }
+}
+
 // ── Main ──────────────────────────────────────────────────
 
 async function main() {
   console.log("Fetching premium venue events...");
 
-  const [meamEvents, apoloEvents, macbaEvents] = await Promise.all([
+  const [meamEvents, apoloEvents, macbaEvents, razzEvents, cccbEvents, lliureEvents] = await Promise.all([
     fetchMeam(),
     fetchApolo(),
     fetchMacba(),
+    fetchRazzmatazz(),
+    fetchCCCB(),
+    fetchTeatreLliure(),
   ]);
 
-  const allEvents = [...meamEvents, ...apoloEvents, ...macbaEvents];
+  const allEvents = [...meamEvents, ...apoloEvents, ...macbaEvents, ...razzEvents, ...cccbEvents, ...lliureEvents];
 
   // Dedup by title + source (allow same title from different sources)
   const seen = new Set();

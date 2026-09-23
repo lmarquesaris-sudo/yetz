@@ -200,11 +200,26 @@ export default function EventoPage() {
 
         {/* ── Actions ───────────────────────────────── */}
         <div className="animate-fade-up animation-delay-400 mt-14 flex flex-wrap gap-4">
+          {/* Primary CTA: Asistir (link to event page) */}
+          {event.url && event.url !== "" && (
+            <a
+              href={event.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary flex items-center gap-3"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
+              </svg>
+              {event.price !== null ? "Comprar entradas" : "Más información"}
+            </a>
+          )}
+
           <a
             href={`https://www.google.com/maps/search/${encodeURIComponent(event.venue + ", Barcelona")}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-primary flex items-center gap-3"
+            className="btn-ghost flex items-center gap-3"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
               <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
@@ -245,20 +260,6 @@ export default function EventoPage() {
             </svg>
             {saved ? "Guardado" : "Guardar"}
           </button>
-
-          {event.url && event.url !== "" && (
-            <a
-              href={event.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-ghost flex items-center gap-3"
-            >
-              Web oficial
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
-              </svg>
-            </a>
-          )}
         </div>
 
         {/* ── Back link ─────────────────────────────── */}
