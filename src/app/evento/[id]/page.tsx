@@ -6,6 +6,7 @@ import { Event } from "@/lib/types";
 import { events as fallbackEvents } from "@/lib/data";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
+import Image from "next/image";
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString("es-ES", {
@@ -101,10 +102,13 @@ export default function EventoPage() {
 
       {/* ── CINEMATIC HERO IMAGE ────────────────────── */}
       <div className="relative w-full h-[65vh] min-h-[450px] max-h-[750px] overflow-hidden">
-        <img
+        <Image
           src={event.imageUrl}
           alt={event.title}
-          className="w-full h-full object-cover animate-scale-in"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover animate-scale-in"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[var(--ice)] via-transparent to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-b from-[var(--gallery-black)]/30 via-transparent to-transparent" />

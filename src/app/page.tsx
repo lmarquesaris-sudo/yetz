@@ -6,6 +6,7 @@ import { events as fallbackEvents } from "@/lib/data";
 import { MOCK_EVENTS } from "@/lib/mock-events";
 import { Event } from "@/lib/types";
 import Link from "next/link";
+import Image from "next/image";
 
 const STORAGE_KEY = "yetzart_saved";
 
@@ -182,10 +183,13 @@ export default function EstaSemanaPage() {
       <header className="relative h-[100svh] min-h-[600px] overflow-hidden">
         {/* Static artistic Barcelona background */}
         <div className="absolute inset-0">
-          <img
+          <Image
             src="https://images.unsplash.com/photo-1583422409516-2895a77efded?w=1920&q=80&auto=format&fit=crop"
             alt="Barcelona"
-            className="w-full h-full object-cover animate-scale-in"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover animate-scale-in"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--gallery-black)] via-[var(--gallery-black)]/40 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[var(--gallery-black)]/60 via-transparent to-transparent" />
@@ -311,11 +315,12 @@ export default function EstaSemanaPage() {
                 style={{ animationDelay: `${i * 100}ms` }}
               >
                 <div className="relative aspect-[3/4] overflow-hidden bg-neutral-100">
-                  <img
+                  <Image
                     src={event.imageUrl}
                     alt={event.title}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
 
@@ -348,12 +353,13 @@ export default function EstaSemanaPage() {
                   className="gallery-card group flex gap-5 p-4 rounded-sm bg-[var(--gallery-white)]"
                   style={{ animationDelay: `${(i + 2) * 100}ms` }}
                 >
-                  <div className="w-20 h-20 rounded-sm overflow-hidden flex-shrink-0 bg-neutral-100">
-                    <img
+                  <div className="relative w-20 h-20 rounded-sm overflow-hidden flex-shrink-0 bg-neutral-100">
+                    <Image
                       src={event.imageUrl}
                       alt={event.title}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
+                      fill
+                      sizes="80px"
+                      className="object-cover"
                     />
                   </div>
                   <div className="flex-1 min-w-0 py-0.5">
@@ -433,13 +439,14 @@ export default function EstaSemanaPage() {
                   style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
                 >
                   {/* Image */}
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-sm overflow-hidden flex-shrink-0 bg-neutral-100">
-                    <img
+                  <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-sm overflow-hidden flex-shrink-0 bg-neutral-100">
+                    <Image
                       src={event.imageUrl}
                       alt={event.title}
-                      className="w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-110"
+                      fill
+                      sizes="80px"
+                      className="object-cover transition-transform duration-[1200ms] group-hover:scale-110"
                       style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
-                      loading="lazy"
                     />
                   </div>
 
@@ -478,19 +485,20 @@ export default function EstaSemanaPage() {
                     <span className={`text-[12px] font-medium ${event.price === null ? "text-emerald-600" : "text-neutral-400"}`}>
                       {event.price === null ? "Gratis" : `${event.price} €`}
                     </span>
-                    {event.url && (
-                      <a
-                        href={event.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
+                    {event.url && event.url.startsWith("http") && (
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          window.open(event.url, "_blank", "noopener,noreferrer");
+                        }}
                         className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-medium tracking-[0.08em] uppercase bg-[var(--gallery-black)] text-white hover:bg-black transition-colors duration-300"
                       >
                         Asistir
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                           <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
                         </svg>
-                      </a>
+                      </button>
                     )}
                     <button
                       onClick={(e) => {
