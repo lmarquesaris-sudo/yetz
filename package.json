@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "fetch-events": "node scripts/fetch-events.mjs",
-    "build": "node scripts/fetch-events.mjs && next build",
+    "fetch-culturajove": "node scripts/fetch-culturajove.mjs",
+    "build": "node scripts/fetch-events.mjs && node scripts/fetch-culturajove.mjs && next build",
     "start": "next start",
     "lint": "eslint"
   },
