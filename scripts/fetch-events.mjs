@@ -408,11 +408,86 @@ async function main() {
       return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
     });
 
-  // ── Limit low-quality talleres: keep only tier 1-2, or tier 3 with API images (max 80) ──
-  const tallerTier12 = artEvents.filter(e => e.category === "taller" && e.tier <= 2);
-  const tallerTier3WithImg = artEvents.filter(e => e.category === "taller" && e.tier === 3 && e.imageUrl.includes("estatics-nasia")).slice(0, 80);
-  const tallerIds = new Set([...tallerTier12, ...tallerTier3WithImg].map(e => e.id));
-  artEvents = artEvents.filter(e => e.category !== "taller" || tallerIds.has(e.id));
+  const beforeQuality = artEvents.length;
+
+  // ═══════════════════════════════════════════════════════════
+  // QUALITY FILTERS — eliminate "paja"
+  // ═══════════════════════════════════════════════════════════
+
+  // 1. KILL GENERIC TITLES — if the title is too vague, it's filler
+  const GENERIC_TITLE_PATTERNS = [
+    /^activitat/i, /^taller de /i, /^curs /i, /^sessió /i,
+    /^xerrada$/i, /^visita$/i, /^itinerari$/i,
+    /^jornada /i, /^programa /i, /^cicle$/i,
+  ];
+  artEvents = artEvents.filter(e => {
+    const title = e.title.trim();
+    if (title.length < 10) return false; // Too short = garbage
+    if (GENERIC_TITLE_PATTERNS.some(p => p.test(title))) return false;
+    return true;
+  });
+  console.log(`  After generic title filter: ${artEvents.length} (removed ${beforeQuality - artEvents.length})`);
+
+  // 2. KILL TALLERES — only keep tier 1-2 talleres (at real cultural venues)
+  artEvents = artEvents.filter(e => {
+    if (e.category !== "taller") return true;
+    return e.tier <= 2; // Only talleres at major/notable venues
+  });
+  console.log(`  After taller filter: ${artEvents.length}`);
+
+  // 3. DEDUPLICATE SIMILAR TITLES — "Cicle concerts MEAM" x20 → keep 1
+  const seen = new Map(); // normalized title → event
+  artEvents = artEvents.filter(e => {
+    // Normalize: lowercase, remove dates, remove quotes, trim
+    const norm = e.title.toLowerCase()
+      .replace(/["''«»]/g, "")
+      .replace(/\d{1,2}\/\d{1,2}\/\d{4}/g, "")
+      .replace(/\d{1,2}\s+de\s+\w+/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+    // Key = normalized title + venue (same show at same venue = duplicate)
+    const key = `${norm}__${e.venue.toLowerCase()}`;
+    if (seen.has(key)) {
+      // Keep the one with better image or earlier date
+      const existing = seen.get(key);
+      if (!existing.imageUrl.includes("estatics") && e.imageUrl.includes("estatics")) {
+        seen.set(key, e);
+      }
+      return false;
+    }
+    seen.set(key, e);
+    return true;
+  });
+  console.log(`  After dedup filter: ${artEvents.length}`);
+
+  // 4. TIER 3 WITHOUT REAL IMAGE = low quality (unless it's a single-day event)
+  artEvents = artEvents.filter(e => {
+    if (e.tier <= 2) return true; // Always keep tier 1-2
+    if (e.imageUrl.includes("estatics")) return true; // Has real image
+    // Single-day events are worth keeping even without image (concerts, etc.)
+    if (e.startDate === e.endDate) return true;
+    // Short events (<14 days) get a pass
+    if (e.endDate) {
+      const days = (new Date(e.endDate) - new Date(e.startDate)) / 86400000;
+      if (days <= 14) return true;
+    }
+    return false; // Long-running tier 3 without real image = filler
+  });
+  console.log(`  After image quality filter: ${artEvents.length}`);
+
+  // 5. CAP PER VENUE — max 5 events per venue (prevents one venue flooding)
+  const venueCounts = {};
+  artEvents = artEvents.filter(e => {
+    const v = e.venue.toLowerCase().trim();
+    venueCounts[v] = (venueCounts[v] || 0) + 1;
+    if (e.tier <= 1) return true; // Tier 1 always passes
+    return venueCounts[v] <= 5;
+  });
+  console.log(`  After venue cap filter: ${artEvents.length}`);
+
+  console.log(`\n  QUALITY: ${beforeQuality} → ${artEvents.length} (removed ${beforeQuality - artEvents.length} low-quality events)`);
+
+  // ═══════════════════════════════════════════════════════════
 
   // Featured: tier 1 events with API images
   const tier1WithImg = artEvents.filter(e => e.tier === 1 && e.imageUrl.includes("estatics-nasia"));
