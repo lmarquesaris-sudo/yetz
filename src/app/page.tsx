@@ -64,13 +64,15 @@ export default function EstaSemanaPage() {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) setSaved(JSON.parse(stored));
 
-    // Load events from both sources
+    // Load events from all sources
     Promise.all([
       fetch("/events.json").then(r => r.json()).catch(() => []),
       fetch("/culturajove-events.json").then(r => r.json()).catch(() => []),
-    ]).then(([ajuntament, culturajove]) => {
+      fetch("/premium-events.json").then(r => r.json()).catch(() => []),
+    ]).then(([ajuntament, culturajove, premium]) => {
       const base = ajuntament.length > 0 ? ajuntament : fallbackEvents;
-      const all = mergeEvents(mergeEvents(base, culturajove), MOCK_EVENTS);
+      // Premium first (highest quality), then ajuntament, then culturajove, then mock
+      const all = mergeEvents(mergeEvents(mergeEvents(premium, base), culturajove), MOCK_EVENTS);
       setEvents(all);
     });
   }, []);

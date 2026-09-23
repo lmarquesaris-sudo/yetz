@@ -6,7 +6,8 @@
     "dev": "next dev",
     "fetch-events": "node scripts/fetch-events.mjs",
     "fetch-culturajove": "node scripts/fetch-culturajove.mjs",
-    "build": "node scripts/fetch-events.mjs && node scripts/fetch-culturajove.mjs && next build",
+    "fetch-premium": "node scripts/fetch-premium-venues.mjs",
+    "build": "node scripts/fetch-events.mjs && node scripts/fetch-culturajove.mjs && node scripts/fetch-premium-venues.mjs && next build",
     "start": "next start",
     "lint": "eslint"
   },

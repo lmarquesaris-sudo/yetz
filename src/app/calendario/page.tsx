@@ -145,13 +145,14 @@ export default function CalendarPage() {
 
   useEffect(() => {
     setMounted(true);
-    // Load events from both sources
+    // Load events from all sources
     Promise.all([
       fetch("/events.json").then(r => r.json()).catch(() => []),
       fetch("/culturajove-events.json").then(r => r.json()).catch(() => []),
-    ]).then(([ajuntament, culturajove]) => {
+      fetch("/premium-events.json").then(r => r.json()).catch(() => []),
+    ]).then(([ajuntament, culturajove, premium]) => {
       const base = ajuntament.length > 0 ? ajuntament : MOCK_EVENTS;
-      setAllEvents(mergeEvents(mergeEvents(base, culturajove), MOCK_EVENTS));
+      setAllEvents(mergeEvents(mergeEvents(mergeEvents(premium, base), culturajove), MOCK_EVENTS));
     });
   }, []);
 
