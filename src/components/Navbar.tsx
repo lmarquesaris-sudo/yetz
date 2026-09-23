@@ -5,10 +5,9 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
 const links = [
-  { href: "/esta-semana", label: "Esta semana" },
-  { href: "/museos", label: "Museos" },
+  { href: "/", label: "Agenda" },
+  { href: "/calendario", label: "Calendario" },
   { href: "/sorprendeme", label: "Sorpréndeme" },
-  { href: "/about", label: "About" },
 ];
 
 export default function Navbar() {
@@ -56,7 +55,7 @@ export default function Navbar() {
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-0.5">
             {links.map((link) => {
-              const isActive = pathname.startsWith(link.href);
+              const isActive = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
               return (
                 <Link
                   key={link.href}

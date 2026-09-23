@@ -171,7 +171,42 @@ export default function EventoPage() {
         </div>
 
         {/* Actions */}
-        <div className="animate-fade-up animation-delay-400 mt-12 flex flex-wrap gap-4">
+        <div className="animate-fade-up animation-delay-400 mt-12 flex flex-wrap gap-3">
+          {/* Cómo llegar — primary CTA */}
+          <a
+            href={`https://www.google.com/maps/search/${encodeURIComponent(event.venue + ", Barcelona")}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 px-7 py-3.5 rounded-full text-[13px] font-medium bg-neutral-900 text-white hover:bg-neutral-700 transition-all duration-500"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            Cómo llegar
+          </a>
+
+          {/* Compartir */}
+          <button
+            onClick={() => {
+              const text = `${event.title} — ${event.venue}, Barcelona`;
+              const url = window.location.href;
+              if (navigator.share) {
+                navigator.share({ title: event.title, text, url });
+              } else {
+                window.open(`https://wa.me/?text=${encodeURIComponent(text + "\n" + url)}`, "_blank");
+              }
+            }}
+            className="flex items-center gap-3 px-7 py-3.5 rounded-full text-[13px] font-medium border border-neutral-200 text-neutral-600 hover:border-neutral-900 hover:text-neutral-900 transition-all duration-500"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" />
+              <path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98" />
+            </svg>
+            Compartir
+          </button>
+
+          {/* Guardar */}
           <button
             onClick={toggleSave}
             className={`flex items-center gap-3 px-7 py-3.5 rounded-full text-[13px] font-medium transition-all duration-500 ${
@@ -180,22 +215,13 @@ export default function EventoPage() {
                 : "border border-neutral-200 text-neutral-600 hover:border-neutral-900 hover:text-neutral-900"
             }`}
           >
-            {saved ? (
-              <>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M5 3a2 2 0 0 0-2 2v16l9-4 9 4V5a2 2 0 0 0-2-2H5z" />
-                </svg>
-                Guardado
-              </>
-            ) : (
-              <>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
-                </svg>
-                Guardar
-              </>
-            )}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill={saved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.5">
+              <path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+            </svg>
+            {saved ? "Guardado" : "Guardar"}
           </button>
+
+          {/* Visitar web */}
           {event.url && event.url !== "" && (
             <a
               href={event.url}
@@ -203,7 +229,7 @@ export default function EventoPage() {
               rel="noopener noreferrer"
               className="flex items-center gap-3 px-7 py-3.5 rounded-full text-[13px] font-medium border border-neutral-200 text-neutral-600 hover:border-neutral-900 hover:text-neutral-900 transition-all duration-500"
             >
-              Visitar web
+              Web oficial
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
               </svg>
