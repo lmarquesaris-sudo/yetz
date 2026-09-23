@@ -3,8 +3,14 @@
 :root {
   --background: #fafafa;
   --foreground: #0a0a0a;
-  --ice: #f7f8fa;
-  --ice-warm: #f4f2ef;
+  --ice: #f5f3f0;
+  --ice-warm: #eae7e2;
+  --cream: #f9f7f4;
+  --stone: #d4cfc8;
+  --gallery-black: #1a1a1a;
+  --gallery-white: #fefdfb;
+  --accent: #8b7355;
+  --accent-light: #c4b8a5;
   --glass: rgba(255, 255, 255, 0.72);
   --glass-border: rgba(255, 255, 255, 0.5);
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.03);
@@ -38,13 +44,27 @@ body {
 }
 
 ::selection {
-  background: #0a0a0a;
-  color: #fafafa;
+  background: var(--gallery-black);
+  color: var(--gallery-white);
+}
+
+/* ── Grain texture overlay ─────────────────── */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.03;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
 }
 
 /* ── Animations ──────────────────────────────── */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(32px); }
+  from { opacity: 0; transform: translateY(40px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -54,7 +74,7 @@ body {
 }
 
 @keyframes fadeInScale {
-  from { opacity: 0; transform: scale(0.97); }
+  from { opacity: 0; transform: scale(0.96); }
   to { opacity: 1; transform: scale(1); }
 }
 
@@ -83,6 +103,21 @@ body {
   100% { background-position: 200% center; }
 }
 
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(1.08); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes reveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
 .animate-fade-up {
   animation: fadeUp 1s var(--ease-out-expo) both;
 }
@@ -107,6 +142,14 @@ body {
   animation: float 6s ease-in-out infinite;
 }
 
+.animate-scale-in {
+  animation: scaleIn 1.6s var(--ease-out-expo) both;
+}
+
+.animate-reveal {
+  animation: reveal 1.2s var(--ease-out-expo) both;
+}
+
 .animation-delay-100 { animation-delay: 0.1s; }
 .animation-delay-200 { animation-delay: 0.2s; }
 .animation-delay-300 { animation-delay: 0.3s; }
@@ -118,6 +161,41 @@ body {
 
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── Gallery card ──────────────────────────── */
+.gallery-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--gallery-white);
+  transition: all 0.8s var(--ease-out-expo);
+}
+
+.gallery-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: inherit;
+  pointer-events: none;
+  transition: border-color 0.5s ease;
+}
+
+.gallery-card:hover::after {
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.gallery-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+}
+
+.gallery-card img {
+  transition: transform 1.8s var(--ease-out-expo);
+}
+
+.gallery-card:hover img {
+  transform: scale(1.06);
+}
 
 /* ── Glass card ──────────────────────────────── */
 .glass-card {
@@ -159,18 +237,13 @@ body {
 
 /* ── Image treatment ─────────────────────────── */
 .img-gallery {
-  border-radius: 16px;
+  border-radius: 4px;
   overflow: hidden;
-  box-shadow: var(--shadow-md);
   transition: all 0.9s var(--ease-out-expo);
 }
 
-.img-gallery:hover {
-  box-shadow: var(--shadow-xl);
-}
-
 .img-gallery img {
-  transition: transform 1.4s var(--ease-out-expo);
+  transition: transform 1.8s var(--ease-out-expo);
 }
 
 .img-gallery:hover img {
@@ -185,6 +258,10 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
+.font-editorial {
+  font-family: var(--font-playfair), "Georgia", "Times New Roman", serif;
+}
+
 /* ── Subtle divider ──────────────────────────── */
 .divider-fade {
   height: 1px;
@@ -193,37 +270,72 @@ body {
 
 /* ── Button styles ───────────────────────────── */
 .btn-primary {
-  background: #0a0a0a;
+  background: var(--gallery-black);
   color: white;
-  border-radius: 100px;
-  padding: 14px 32px;
-  font-size: 13px;
+  border-radius: 0;
+  padding: 16px 36px;
+  font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
   transition: all 0.5s var(--ease-out-expo);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .btn-primary:hover {
-  background: #1a1a1a;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  transform: translateY(-1px);
+  background: #000;
+  letter-spacing: 0.2em;
 }
 
 .btn-ghost {
   background: transparent;
-  color: #0a0a0a;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 100px;
-  padding: 14px 32px;
-  font-size: 13px;
+  color: var(--gallery-black);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0;
+  padding: 16px 36px;
+  font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
   transition: all 0.5s var(--ease-out-expo);
 }
 
 .btn-ghost:hover {
-  border-color: rgba(0, 0, 0, 0.3);
-  box-shadow: var(--shadow-sm);
-  transform: translateY(-1px);
+  border-color: var(--gallery-black);
+  background: var(--gallery-black);
+  color: white;
+}
+
+/* ── Marquee ─────────────────────────────────── */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ── Editorial hover image reveal ────────────── */
+.editorial-link {
+  position: relative;
+}
+
+.editorial-link .hover-image {
+  position: absolute;
+  width: 280px;
+  height: 180px;
+  object-fit: cover;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.4s ease, transform 0.5s var(--ease-out-expo);
+  z-index: 10;
+  top: -200px;
+  right: -20px;
+}
+
+.editorial-link:hover .hover-image {
+  opacity: 1;
+  transform: scale(1);
 }

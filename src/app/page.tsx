@@ -29,9 +29,13 @@ function formatWeekLabel() {
 
 function formatDateRange(start: string, end: string) {
   if (!end) return "Permanente";
-  const s = new Date(start).toLocaleDateString("es-ES", { day: "numeric", month: "short" });
-  const e = new Date(end).toLocaleDateString("es-ES", { day: "numeric", month: "short" });
-  return `${s} — ${e}`;
+  const s = new Date(start);
+  const e = new Date(end);
+  const oneYear = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
+  if (e > oneYear) return "Permanente";
+  const sStr = s.toLocaleDateString("es-ES", { day: "numeric", month: "short" });
+  const eStr = e.toLocaleDateString("es-ES", { day: "numeric", month: "short" });
+  return sStr === eStr ? sStr : `${sStr} — ${eStr}`;
 }
 
 const categoryLabels: Record<string, string> = {
@@ -46,12 +50,12 @@ const categoryLabels: Record<string, string> = {
   festival: "Festival",
 };
 
-/** Merge mock events with fetched events, deduplicating by title (case-insensitive) */
 function mergeEvents(fetched: Event[], mocks: Event[]): Event[] {
   const titleSet = new Set(fetched.map(e => e.title.toLowerCase().trim()));
   const unique = mocks.filter(e => !titleSet.has(e.title.toLowerCase().trim()));
   return [...fetched, ...unique];
 }
+
 
 export default function EstaSemanaPage() {
   const [events, setEvents] = useState<Event[]>(() => mergeEvents(fallbackEvents, MOCK_EVENTS));
@@ -59,19 +63,20 @@ export default function EstaSemanaPage() {
   const [mounted, setMounted] = useState(false);
   const [activeFilter, setActiveFilter] = useState<string>("todas");
 
+
   useEffect(() => {
     setMounted(true);
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) setSaved(JSON.parse(stored));
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) setSaved(JSON.parse(stored));
+    } catch {}
 
-    // Load events from all sources
     Promise.all([
       fetch("/events.json").then(r => r.json()).catch(() => []),
       fetch("/culturajove-events.json").then(r => r.json()).catch(() => []),
       fetch("/premium-events.json").then(r => r.json()).catch(() => []),
     ]).then(([ajuntament, culturajove, premium]) => {
       const base = ajuntament.length > 0 ? ajuntament : fallbackEvents;
-      // Premium first (highest quality), then ajuntament, then culturajove, then mock
       const all = mergeEvents(mergeEvents(mergeEvents(premium, base), culturajove), MOCK_EVENTS);
       setEvents(all);
     });
@@ -97,40 +102,34 @@ export default function EstaSemanaPage() {
       return start <= sunday && end >= monday;
     });
 
-    // Smart sort: temporal events first, permanents last, diversity mix
     return filtered.sort((a, b) => {
       const aEnd = a.endDate ? new Date(a.endDate) : null;
       const bEnd = b.endDate ? new Date(b.endDate) : null;
       const aStart = new Date(a.startDate);
       const bStart = new Date(b.startDate);
+      const now2 = now;
 
-      // 1. Is it permanent? (no end date or end > 1 year away)
-      const oneYear = new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000);
+      const oneYear = new Date(now2.getTime() + 365 * 24 * 60 * 60 * 1000);
       const aPerm = !aEnd || aEnd > oneYear;
       const bPerm = !bEnd || bEnd > oneYear;
-      if (aPerm !== bPerm) return aPerm ? 1 : -1; // temporal first
+      if (aPerm !== bPerm) return aPerm ? 1 : -1;
 
-      // 2. Among temporal: ending soon = higher urgency
       if (!aPerm && !bPerm && aEnd && bEnd) {
-        const aDaysLeft = (aEnd.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
-        const bDaysLeft = (bEnd.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
-        // Ending within 7 days gets big boost
+        const aDaysLeft = (aEnd.getTime() - now2.getTime()) / (1000 * 60 * 60 * 24);
+        const bDaysLeft = (bEnd.getTime() - now2.getTime()) / (1000 * 60 * 60 * 24);
         const aUrgent = aDaysLeft <= 7 ? 0 : 1;
         const bUrgent = bDaysLeft <= 7 ? 0 : 1;
         if (aUrgent !== bUrgent) return aUrgent - bUrgent;
       }
 
-      // 3. New this week (started this week) gets boost
       const aNew = aStart >= monday ? 0 : 1;
       const bNew = bStart >= monday ? 0 : 1;
       if (aNew !== bNew) return aNew - bNew;
 
-      // 4. Tier (better venues first)
       const aTier = a.tier || 3;
       const bTier = b.tier || 3;
       if (aTier !== bTier) return aTier - bTier;
 
-      // 5. Has real image vs fallback
       const aImg = a.imageUrl.includes("estatics") ? 0 : 1;
       const bImg = b.imageUrl.includes("estatics") ? 0 : 1;
       if (aImg !== bImg) return aImg - bImg;
@@ -145,7 +144,6 @@ export default function EstaSemanaPage() {
     return weekEvents.filter((e) => e.category === activeFilter);
   }, [weekEvents, activeFilter]);
 
-  // Pick a hero event: prefer featured temporal events with API images
   const heroEvent = useMemo(() => {
     const hasApiImage = (e: Event) => e.imageUrl.includes("estatics");
     const isTemporal = (e: Event) => {
@@ -154,18 +152,22 @@ export default function EstaSemanaPage() {
       const oneYear = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
       return end < oneYear;
     };
-    // Best: featured + temporal + good image
     const best = weekEvents.find((e) => e.featured && isTemporal(e) && hasApiImage(e));
     if (best) return best;
-    // Good: tier 1 temporal with image
     const good = weekEvents.find((e) => (e.tier === 1) && isTemporal(e) && hasApiImage(e));
     if (good) return good;
-    // OK: any temporal with image
     const ok = weekEvents.find((e) => isTemporal(e) && hasApiImage(e));
     if (ok) return ok;
-    // Fallback
     return weekEvents.find((e) => e.featured) || weekEvents[0];
   }, [weekEvents]);
+
+  // Top picks: 6 best events excluding hero
+  const topPicks = useMemo(() => {
+    return weekEvents
+      .filter((e) => e.id !== heroEvent?.id)
+      .slice(0, 6);
+  }, [weekEvents, heroEvent]);
+
   const freeCount = weekEvents.filter((e) => e.price === null).length;
 
   if (!mounted) return null;
@@ -174,345 +176,387 @@ export default function EstaSemanaPage() {
     <div className="min-h-screen">
       <Navbar />
 
-      {/* Hero */}
-      <header className="relative pt-16 overflow-hidden">
-        <div className="absolute inset-0 z-0">
+      {/* ── CINEMATIC HERO ──────────────────────────── */}
+      <header className="relative h-[100svh] min-h-[600px] overflow-hidden">
+        {/* Background image */}
+        <div className="absolute inset-0">
           {heroEvent && (
             <img
               src={heroEvent.imageUrl}
               alt=""
-              className="w-full h-full object-cover object-center scale-105 blur-[2px]"
+              className="w-full h-full object-cover animate-scale-in"
             />
           )}
-          <div className="absolute inset-0 bg-gradient-to-b from-[var(--ice)]/70 via-[var(--ice)]/85 to-[var(--ice)]" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[var(--ice)] via-[var(--ice)]/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--gallery-black)] via-[var(--gallery-black)]/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[var(--gallery-black)]/60 via-transparent to-transparent" />
         </div>
 
-        <div className="relative z-10 max-w-[1100px] mx-auto px-8 pt-24 pb-20">
-          <div className="max-w-xl animate-fade-up">
-            <div className="flex items-center gap-4 mb-8">
-              <div className="w-10 h-px bg-neutral-900" />
-              <span className="text-[10px] font-semibold text-neutral-400 uppercase tracking-[0.35em]">
-                Agenda cultural Barcelona
-              </span>
-            </div>
-            <h1
-              className="text-[clamp(40px,7vw,64px)] font-normal text-neutral-900 tracking-[-0.03em] leading-[1.05]"
-              style={{ fontFamily: "var(--font-playfair), serif" }}
-            >
-              Lo que pasa
-              <br />
-              <span className="italic text-neutral-400">
-                esta semana
-              </span>
-            </h1>
-            <p className="mt-6 text-[15px] text-neutral-400 font-light leading-relaxed max-w-md">
-              {formatWeekLabel()} — Conciertos, exposiciones, teatro y planes que no te puedes perder.
-            </p>
+        {/* Content overlay */}
+        <div className="absolute inset-0 flex flex-col justify-end">
+          <div className="max-w-[1400px] mx-auto w-full px-8 pb-16 md:pb-24">
+            <div className="max-w-2xl">
+              <div className="animate-fade-up">
+                <span className="inline-block text-[10px] font-medium tracking-[0.3em] uppercase text-white/50 mb-6">
+                  {formatWeekLabel()}
+                </span>
+              </div>
 
-            {/* Stats */}
-            <div className="flex items-center gap-8 mt-10">
-              <div>
-                <span
-                  className="text-[36px] font-normal text-neutral-900 leading-none"
-                  style={{ fontFamily: "var(--font-playfair), serif" }}
-                >
-                  {weekEvents.length}
+              <h1
+                className="animate-fade-up animation-delay-100 text-[clamp(36px,8vw,80px)] font-normal text-white tracking-[-0.03em] leading-[1.0] font-editorial"
+              >
+                Lo que pasa
+                <br />
+                <span className="italic text-white/60">
+                  esta semana
                 </span>
-                <p className="text-[11px] text-neutral-400 font-light mt-1 tracking-wide">eventos activos</p>
+              </h1>
+
+              <p className="animate-fade-up animation-delay-200 mt-6 text-[15px] text-white/40 font-light leading-relaxed max-w-md">
+                Exposiciones, teatro, música y planes culturales en Barcelona.
+              </p>
+
+              {/* Stats row */}
+              <div className="animate-fade-up animation-delay-300 flex items-center gap-8 mt-10">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-[42px] font-normal text-white leading-none font-editorial">
+                    {weekEvents.length}
+                  </span>
+                  <span className="text-[11px] text-white/30 tracking-[0.1em] uppercase">eventos</span>
+                </div>
+                <div className="h-8 w-px bg-white/10" />
+                <div className="flex items-baseline gap-2">
+                  <span className="text-[42px] font-normal text-white/70 leading-none font-editorial">
+                    {freeCount}
+                  </span>
+                  <span className="text-[11px] text-white/30 tracking-[0.1em] uppercase">gratis</span>
+                </div>
               </div>
-              <div className="h-10 w-px bg-neutral-200" />
-              <div>
-                <span
-                  className="text-[36px] font-normal text-emerald-600 leading-none"
-                  style={{ fontFamily: "var(--font-playfair), serif" }}
+
+              {/* Hero event tag */}
+              {heroEvent && (
+                <Link
+                  href={`/evento/${heroEvent.id}`}
+                  className="animate-fade-up animation-delay-400 group inline-flex items-center gap-4 mt-12 px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/10 hover:bg-white/15 transition-all duration-500"
                 >
-                  {freeCount}
-                </span>
-                <p className="text-[11px] text-neutral-400 font-light mt-1 tracking-wide">gratuitos</p>
-              </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-white/40 mb-1">Destacado</p>
+                    <p className="text-[14px] text-white font-medium truncate">{heroEvent.title}</p>
+                    <p className="text-[12px] text-white/40 mt-0.5">{heroEvent.venue}</p>
+                  </div>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-white/30 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 flex-shrink-0">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              )}
             </div>
           </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-float">
+          <div className="w-[1px] h-8 bg-gradient-to-b from-transparent to-white/30" />
         </div>
       </header>
 
-      {/* Filters */}
-      <div className="max-w-[1100px] mx-auto px-8">
-        <div className="flex flex-wrap items-center gap-2 py-6">
-          {[
-            { value: "todas", label: "Todos" },
-            { value: "exposición", label: "Exposiciones" },
-            { value: "museo", label: "Museos" },
-            { value: "teatro", label: "Teatro" },
-            { value: "música", label: "Música" },
-            { value: "danza", label: "Danza" },
-            { value: "cine", label: "Cine" },
-            { value: "festival", label: "Festivales" },
-            { value: "taller", label: "Talleres" },
-            { value: "gratis", label: "Gratis" },
-          ].map((f) => (
-            <button
-              key={f.value}
-              onClick={() => setActiveFilter(f.value)}
-              className={`px-5 py-2.5 rounded-full text-[12px] font-medium transition-all duration-500 ${
-                activeFilter === f.value
-                  ? f.value === "gratis"
-                    ? "bg-emerald-600 text-white shadow-[0_2px_10px_rgba(0,0,0,0.15)]"
-                    : "bg-neutral-900 text-white shadow-[0_2px_10px_rgba(0,0,0,0.15)]"
-                  : "text-neutral-400 hover:text-neutral-900 bg-white/60 hover:bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
-              }`}
-              style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
-            >
-              {f.label}
-              {f.value === "gratis" && (
-                <span className="ml-1.5 opacity-60">{freeCount}</span>
-              )}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Sorpréndeme CTA */}
-      {activeFilter === "todas" && (
-        <div className="max-w-[1100px] mx-auto px-8 mb-4">
-          <Link
-            href="/sorprendeme"
-            className="group flex items-center justify-between px-6 py-4 rounded-2xl bg-neutral-900 text-white hover:bg-neutral-800 transition-all duration-500"
-          >
-            <div className="flex items-center gap-4">
-              <span className="text-[20px]">✦</span>
-              <div>
-                <p className="text-[14px] font-medium">¿No sabes qué hacer?</p>
-                <p className="text-[12px] text-neutral-400 font-light">Cuéntanos qué te apetece y te montamos un plan a medida</p>
-              </div>
+      {/* ── SORPRÉNDEME CTA ─────────────────────────── */}
+      <section className="bg-[var(--gallery-black)]">
+        <Link
+          href="/sorprendeme"
+          className="group max-w-[1400px] mx-auto px-8 py-6 flex items-center justify-between"
+        >
+          <div className="flex items-center gap-6">
+            <span className="text-[24px] text-white/20 font-editorial italic">?</span>
+            <div>
+              <p className="text-[13px] font-medium text-white tracking-[0.02em]">No sabes qué hacer</p>
+              <p className="text-[11px] text-white/30 font-light">Te montamos un plan cultural a medida</p>
             </div>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-neutral-400 group-hover:text-white group-hover:translate-x-1 transition-all duration-300">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </Link>
-        </div>
-      )}
+          </div>
+          <span className="btn-ghost !border-white/20 !text-white/60 group-hover:!bg-white group-hover:!text-[var(--gallery-black)] !py-3 !px-6 text-[10px]">
+            Sorpréndeme
+          </span>
+        </Link>
+      </section>
 
-      {/* Featured event — large card */}
-      {heroEvent && activeFilter === "todas" && (
-        <section className="max-w-[1100px] mx-auto px-8 pt-8 pb-16">
-          <Link href={`/evento/${heroEvent.id}`} className="group block">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-              <div className="relative overflow-hidden rounded-[24px] aspect-[4/3] bg-neutral-100 shadow-[0_4px_24px_rgba(0,0,0,0.08)] transition-shadow duration-700 group-hover:shadow-[0_12px_48px_rgba(0,0,0,0.14)]">
-                <img
-                  src={heroEvent.imageUrl}
-                  alt={heroEvent.title}
-                  className="w-full h-full object-cover transition-transform duration-[1400ms] group-hover:scale-[1.04]"
-                  style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-              </div>
-              <div className="py-4 lg:pl-4">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-neutral-400">
-                    {categoryLabels[heroEvent.category] || heroEvent.category}
-                  </span>
-                  <span className="h-[3px] w-[3px] rounded-full bg-neutral-200" />
-                  <span className="text-[11px] text-neutral-300 tracking-wide">
-                    {heroEvent.neighborhood}
-                  </span>
-                </div>
-                <h2
-                  className="text-[clamp(24px,4vw,36px)] font-semibold text-neutral-900 leading-[1.2] tracking-[-0.02em] group-hover:text-neutral-500 transition-colors duration-500"
-                  style={{ fontFamily: "var(--font-playfair), serif" }}
-                >
-                  {heroEvent.title}
-                </h2>
-                <p className="mt-4 text-[14px] text-neutral-400 font-light leading-[1.7] line-clamp-3">
-                  {heroEvent.description}
-                </p>
-                <div className="mt-6 flex items-center gap-4">
-                  <span className="text-[13px] text-neutral-300">
-                    {heroEvent.venue}
-                  </span>
-                </div>
-                <div className="mt-4 flex items-center gap-4">
-                  <span className="text-[12px] text-neutral-300 tracking-wide">
-                    {formatDateRange(heroEvent.startDate, heroEvent.endDate)}
-                  </span>
-                  <span className="h-[3px] w-[3px] rounded-full bg-neutral-200" />
-                  <span className={`text-[13px] font-semibold ${heroEvent.price === null ? "text-emerald-600" : "text-neutral-900"}`}>
-                    {heroEvent.price === null ? "Gratis" : `${heroEvent.price} €`}
-                  </span>
-                </div>
-                <div className="mt-8 flex items-center gap-4">
-                  <span className="btn-ghost text-[12px] group-hover:bg-neutral-900 group-hover:text-white transition-all duration-500">
-                    Ver evento
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="ml-2 inline-block">
-                      <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                  </span>
-                </div>
-              </div>
+      {/* ── EDITORIAL PICKS ─────────────────────────── */}
+      <section className="max-w-[1400px] mx-auto px-8 pt-24 pb-16">
+        <div className="animate-fade-up animation-delay-200">
+          {/* Section header */}
+          <div className="flex items-end justify-between mb-16">
+            <div>
+              <span className="text-[10px] font-medium tracking-[0.3em] uppercase text-[var(--accent)]">
+                Selección
+              </span>
+              <h2 className="text-[clamp(28px,4vw,48px)] font-normal text-[var(--gallery-black)] tracking-[-0.03em] leading-[1.1] mt-3 font-editorial">
+                Lo imprescindible
+              </h2>
             </div>
-          </Link>
-        </section>
-      )}
-
-      {/* Events list */}
-      <main className="max-w-[1100px] mx-auto px-8 pb-28">
-        <div className="flex items-center gap-4 mb-10">
-          <div className="w-10 h-px bg-neutral-300" />
-          <h2 className="text-[11px] font-semibold text-neutral-400 uppercase tracking-[0.3em]">
-            {activeFilter === "todas" ? "Todos los eventos de la semana" : activeFilter === "gratis" ? "Eventos gratuitos" : categoryLabels[activeFilter] || activeFilter}
-            <span className="ml-3 text-neutral-300 font-normal">{filteredEvents.length}</span>
-          </h2>
-          <div className="flex-1 divider-fade" />
-        </div>
-
-        <div className="space-y-2">
-          {filteredEvents
-            .filter((e) => activeFilter !== "todas" || e.id !== heroEvent?.id)
-            .map((event, i) => (
             <Link
-              href={`/evento/${event.id}`}
-              key={event.id}
-              className="group block animate-fade-up"
-              style={{ animationDelay: `${i * 40}ms` }}
+              href="/calendario"
+              className="hidden sm:flex items-center gap-2 text-[11px] tracking-[0.1em] uppercase text-neutral-400 hover:text-[var(--gallery-black)] transition-colors duration-300 pb-2"
             >
-              <div className="flex items-center gap-6 py-5 px-5 rounded-2xl transition-all duration-500 hover:bg-white/70 hover:shadow-[0_2px_16px_rgba(0,0,0,0.05)]"
-                style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
-              >
-                {/* Number */}
-                <span
-                  className="text-[36px] font-normal text-neutral-200 leading-none w-12 text-right group-hover:text-neutral-400 transition-colors duration-500 hidden sm:block"
-                  style={{ fontFamily: "var(--font-playfair), serif" }}
-                >
-                  {String(i + 1).padStart(2, "0")}
-                </span>
+              Ver calendario
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
 
-                {/* Image */}
-                <div className="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 bg-neutral-100 shadow-sm">
+          {/* Editorial grid: 2 large + 4 small */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {topPicks.slice(0, 2).map((event, i) => (
+              <Link
+                href={`/evento/${event.id}`}
+                key={event.id}
+                className="gallery-card group lg:col-span-1 md:col-span-1 rounded-sm overflow-hidden"
+                style={{ animationDelay: `${i * 100}ms` }}
+              >
+                <div className="relative aspect-[3/4] overflow-hidden bg-neutral-100">
                   <img
                     src={event.imageUrl}
                     alt={event.title}
-                    className="w-full h-full object-cover transition-transform duration-[1000ms] group-hover:scale-110"
-                    style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+                    className="w-full h-full object-cover"
                     loading="lazy"
                   />
-                </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
 
-                {/* Info */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-neutral-300">
+                  {/* Overlay content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <span className="text-[9px] font-medium tracking-[0.2em] uppercase text-white/50">
                       {categoryLabels[event.category] || event.category}
                     </span>
-                    <span className="text-[10px] text-neutral-300">
-                      {event.neighborhood}
-                    </span>
+                    <h3 className="text-[20px] font-medium text-white leading-[1.3] mt-2 font-editorial">
+                      {event.title}
+                    </h3>
+                    <div className="flex items-center gap-3 mt-3">
+                      <span className="text-[11px] text-white/40">{event.venue}</span>
+                      <span className="h-[3px] w-[3px] rounded-full bg-white/20" />
+                      <span className={`text-[11px] font-medium ${event.price === null ? "text-emerald-400" : "text-white/60"}`}>
+                        {event.price === null ? "Gratis" : `${event.price} €`}
+                      </span>
+                    </div>
                   </div>
-                  <h3
-                    className="text-[16px] font-semibold text-neutral-900 tracking-[-0.01em] group-hover:text-neutral-500 transition-colors duration-500 truncate"
-                    style={{ fontFamily: "var(--font-playfair), serif" }}
-                  >
-                    {event.title}
-                  </h3>
-                  <p className="text-[12px] text-neutral-400 font-light mt-1">
-                    {event.venue}
-                  </p>
                 </div>
+              </Link>
+            ))}
 
-                {/* Date */}
-                <div className="hidden md:block flex-shrink-0 text-right">
-                  <span className="text-[12px] text-neutral-300 tracking-wide">
-                    {formatDateRange(event.startDate, event.endDate)}
-                  </span>
-                </div>
-
-                {/* Price + Save */}
-                <div className="flex items-center gap-3 flex-shrink-0">
-                  <span className={`text-[13px] font-semibold ${event.price === null ? "text-emerald-600" : "text-neutral-900"}`}>
+            {/* Right column: stacked smaller cards */}
+            <div className="flex flex-col gap-6 lg:col-span-1 md:col-span-2 lg:row-span-1">
+              {topPicks.slice(2, 6).map((event, i) => (
+                <Link
+                  href={`/evento/${event.id}`}
+                  key={event.id}
+                  className="gallery-card group flex gap-5 p-4 rounded-sm bg-[var(--gallery-white)]"
+                  style={{ animationDelay: `${(i + 2) * 100}ms` }}
+                >
+                  <div className="w-20 h-20 rounded-sm overflow-hidden flex-shrink-0 bg-neutral-100">
+                    <img
+                      src={event.imageUrl}
+                      alt={event.title}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0 py-0.5">
+                    <span className="text-[9px] font-medium tracking-[0.15em] uppercase text-[var(--accent)]">
+                      {categoryLabels[event.category] || event.category}
+                    </span>
+                    <h3 className="text-[14px] font-medium text-[var(--gallery-black)] leading-[1.3] mt-1 truncate font-editorial group-hover:text-neutral-500 transition-colors duration-300">
+                      {event.title}
+                    </h3>
+                    <p className="text-[11px] text-neutral-400 mt-1">{event.venue}</p>
+                  </div>
+                  <span className={`self-center text-[12px] font-medium flex-shrink-0 ${event.price === null ? "text-emerald-600" : "text-neutral-400"}`}>
                     {event.price === null ? "Gratis" : `${event.price} €`}
                   </span>
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      toggleSave(event.id);
-                    }}
-                    className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
-                      saved.includes(event.id)
-                        ? "bg-neutral-900 text-white"
-                        : "text-neutral-300 hover:text-neutral-900"
-                    }`}
-                  >
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill={saved.includes(event.id) ? "currentColor" : "none"}
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                    >
-                      <path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
-                    </svg>
-                  </button>
-
-                  {/* Arrow */}
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    className="text-neutral-300 group-hover:text-neutral-900 group-hover:translate-x-1 transition-all duration-300 hidden sm:block"
-                  >
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        {filteredEvents.length === 0 && (
-          <div className="text-center py-24">
-            <p className="text-neutral-300 text-lg font-light">
-              No hay eventos de esta categoria esta semana.
-            </p>
+                </Link>
+              ))}
+            </div>
           </div>
-        )}
-      </main>
+        </div>
+      </section>
 
-      {/* Footer */}
-      <footer className="border-t border-neutral-200/40">
-        <div className="max-w-[1100px] mx-auto px-8 py-16">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
+      {/* ── CATEGORY FILTERS + FULL LIST ────────────── */}
+      <section className="bg-[var(--gallery-white)] border-t border-neutral-100/50">
+        <div className="max-w-[1400px] mx-auto px-8 pt-20 pb-28">
+          {/* Section header */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 mb-10">
             <div>
-              <Link href="/" className="group flex items-center gap-2">
-                <span
-                  className="text-[20px] text-neutral-900 tracking-[-0.03em]"
-                  style={{ fontFamily: "var(--font-playfair), serif" }}
+              <span className="text-[10px] font-medium tracking-[0.3em] uppercase text-[var(--accent)]">
+                Explorar
+              </span>
+              <h2 className="text-[clamp(24px,3.5vw,40px)] font-normal text-[var(--gallery-black)] tracking-[-0.02em] leading-[1.1] mt-3 font-editorial">
+                Toda la agenda
+              </h2>
+            </div>
+
+            {/* Filters */}
+            <div className="flex flex-wrap items-center gap-2">
+              {[
+                { value: "todas", label: "Todo" },
+                { value: "exposición", label: "Exposiciones" },
+                { value: "teatro", label: "Teatro" },
+                { value: "música", label: "Música" },
+                { value: "gratis", label: "Gratis" },
+              ].map((f) => (
+                <button
+                  key={f.value}
+                  onClick={() => setActiveFilter(f.value)}
+                  className={`px-4 py-2 text-[10px] font-medium tracking-[0.1em] uppercase transition-all duration-500 ${
+                    activeFilter === f.value
+                      ? "bg-[var(--gallery-black)] text-white"
+                      : "text-neutral-400 hover:text-[var(--gallery-black)] bg-transparent border border-neutral-200 hover:border-neutral-400"
+                  }`}
                 >
-                  <span className="italic font-medium">Yetz</span>
-                </span>
+                  {f.label}
+                  {f.value === "gratis" && (
+                    <span className="ml-1.5 opacity-50">{freeCount}</span>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="h-px bg-neutral-100 mb-2" />
+
+          {/* Events list — editorial style */}
+          <div>
+            {filteredEvents
+              .filter((e) => activeFilter !== "todas" || !topPicks.find(p => p.id === e.id))
+              .map((event, i) => (
+              <Link
+                href={`/evento/${event.id}`}
+                key={event.id}
+                className="group block border-b border-neutral-100/80 last:border-0"
+              >
+                <div className="flex items-center gap-6 py-6 transition-all duration-500 hover:px-4 hover:bg-neutral-50/50"
+                  style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+                >
+                  {/* Image */}
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-sm overflow-hidden flex-shrink-0 bg-neutral-100">
+                    <img
+                      src={event.imageUrl}
+                      alt={event.title}
+                      className="w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-110"
+                      style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+                      loading="lazy"
+                    />
+                  </div>
+
+                  {/* Info */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-3 mb-1">
+                      <span className="text-[9px] font-medium uppercase tracking-[0.15em] text-[var(--accent)]">
+                        {categoryLabels[event.category] || event.category}
+                      </span>
+                      {event.neighborhood && (
+                        <>
+                          <span className="h-[3px] w-[3px] rounded-full bg-neutral-200" />
+                          <span className="text-[10px] text-neutral-300 tracking-wide">
+                            {event.neighborhood}
+                          </span>
+                        </>
+                      )}
+                    </div>
+                    <h3 className="text-[16px] sm:text-[18px] font-medium text-[var(--gallery-black)] tracking-[-0.01em] group-hover:text-neutral-500 transition-colors duration-500 truncate font-editorial">
+                      {event.title}
+                    </h3>
+                    <p className="text-[12px] text-neutral-400 font-light mt-1 hidden sm:block">
+                      {event.venue}
+                    </p>
+                  </div>
+
+                  {/* Date */}
+                  <div className="hidden md:block flex-shrink-0 text-right">
+                    <span className="text-[11px] text-neutral-300 tracking-wide">
+                      {formatDateRange(event.startDate, event.endDate)}
+                    </span>
+                  </div>
+
+                  {/* Price + Save */}
+                  <div className="flex items-center gap-3 flex-shrink-0">
+                    <span className={`text-[12px] font-medium ${event.price === null ? "text-emerald-600" : "text-neutral-400"}`}>
+                      {event.price === null ? "Gratis" : `${event.price} €`}
+                    </span>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        toggleSave(event.id);
+                      }}
+                      className={`w-8 h-8 flex items-center justify-center transition-all duration-300 ${
+                        saved.includes(event.id)
+                          ? "text-[var(--gallery-black)]"
+                          : "text-neutral-300 hover:text-[var(--gallery-black)]"
+                      }`}
+                    >
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill={saved.includes(event.id) ? "currentColor" : "none"}
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                      >
+                        <path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
               </Link>
-              <p className="text-[12px] text-neutral-300 font-light mt-2">
-                Tu portal cultural de Barcelona
+            ))}
+          </div>
+
+          {filteredEvents.length === 0 && (
+            <div className="text-center py-24">
+              <p className="text-neutral-300 text-lg font-light font-editorial italic">
+                No hay eventos de esta categoría esta semana.
               </p>
             </div>
-            <div className="flex items-center gap-6">
-              <Link href="/calendario" className="text-[12px] text-neutral-400 hover:text-neutral-900 transition-colors">
-                Calendario
+          )}
+        </div>
+      </section>
+
+      {/* ── FOOTER ──────────────────────────────────── */}
+      <footer className="bg-[var(--gallery-black)] text-white">
+        <div className="max-w-[1400px] mx-auto px-8 py-20">
+          <div className="flex flex-col md:flex-row items-start justify-between gap-12">
+            <div>
+              <Link href="/" className="group">
+                <span className="text-[32px] tracking-[-0.04em] text-white font-editorial italic font-medium">
+                  Yetz
+                </span>
               </Link>
-              <Link href="/sorprendeme" className="text-[12px] text-neutral-400 hover:text-neutral-900 transition-colors">
-                Sorpréndeme
-              </Link>
-              <Link href="/about" className="text-[12px] text-neutral-400 hover:text-neutral-900 transition-colors">
-                Sobre Yetz
-              </Link>
+              <p className="text-[13px] text-white/30 font-light mt-4 max-w-xs leading-relaxed">
+                Tu portal cultural de Barcelona.
+                Exposiciones, teatro, música y los mejores planes de la ciudad.
+              </p>
+            </div>
+
+            <div className="flex gap-16">
+              <div>
+                <p className="text-[10px] font-medium tracking-[0.2em] uppercase text-white/20 mb-4">Navegar</p>
+                <div className="flex flex-col gap-3">
+                  <Link href="/" className="text-[13px] text-white/50 hover:text-white transition-colors">Agenda</Link>
+                  <Link href="/calendario" className="text-[13px] text-white/50 hover:text-white transition-colors">Calendario</Link>
+                  <Link href="/sorprendeme" className="text-[13px] text-white/50 hover:text-white transition-colors">Sorpréndeme</Link>
+                </div>
+              </div>
+              <div>
+                <p className="text-[10px] font-medium tracking-[0.2em] uppercase text-white/20 mb-4">Info</p>
+                <div className="flex flex-col gap-3">
+                  <Link href="/about" className="text-[13px] text-white/50 hover:text-white transition-colors">Sobre Yetz</Link>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="mt-10 pt-6 border-t border-neutral-100">
-            <p className="text-[10px] text-neutral-300 tracking-wider font-light">
-              2026 Yetz. Hecho en Barcelona. Datos: Ajuntament de Barcelona Open Data.
+
+          <div className="mt-16 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <p className="text-[10px] text-white/20 tracking-[0.1em]">
+              2026 YETZ. HECHO EN BARCELONA.
+            </p>
+            <p className="text-[10px] text-white/20 tracking-[0.05em]">
+              Datos: Ajuntament de Barcelona Open Data
             </p>
           </div>
         </div>

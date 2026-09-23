@@ -16,6 +16,18 @@ function formatDate(dateStr: string) {
   });
 }
 
+const categoryLabels: Record<string, string> = {
+  exposición: "Exposición",
+  museo: "Museo",
+  galería: "Galería",
+  taller: "Taller",
+  teatro: "Teatro",
+  música: "Música",
+  danza: "Danza",
+  cine: "Cine",
+  festival: "Festival",
+};
+
 export default function EventoPage() {
   const { id } = useParams();
   const [event, setEvent] = useState<Event | null>(null);
@@ -23,25 +35,26 @@ export default function EventoPage() {
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    // Check saved state
-    const stored = localStorage.getItem("yetzart_saved");
-    if (stored) {
-      const ids = JSON.parse(stored);
-      setSaved(ids.includes(id));
-    }
+    try {
+      const stored = localStorage.getItem("yetzart_saved");
+      if (stored) {
+        const ids = JSON.parse(stored);
+        setSaved(ids.includes(id));
+      }
+    } catch {}
 
-    // Find event
-    fetch("/events.json")
-      .then((res) => res.json())
-      .then((data: Event[]) => {
-        const found = data.find((e) => e.id === id);
-        setEvent(found || null);
-      })
-      .catch(() => {
-        const found = fallbackEvents.find((e) => e.id === id);
-        setEvent(found || null);
-      })
-      .finally(() => setLoading(false));
+    Promise.all([
+      fetch("/events.json").then((res) => res.json()).catch(() => []),
+      fetch("/culturajove-events.json").then((res) => res.json()).catch(() => []),
+      fetch("/premium-events.json").then((res) => res.json()).catch(() => []),
+    ]).then(([ajuntament, culturajove, premium]) => {
+      const all = [...premium, ...ajuntament, ...culturajove, ...fallbackEvents];
+      const found = all.find((e: Event) => e.id === id || String(e.id) === String(id));
+      setEvent(found || null);
+    }).catch(() => {
+      const found = fallbackEvents.find((e) => e.id === id);
+      setEvent(found || null);
+    }).finally(() => setLoading(false));
   }, [id]);
 
   function toggleSave() {
@@ -54,10 +67,10 @@ export default function EventoPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen grain">
         <Navbar />
         <div className="flex items-center justify-center h-[60vh]">
-          <div className="w-5 h-5 border-2 border-neutral-200 border-t-neutral-900 rounded-full animate-spin" />
+          <div className="w-5 h-5 border-2 border-neutral-200 border-t-[var(--gallery-black)] rounded-full animate-spin" />
         </div>
       </div>
     );
@@ -65,15 +78,15 @@ export default function EventoPage() {
 
   if (!event) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen grain">
         <Navbar />
-        <div className="max-w-[800px] mx-auto px-8 pt-32 text-center">
-          <p className="text-neutral-300 text-lg font-light">
+        <div className="max-w-[800px] mx-auto px-8 pt-40 text-center">
+          <p className="text-neutral-300 text-[20px] font-light font-editorial italic">
             Evento no encontrado.
           </p>
           <Link
             href="/"
-            className="inline-block mt-8 text-[13px] text-neutral-900 underline underline-offset-4 hover:text-neutral-500 transition-colors"
+            className="inline-block mt-8 text-[11px] uppercase tracking-[0.15em] text-neutral-400 hover:text-[var(--gallery-black)] transition-colors"
           >
             Volver a la agenda
           </Link>
@@ -83,101 +96,115 @@ export default function EventoPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen grain">
       <Navbar />
 
-      {/* Hero image */}
-      <div className="relative w-full h-[50vh] min-h-[400px] max-h-[600px] overflow-hidden">
+      {/* ── CINEMATIC HERO IMAGE ────────────────────── */}
+      <div className="relative w-full h-[65vh] min-h-[450px] max-h-[750px] overflow-hidden">
         <img
           src={event.imageUrl}
           alt={event.title}
           className="w-full h-full object-cover animate-scale-in"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--ice)] via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--gallery-black)]/30 via-transparent to-transparent" />
 
         {/* Back button */}
         <Link
           href="/"
-          className="absolute top-24 left-8 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-neutral-600 hover:text-neutral-900 hover:scale-110 transition-all duration-300 shadow-sm"
+          className="absolute top-24 left-8 group flex items-center gap-3 text-white/60 hover:text-white transition-all duration-300"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
             <path d="M19 12H5M12 19l-7-7 7-7" />
           </svg>
+          <span className="text-[11px] uppercase tracking-[0.15em] font-medium opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+            Volver
+          </span>
         </Link>
       </div>
 
-      {/* Content */}
-      <div className="max-w-[800px] mx-auto px-8 -mt-20 relative z-10">
+      {/* ── EVENT CONTENT ───────────────────────────── */}
+      <div className="max-w-[900px] mx-auto px-8 -mt-24 relative z-10">
         <div className="animate-fade-up">
-          {/* Category + Neighborhood */}
-          <div className="flex items-center gap-3 mb-6">
-            <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-400 bg-neutral-50 px-4 py-2 rounded-full">
-              {event.category}
+          {/* Category badge */}
+          <div className="flex items-center gap-4 mb-8">
+            <span className="text-[10px] font-medium tracking-[0.25em] uppercase text-[var(--accent)]">
+              {categoryLabels[event.category] || event.category}
             </span>
-            <span className="text-[11px] text-neutral-300">
-              {event.neighborhood}
-            </span>
+            {event.neighborhood && (
+              <>
+                <span className="h-[3px] w-[3px] rounded-full bg-neutral-300" />
+                <span className="text-[11px] text-neutral-400 tracking-wide">
+                  {event.neighborhood}
+                </span>
+              </>
+            )}
           </div>
 
           {/* Title */}
-          <h1 className="text-[clamp(28px,5vw,48px)] font-semibold text-neutral-900 tracking-[-0.03em] leading-[1.15]">
+          <h1 className="text-[clamp(32px,6vw,56px)] font-normal text-[var(--gallery-black)] tracking-[-0.03em] leading-[1.1] font-editorial">
             {event.title}
           </h1>
 
           {/* Venue */}
-          <p className="mt-4 text-[17px] text-neutral-500 font-light">
+          <p className="mt-5 text-[18px] text-neutral-400 font-light font-editorial italic">
             {event.venue}
           </p>
         </div>
 
-        {/* Info bar */}
-        <div className="animate-fade-up animation-delay-200 mt-10 flex flex-wrap gap-8 py-8 border-y border-neutral-100">
+        {/* ── Info grid ─────────────────────────────── */}
+        <div className="animate-fade-up animation-delay-200 mt-14 grid grid-cols-2 sm:grid-cols-3 gap-8 py-10 border-y border-neutral-200/50">
           <div>
-            <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-300 block mb-2">
+            <span className="text-[9px] font-medium uppercase tracking-[0.25em] text-neutral-300 block mb-3">
               Fechas
             </span>
-            <span className="text-[14px] text-neutral-900">
+            <span className="text-[14px] text-[var(--gallery-black)] leading-relaxed">
               {event.endDate
-                ? `${formatDate(event.startDate)} — ${formatDate(event.endDate)}`
-                : `Desde ${formatDate(event.startDate)} · Permanente`}
+                ? `${formatDate(event.startDate)}`
+                : `Desde ${formatDate(event.startDate)}`}
             </span>
+            {event.endDate && event.endDate !== event.startDate && (
+              <span className="block text-[14px] text-[var(--gallery-black)] mt-1">
+                — {formatDate(event.endDate)}
+              </span>
+            )}
           </div>
           <div>
-            <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-300 block mb-2">
+            <span className="text-[9px] font-medium uppercase tracking-[0.25em] text-neutral-300 block mb-3">
               Precio
             </span>
-            <span className="text-[14px] text-neutral-900">
+            <span className={`text-[14px] ${event.price === null ? "text-emerald-600" : "text-[var(--gallery-black)]"}`}>
               {event.price === null ? "Entrada gratuita" : `${event.price} €`}
             </span>
           </div>
           {event.address && (
             <div>
-              <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-300 block mb-2">
+              <span className="text-[9px] font-medium uppercase tracking-[0.25em] text-neutral-300 block mb-3">
                 Dirección
               </span>
-              <span className="text-[14px] text-neutral-900">
+              <span className="text-[14px] text-[var(--gallery-black)]">
                 {event.address}
               </span>
             </div>
           )}
         </div>
 
-        {/* Description */}
-        <div className="animate-fade-up animation-delay-300 mt-10">
-          <p className="text-[16px] text-neutral-600 leading-[1.9] font-light">
-            {event.description}
-          </p>
-        </div>
+        {/* ── Description ───────────────────────────── */}
+        {event.description && (
+          <div className="animate-fade-up animation-delay-300 mt-12">
+            <p className="text-[16px] text-neutral-500 leading-[2] font-light">
+              {event.description}
+            </p>
+          </div>
+        )}
 
-        {/* Actions */}
-        <div className="animate-fade-up animation-delay-400 mt-12 flex flex-wrap gap-3">
-          {/* Cómo llegar — primary CTA */}
+        {/* ── Actions ───────────────────────────────── */}
+        <div className="animate-fade-up animation-delay-400 mt-14 flex flex-wrap gap-4">
           <a
             href={`https://www.google.com/maps/search/${encodeURIComponent(event.venue + ", Barcelona")}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-3 px-7 py-3.5 rounded-full text-[13px] font-medium bg-neutral-900 text-white hover:bg-neutral-700 transition-all duration-500"
+            className="btn-primary flex items-center gap-3"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
               <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
@@ -186,7 +213,6 @@ export default function EventoPage() {
             Cómo llegar
           </a>
 
-          {/* Compartir */}
           <button
             onClick={() => {
               const text = `${event.title} — ${event.venue}, Barcelona`;
@@ -197,7 +223,7 @@ export default function EventoPage() {
                 window.open(`https://wa.me/?text=${encodeURIComponent(text + "\n" + url)}`, "_blank");
               }
             }}
-            className="flex items-center gap-3 px-7 py-3.5 rounded-full text-[13px] font-medium border border-neutral-200 text-neutral-600 hover:border-neutral-900 hover:text-neutral-900 transition-all duration-500"
+            className="btn-ghost flex items-center gap-3"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
               <circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" />
@@ -206,13 +232,12 @@ export default function EventoPage() {
             Compartir
           </button>
 
-          {/* Guardar */}
           <button
             onClick={toggleSave}
-            className={`flex items-center gap-3 px-7 py-3.5 rounded-full text-[13px] font-medium transition-all duration-500 ${
+            className={`flex items-center gap-3 px-9 py-4 text-[11px] font-medium tracking-[0.15em] uppercase transition-all duration-500 ${
               saved
-                ? "bg-neutral-900 text-white"
-                : "border border-neutral-200 text-neutral-600 hover:border-neutral-900 hover:text-neutral-900"
+                ? "bg-[var(--gallery-black)] text-white"
+                : "border border-neutral-200 text-neutral-500 hover:border-[var(--gallery-black)] hover:text-[var(--gallery-black)]"
             }`}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill={saved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.5">
@@ -221,13 +246,12 @@ export default function EventoPage() {
             {saved ? "Guardado" : "Guardar"}
           </button>
 
-          {/* Visitar web */}
           {event.url && event.url !== "" && (
             <a
               href={event.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 px-7 py-3.5 rounded-full text-[13px] font-medium border border-neutral-200 text-neutral-600 hover:border-neutral-900 hover:text-neutral-900 transition-all duration-500"
+              className="btn-ghost flex items-center gap-3"
             >
               Web oficial
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -237,11 +261,11 @@ export default function EventoPage() {
           )}
         </div>
 
-        {/* Back link */}
-        <div className="mt-20 mb-16 pt-10 border-t border-neutral-100">
+        {/* ── Back link ─────────────────────────────── */}
+        <div className="mt-24 mb-20 pt-10 border-t border-neutral-200/50">
           <Link
             href="/"
-            className="text-[13px] text-neutral-400 hover:text-neutral-900 transition-colors duration-300 flex items-center gap-2"
+            className="text-[11px] uppercase tracking-[0.15em] text-neutral-400 hover:text-[var(--gallery-black)] transition-colors duration-300 flex items-center gap-3"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
               <path d="M19 12H5M12 19l-7-7 7-7" />
