@@ -349,22 +349,48 @@ function transformEvent(raw) {
   };
 }
 
+/** Fetch with retries and timeout */
+async function fetchWithRetry(url, maxRetries = 3) {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      console.log(`  Attempt ${attempt}/${maxRetries}...`);
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 30000); // 30s timeout
+      const response = await fetch(url, {
+        headers: {
+          "Accept": "application/json",
+          "User-Agent": "Yetz/1.0 (Barcelona cultural agenda)",
+        },
+        signal: controller.signal,
+      });
+      clearTimeout(timeout);
+
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const contentType = response.headers.get("content-type") || "";
+      if (!contentType.includes("json")) {
+        // Some proxies return HTML — try parsing anyway
+        const text = await response.text();
+        try {
+          return JSON.parse(text);
+        } catch {
+          throw new Error(`Expected JSON but got: ${contentType} (${text.slice(0, 100)}...)`);
+        }
+      }
+
+      return await response.json();
+    } catch (err) {
+      console.warn(`  Attempt ${attempt} failed: ${err.message}`);
+      if (attempt === maxRetries) throw err;
+      // Wait before retry (exponential backoff)
+      await new Promise(r => setTimeout(r, 2000 * attempt));
+    }
+  }
+}
+
 async function main() {
   console.log("Fetching events from Barcelona Open Data API...");
-  const response = await fetch(API_URL, {
-    headers: {
-      "Accept": "application/json",
-      "User-Agent": "YetzArt/1.0 (Barcelona cultural agenda)",
-    },
-  });
-  if (!response.ok) throw new Error(`API error: ${response.status}`);
-
-  const contentType = response.headers.get("content-type") || "";
-  if (!contentType.includes("json")) {
-    throw new Error(`Expected JSON but got: ${contentType}`);
-  }
-
-  const data = await response.json();
+  const data = await fetchWithRetry(API_URL);
   console.log(`Total events in API: ${data.length}`);
 
   const todayStr = new Date().toISOString().split("T")[0];
