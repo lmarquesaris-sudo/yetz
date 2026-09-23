@@ -108,22 +108,215 @@ async function fetchMeam() {
   }
 }
 
+// ── SALA APOLO ────────────────────────────────────────────
+
+async function fetchApolo() {
+  console.log("  Sala Apolo...");
+  const events = [];
+
+  try {
+    for (let page = 1; page <= 4; page++) {
+      const url = page === 1
+        ? "https://www.sala-apolo.com/es/agenda/"
+        : `https://www.sala-apolo.com/es/agenda/?page=${page}`;
+
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 15000);
+      const res = await fetch(url, {
+        headers: { "User-Agent": "Yetz/1.0", "Accept": "text/html" },
+        signal: controller.signal,
+      });
+      clearTimeout(timeout);
+      if (!res.ok) break;
+      const html = await res.text();
+
+      // Find ALL links to /es/evento/ — each event has 2-3 links (img, title, tickets)
+      // Collect unique slugs first, then extract details
+      const linkPattern = /href="(\/es\/evento\/([^"#]+))"/gi;
+      const slugs = new Map(); // slug → {link, contexts}
+      let match;
+
+      while ((match = linkPattern.exec(html)) !== null) {
+        const [, link, slug] = match;
+        const cleanSlug = slug.replace(/%[0-9A-Fa-f]{2}/g, ""); // Remove URL encoding
+        if (!slugs.has(cleanSlug)) {
+          slugs.set(cleanSlug, { link, positions: [] });
+        }
+        slugs.get(cleanSlug).positions.push(match.index);
+      }
+
+      for (const [slug, info] of slugs) {
+        // Get context around all positions of this event
+        let context = "";
+        for (const pos of info.positions) {
+          context += html.slice(Math.max(0, pos - 100), pos + 300) + " ";
+        }
+
+        // Title: text content of <a> that's NOT "Entradas" and NOT an <img>
+        const titlePattern = new RegExp(`href="${info.link.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"[^>]*>\\s*([^<]{3,80})\\s*<\\/a>`, "gi");
+        let title = "";
+        const SKIP_WORDS = ["entrada", "ticket", "gratis", "agotado", "cancelado", "comprar", "buy", "sold out", "more", "ver más"];
+        let tm;
+        while ((tm = titlePattern.exec(context)) !== null) {
+          const t = tm[1].trim();
+          if (t && t.length > 5 && !SKIP_WORDS.some(w => t.toLowerCase() === w || t.toLowerCase().includes("entrada"))) {
+            title = t;
+            break;
+          }
+        }
+        if (!title) continue;
+
+        // Date from slug: name-YYYYMMDD-id
+        const dateMatch = slug.match(/(\d{8})-\d+$/);
+        let startDate = "";
+        if (dateMatch) {
+          const d = dateMatch[1];
+          startDate = `${d.slice(0,4)}-${d.slice(4,6)}-${d.slice(6,8)}`;
+        }
+        if (!startDate) continue;
+
+        // Time + sala from context: "Artist · Sala Apolo · 23:59"
+        const infoMatch = context.match(/·\s*(Sala Apolo|La \(2\)|La Cinc|La 2)\s*·\s*(\d{1,2}:\d{2})/i);
+        const sala = infoMatch ? infoMatch[1] : "Sala Apolo";
+        const time = infoMatch ? infoMatch[2] : "";
+
+        // Image
+        const imgMatch = context.match(/src="(\/uploads\/[^"]+)"/i);
+        const imageUrl = imgMatch ? `https://www.sala-apolo.com${imgMatch[1]}` : "";
+
+        const isFree = context.toLowerCase().includes("gratis") || context.toLowerCase().includes("free");
+
+        events.push({
+          id: `apolo-${slug.slice(-12)}`,
+          title,
+          venue: sala === "Sala Apolo" ? "Sala Apolo" : `${sala} (Sala Apolo)`,
+          category: "música",
+          description: time ? `${time}h en ${sala}` : `Concierto en ${sala}`,
+          imageUrl: imageUrl || "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=500&fit=crop",
+          startDate,
+          endDate: startDate,
+          price: isFree ? null : 15,
+          address: "Carrer Nou de la Rambla, 113",
+          neighborhood: "Poble-sec",
+          url: `https://www.sala-apolo.com${info.link}`,
+          featured: false,
+          tier: 1,
+          source: "apolo",
+        });
+      }
+
+      if (slugs.size === 0) break;
+      await new Promise(r => setTimeout(r, 1000));
+    }
+  } catch (err) {
+    console.warn(`  Apolo failed: ${err.message}`);
+  }
+
+  // Dedup
+  const unique = new Map();
+  events.forEach(e => { if (!unique.has(e.title)) unique.set(e.title, e); });
+  const result = [...unique.values()];
+  console.log(`  Sala Apolo: ${result.length} events`);
+  return result;
+}
+
+// ── MACBA (exposiciones) ──────────────────────────────────
+
+async function fetchMacba() {
+  console.log("  MACBA...");
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+    const res = await fetch("https://www.macba.cat/es/exposiciones-actividades/exposiciones", {
+      headers: { "User-Agent": "Yetz/1.0", "Accept": "text/html" },
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const html = await res.text();
+
+    const events = [];
+    const monthMap = { enero: "01", febrero: "02", marzo: "03", abril: "04", mayo: "05", junio: "06", julio: "07", agosto: "08", septiembre: "09", octubre: "10", noviembre: "11", diciembre: "12" };
+
+    // Structure: <a href="..."><img src="..."><h4>exposición</h4><p>Del X al Y</p></a>
+    //            <a href="..."><h2>Title</h2><h3>Subtitle</h3></a>
+    // Find <h2> inside <a> tags — these are the main exhibition titles
+    const titlePattern = /<a[^>]*href="(https?:\/\/www\.macba\.cat\/[^"]*exposicion[^"]*|\/es\/exposicion[^"]*)"[^>]*>[\s\S]*?<h2[^>]*>([^<]+)<\/h2>/gi;
+    let match;
+
+    while ((match = titlePattern.exec(html)) !== null) {
+      const [, link, title] = match;
+      if (!title || title.trim().length < 5) continue;
+
+      // Look backwards for dates in <p>: "Del 28 de noviembre 2025 al 27 de septiembre 2026"
+      const before = html.slice(Math.max(0, match.index - 600), match.index);
+      const dateMatch = before.match(/[Dd]el\s+(\d{1,2})\s+(?:de\s+)?(\w+)\s+(\d{4})\s+al\s+(\d{1,2})\s+(?:de\s+)?(\w+)\s+(\d{4})/i);
+      let startDate = "", endDate = "";
+      if (dateMatch) {
+        const sm = monthMap[dateMatch[2].toLowerCase()];
+        const em = monthMap[dateMatch[5].toLowerCase()];
+        if (sm) startDate = `${dateMatch[3]}-${sm}-${String(dateMatch[1]).padStart(2, "0")}`;
+        if (em) endDate = `${dateMatch[6]}-${em}-${String(dateMatch[4]).padStart(2, "0")}`;
+      }
+
+      // Image from <img src="https://img.macba.cat/...">
+      const imgMatch = before.match(/src="(https:\/\/img\.macba\.cat\/[^"]+)"/i);
+      let imageUrl = imgMatch ? imgMatch[1] : "";
+
+      // Subtitle from <h3>
+      const after = html.slice(match.index, match.index + 400);
+      const subMatch = after.match(/<h3[^>]*>([^<]+)<\/h3>/i);
+      const subtitle = subMatch ? subMatch[1].trim() : "";
+      const fullTitle = subtitle ? `${title.trim()}: ${subtitle}` : title.trim();
+
+      // Only keep current/future exhibitions
+      const todayStr = new Date().toISOString().split("T")[0];
+      if (endDate && endDate < todayStr) continue;
+
+      events.push({
+        id: `macba-${events.length}`,
+        title: fullTitle,
+        venue: "MACBA — Museu d'Art Contemporani de Barcelona",
+        category: "exposición",
+        description: subtitle || `Exposición en MACBA`,
+        imageUrl: imageUrl || "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=500&fit=crop",
+        startDate: startDate || todayStr,
+        endDate: endDate || "",
+        price: 11,
+        address: "Plaça dels Àngels, 1",
+        neighborhood: "El Raval",
+        url: link.startsWith("http") ? link : `https://www.macba.cat${link}`,
+        featured: true,
+        tier: 1,
+        source: "macba",
+      });
+    }
+
+    console.log(`  MACBA: ${events.length} exhibitions`);
+    return events;
+  } catch (err) {
+    console.warn(`  MACBA failed: ${err.message}`);
+    return [];
+  }
+}
+
 // ── Main ──────────────────────────────────────────────────
 
 async function main() {
   console.log("Fetching premium venue events...");
 
-  const meamEvents = await fetchMeam();
-  // Future: add more venues here
-  // const cccbEvents = await fetchCCCB();
-  // const miroEvents = await fetchMiro();
+  const [meamEvents, apoloEvents, macbaEvents] = await Promise.all([
+    fetchMeam(),
+    fetchApolo(),
+    fetchMacba(),
+  ]);
 
-  const allEvents = [...meamEvents];
+  const allEvents = [...meamEvents, ...apoloEvents, ...macbaEvents];
 
-  // Dedup by title similarity
+  // Dedup by title + source (allow same title from different sources)
   const seen = new Set();
   const unique = allEvents.filter(e => {
-    const key = e.title.toLowerCase().replace(/[^a-záéíóúàèòïüç\s]/g, "").trim();
+    const key = `${e.source}__${e.title.toLowerCase().slice(0, 40)}`;
     if (seen.has(key)) return false;
     seen.add(key);
     return true;
