@@ -180,15 +180,13 @@ export default function EstaSemanaPage() {
 
       {/* ── CINEMATIC HERO ──────────────────────────── */}
       <header className="relative h-[100svh] min-h-[600px] overflow-hidden">
-        {/* Background image */}
+        {/* Static artistic Barcelona background */}
         <div className="absolute inset-0">
-          {heroEvent && (
-            <img
-              src={heroEvent.imageUrl}
-              alt=""
-              className="w-full h-full object-cover animate-scale-in"
-            />
-          )}
+          <img
+            src="https://images.unsplash.com/photo-1583422409516-2895a77efded?w=1920&q=80&auto=format&fit=crop"
+            alt="Barcelona"
+            className="w-full h-full object-cover animate-scale-in"
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--gallery-black)] via-[var(--gallery-black)]/40 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[var(--gallery-black)]/60 via-transparent to-transparent" />
         </div>
