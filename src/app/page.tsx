@@ -566,10 +566,11 @@ export default function EstaSemanaPage() {
                 </div>
               </div>
               <div>
-                <p className="text-[10px] font-medium tracking-[0.2em] uppercase text-white/20 mb-4">Info</p>
+                <p className="text-[10px] font-medium tracking-[0.2em] uppercase text-white/20 mb-4">Legal</p>
                 <div className="flex flex-col gap-3">
-                  <Link href="/about" className="text-[13px] text-white/50 hover:text-white transition-colors">Sobre Yetz</Link>
-
+                  <Link href="/avis-legal" className="text-[13px] text-white/50 hover:text-white transition-colors">Avís legal</Link>
+                  <Link href="/privacitat" className="text-[13px] text-white/50 hover:text-white transition-colors">Privacitat</Link>
+                  <Link href="/cookies" className="text-[13px] text-white/50 hover:text-white transition-colors">Cookies</Link>
                 </div>
               </div>
             </div>
