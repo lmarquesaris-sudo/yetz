@@ -133,8 +133,8 @@ function getCategoryBadgeStyle(filter: CategoryFilter): string {
 }
 
 export default function CalendarPage() {
-  const [currentMonth, setCurrentMonth] = useState(5); // June
-  const [currentYear, setCurrentYear] = useState(2026);
+  const [currentMonth, setCurrentMonth] = useState(() => new Date().getMonth());
+  const [currentYear, setCurrentYear] = useState(() => new Date().getFullYear());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [activeFilter, setActiveFilter] = useState<CategoryFilter>("todos");
   const [mounted, setMounted] = useState(false);
