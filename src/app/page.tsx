@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import { events as fallbackEvents } from "@/lib/data";
 import { MOCK_EVENTS } from "@/lib/mock-events";
@@ -63,6 +63,9 @@ export default function EstaSemanaPage() {
   const [saved, setSaved] = useState<string[]>([]);
   const [mounted, setMounted] = useState(false);
   const [activeFilter, setActiveFilter] = useState<string>("todas");
+  const [hoveredEvent, setHoveredEvent] = useState<Event | null>(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const listRef = useRef<HTMLDivElement>(null);
 
 
   useEffect(() => {
@@ -162,26 +165,31 @@ export default function EstaSemanaPage() {
     return weekEvents.find((e) => e.featured) || weekEvents[0];
   }, [weekEvents]);
 
-  // Top picks: prioritise exposiciones, museos y galerías
   const topPicks = useMemo(() => {
     const artCategories = ["exposición", "museo", "galería"];
     const pool = weekEvents.filter((e) => e.id !== heroEvent?.id);
     const art = pool.filter((e) => artCategories.includes(e.category));
     const rest = pool.filter((e) => !artCategories.includes(e.category));
-    return [...art, ...rest].slice(0, 6);
+    return [...art, ...rest].slice(0, 8);
   }, [weekEvents, heroEvent]);
 
   const freeCount = weekEvents.filter((e) => e.price === null).length;
 
+  function handleListMouseMove(e: React.MouseEvent) {
+    if (listRef.current) {
+      const rect = listRef.current.getBoundingClientRect();
+      setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    }
+  }
+
   if (!mounted) return null;
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen grain">
       <Navbar />
 
-      {/* ── CINEMATIC HERO ──────────────────────────── */}
+      {/* ── HERO — stripped, poetic ──────────────── */}
       <header className="relative h-[100svh] min-h-[600px] overflow-hidden">
-        {/* Static artistic Barcelona background */}
         <div className="absolute inset-0">
           <Image
             src="https://images.unsplash.com/photo-1583422409516-2895a77efded?w=1920&q=80&auto=format&fit=crop"
@@ -191,212 +199,186 @@ export default function EstaSemanaPage() {
             sizes="100vw"
             className="object-cover animate-scale-in"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[var(--gallery-black)] via-[var(--gallery-black)]/40 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[var(--gallery-black)]/60 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-[var(--gallery-black)]/50" />
         </div>
 
-        {/* Content overlay */}
         <div className="absolute inset-0 flex flex-col justify-end">
-          <div className="max-w-[1400px] mx-auto w-full px-8 pb-16 md:pb-24">
-            <div className="max-w-2xl">
-              <div className="animate-fade-up">
-                <span className="inline-block text-[10px] font-medium tracking-[0.3em] uppercase text-white/50 mb-6">
-                  {formatWeekLabel()}
-                </span>
-              </div>
+          <div className="max-w-[1400px] mx-auto w-full px-8 pb-20 md:pb-28">
+            <span className="animate-fade-up block text-[10px] font-medium tracking-[0.4em] uppercase text-white/40 mb-8">
+              {formatWeekLabel()}
+            </span>
 
-              <h1
-                className="animate-fade-up animation-delay-100 text-[clamp(36px,8vw,80px)] font-normal text-white tracking-[-0.03em] leading-[1.0] font-editorial"
-              >
-                El que passa
-                <br />
-                <span className="italic text-white/60">
-                  aquesta setmana
-                </span>
-              </h1>
+            <h1 className="animate-fade-up animation-delay-100 text-[clamp(48px,10vw,120px)] font-normal text-white tracking-[-0.04em] leading-[0.9] font-editorial">
+              Cultura
+              <br />
+              <span className="italic text-white/50">a Barcelona</span>
+            </h1>
 
-              <p className="animate-fade-up animation-delay-200 mt-6 text-[15px] text-white/40 font-light leading-relaxed max-w-md">
-                Exposicions, teatre, música i plans culturals a Barcelona.
-              </p>
-
-              {/* Stats row */}
-              <div className="animate-fade-up animation-delay-300 flex items-center gap-8 mt-10">
-                <div className="flex items-baseline gap-2">
-                  <span className="text-[42px] font-normal text-white leading-none font-editorial">
-                    {weekEvents.length}
-                  </span>
-                  <span className="text-[11px] text-white/30 tracking-[0.1em] uppercase">esdeveniments</span>
-                </div>
-                <div className="h-8 w-px bg-white/10" />
-                <div className="flex items-baseline gap-2">
-                  <span className="text-[42px] font-normal text-white/70 leading-none font-editorial">
-                    {freeCount}
-                  </span>
-                  <span className="text-[11px] text-white/30 tracking-[0.1em] uppercase">gratis</span>
-                </div>
-              </div>
-
-              {/* Featured highlight */}
-              <a
-                href="https://audelahabitacionsonora.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="animate-fade-up animation-delay-400 group inline-flex items-center gap-4 mt-12 px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/10 hover:bg-white/15 transition-all duration-500"
-              >
-                <div className="flex-1 min-w-0">
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-white/40 mb-1">Destacat</p>
-                  <p className="text-[14px] text-white font-medium truncate">Aude La Habitación Sonora</p>
-                  <p className="text-[12px] text-white/40 mt-0.5">Poblenou · Una experiència immersiva per escoltar música</p>
-                </div>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-white/30 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 flex-shrink-0">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
-              </a>
+            <div className="animate-fade-up animation-delay-300 mt-12 flex items-center gap-6">
+              <span className="text-[11px] text-white/30 tracking-[0.15em] uppercase">
+                {weekEvents.length} esdeveniments
+              </span>
+              <span className="h-px w-8 bg-white/15" />
+              <span className="text-[11px] text-white/30 tracking-[0.15em] uppercase">
+                {freeCount} gratuïts
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-float">
-          <div className="w-[1px] h-8 bg-gradient-to-b from-transparent to-white/30" />
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
+          <div className="w-px h-10 bg-gradient-to-b from-transparent to-white/20" />
         </div>
       </header>
 
-      {/* ── SORPRÉNDEME CTA ─────────────────────────── */}
-      <section className="bg-[var(--gallery-black)]">
-        <Link
-          href="/sorprendeme"
-          className="group max-w-[1400px] mx-auto px-8 py-6 flex items-center justify-between"
-        >
-          <div className="flex items-center gap-6">
-            <span className="text-[24px] text-white/20 font-editorial italic">?</span>
-            <div>
-              <p className="text-[13px] font-medium text-white tracking-[0.02em]">No saps què fer?</p>
-              <p className="text-[11px] text-white/30 font-light">Et muntem un pla cultural a mida</p>
-            </div>
-          </div>
-          <span className="btn-ghost !border-white/20 !text-white/60 group-hover:!bg-white group-hover:!text-[var(--gallery-black)] !py-3 !px-6 text-[10px]">
-            Sorprèn-me
-          </span>
-        </Link>
-      </section>
+      {/* ── MARQUEE ──────────────────────────────── */}
+      <div className="bg-[var(--gallery-black)] py-4 overflow-hidden">
+        <div className="marquee-track">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <span key={i} className="text-[11px] tracking-[0.3em] uppercase text-white/20 whitespace-nowrap mx-8">
+              Exposicions · Teatre · Música · Dansa · Cinema · Galeries · Festivals ·&nbsp;
+            </span>
+          ))}
+        </div>
+      </div>
 
-      {/* ── EDITORIAL PICKS ─────────────────────────── */}
-      <section className="max-w-[1400px] mx-auto px-8 pt-24 pb-16">
-        <div className="animate-fade-up animation-delay-200">
-          {/* Section header */}
-          <div className="flex items-end justify-between mb-16">
-            <div>
-              <span className="text-[10px] font-medium tracking-[0.3em] uppercase text-[var(--accent)]">
-                Exposicions i pintura
-              </span>
-              <h2 className="text-[clamp(28px,4vw,48px)] font-normal text-[var(--gallery-black)] tracking-[-0.03em] leading-[1.1] mt-3 font-editorial">
-                L'imprescindible
-              </h2>
-            </div>
+      {/* ── EDITORIAL GRID — gallery feel ────────── */}
+      <section className="max-w-[1400px] mx-auto px-8 pt-28 pb-20">
+        <div className="flex items-end justify-between mb-20">
+          <div>
+            <span className="text-[10px] font-medium tracking-[0.4em] uppercase text-[var(--accent)]">
+              Selecció
+            </span>
+            <h2 className="text-[clamp(32px,5vw,64px)] font-normal text-[var(--gallery-black)] tracking-[-0.03em] leading-[1.0] mt-4 font-editorial">
+              L&apos;imprescindible
+            </h2>
+          </div>
+        </div>
+
+        {/* Asymmetric masonry */}
+        <div className="grid grid-cols-12 gap-4">
+          {/* Large featured */}
+          {topPicks[0] && (
             <Link
-              href="/calendario"
-              className="hidden sm:flex items-center gap-2 text-[11px] tracking-[0.1em] uppercase text-neutral-400 hover:text-[var(--gallery-black)] transition-colors duration-300 pb-2"
+              href={`/evento/${topPicks[0].id}`}
+              className="col-span-12 md:col-span-7 group relative aspect-[4/5] md:aspect-[3/4] overflow-hidden bg-neutral-100"
             >
-              Veure calendari
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
+              <Image
+                src={topPicks[0].imageUrl}
+                alt={topPicks[0].title}
+                fill
+                sizes="(max-width: 768px) 100vw, 58vw"
+                className="object-cover transition-transform duration-[1.8s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
+                <span className="text-[9px] font-medium tracking-[0.3em] uppercase text-white/40">
+                  {categoryLabels[topPicks[0].category] || topPicks[0].category}
+                </span>
+                <h3 className="text-[clamp(20px,3vw,36px)] font-normal text-white leading-[1.15] mt-3 font-editorial max-w-lg">
+                  {topPicks[0].title}
+                </h3>
+                <p className="text-[12px] text-white/40 mt-3">{topPicks[0].venue}</p>
+              </div>
             </Link>
-          </div>
+          )}
 
-          {/* Editorial grid: 2 large + 4 small */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {topPicks.slice(0, 2).map((event, i) => (
+          {/* Right column: stacked */}
+          <div className="col-span-12 md:col-span-5 grid grid-cols-1 gap-4">
+            {topPicks.slice(1, 4).map((event) => (
               <Link
                 href={`/evento/${event.id}`}
                 key={event.id}
-                className="gallery-card group lg:col-span-1 md:col-span-1 rounded-sm overflow-hidden"
-                style={{ animationDelay: `${i * 100}ms` }}
+                className="group relative aspect-[16/9] overflow-hidden bg-neutral-100"
               >
-                <div className="relative aspect-[3/4] overflow-hidden bg-neutral-100">
-                  <Image
-                    src={event.imageUrl}
-                    alt={event.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-
-                  {/* Overlay content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <span className="text-[9px] font-medium tracking-[0.2em] uppercase text-white/50">
-                      {categoryLabels[event.category] || event.category}
-                    </span>
-                    <h3 className="text-[20px] font-medium text-white leading-[1.3] mt-2 font-editorial">
-                      {event.title}
-                    </h3>
-                    <div className="flex items-center gap-3 mt-3">
-                      <span className="text-[11px] text-white/40">{event.venue}</span>
-                      <span className="h-[3px] w-[3px] rounded-full bg-white/20" />
-                      <span className={`text-[11px] font-medium ${event.price === null ? "text-emerald-400" : "text-white/60"}`}>
-                        {event.price === null ? "Gratis" : `${event.price} €`}
-                      </span>
-                    </div>
-                  </div>
+                <Image
+                  src={event.imageUrl}
+                  alt={event.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 42vw"
+                  className="object-cover transition-transform duration-[1.8s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <span className="text-[9px] font-medium tracking-[0.25em] uppercase text-white/40">
+                    {categoryLabels[event.category] || event.category}
+                  </span>
+                  <h3 className="text-[16px] font-normal text-white leading-[1.3] mt-2 font-editorial">
+                    {event.title}
+                  </h3>
                 </div>
               </Link>
             ))}
-
-            {/* Right column: stacked smaller cards */}
-            <div className="flex flex-col gap-6 lg:col-span-1 md:col-span-2 lg:row-span-1">
-              {topPicks.slice(2, 6).map((event, i) => (
-                <Link
-                  href={`/evento/${event.id}`}
-                  key={event.id}
-                  className="gallery-card group flex gap-5 p-4 rounded-sm bg-[var(--gallery-white)]"
-                  style={{ animationDelay: `${(i + 2) * 100}ms` }}
-                >
-                  <div className="relative w-20 h-20 rounded-sm overflow-hidden flex-shrink-0 bg-neutral-100">
-                    <Image
-                      src={event.imageUrl}
-                      alt={event.title}
-                      fill
-                      sizes="80px"
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0 py-0.5">
-                    <span className="text-[9px] font-medium tracking-[0.15em] uppercase text-[var(--accent)]">
-                      {categoryLabels[event.category] || event.category}
-                    </span>
-                    <h3 className="text-[14px] font-medium text-[var(--gallery-black)] leading-[1.3] mt-1 truncate font-editorial group-hover:text-neutral-500 transition-colors duration-300">
-                      {event.title}
-                    </h3>
-                    <p className="text-[11px] text-neutral-400 mt-1">{event.venue}</p>
-                  </div>
-                  <span className={`self-center text-[12px] font-medium flex-shrink-0 ${event.price === null ? "text-emerald-600" : "text-neutral-400"}`}>
-                    {event.price === null ? "Gratis" : `${event.price} €`}
-                  </span>
-                </Link>
-              ))}
-            </div>
           </div>
+
+          {/* Bottom row: 4 equal */}
+          {topPicks.slice(4, 8).map((event) => (
+            <Link
+              href={`/evento/${event.id}`}
+              key={event.id}
+              className="col-span-6 md:col-span-3 group relative aspect-[3/4] overflow-hidden bg-neutral-100"
+            >
+              <Image
+                src={event.imageUrl}
+                alt={event.title}
+                fill
+                sizes="(max-width: 768px) 50vw, 25vw"
+                className="object-cover transition-transform duration-[1.8s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+                <span className="text-[9px] font-medium tracking-[0.25em] uppercase text-white/50">
+                  {categoryLabels[event.category] || event.category}
+                </span>
+                <h3 className="text-[14px] font-normal text-white leading-[1.3] mt-1 font-editorial">
+                  {event.title}
+                </h3>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 
-      {/* ── CATEGORY FILTERS + FULL LIST ────────────── */}
-      <section className="bg-[var(--gallery-white)] border-t border-neutral-100/50">
-        <div className="max-w-[1400px] mx-auto px-8 pt-20 pb-28">
-          {/* Section header */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 mb-10">
+      {/* ── FEATURED HIGHLIGHT ───────────────────── */}
+      <section className="border-y border-neutral-200/50">
+        <a
+          href="https://audelahabitacionsonora.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group max-w-[1400px] mx-auto px-8 py-16 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 block"
+        >
+          <div>
+            <span className="text-[9px] font-medium tracking-[0.4em] uppercase text-[var(--accent)]">Destacat</span>
+            <p className="text-[clamp(20px,3vw,32px)] font-normal text-[var(--gallery-black)] leading-[1.2] mt-3 font-editorial">
+              Aude La Habitación Sonora
+            </p>
+            <p className="text-[13px] text-neutral-400 font-light mt-2">
+              Poblenou · Una experiència immersiva per escoltar música
+            </p>
+          </div>
+          <span className="text-[10px] tracking-[0.2em] uppercase text-neutral-400 group-hover:text-[var(--gallery-black)] transition-colors duration-500 flex items-center gap-3 flex-shrink-0">
+            Descobrir
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="group-hover:translate-x-2 transition-transform duration-500">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </span>
+        </a>
+      </section>
+
+      {/* ── FULL LIST — editorial with image reveal ─ */}
+      <section className="bg-[var(--gallery-white)]">
+        <div className="max-w-[1400px] mx-auto px-8 pt-28 pb-32">
+          <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-8 mb-16">
             <div>
-              <span className="text-[10px] font-medium tracking-[0.3em] uppercase text-[var(--accent)]">
+              <span className="text-[10px] font-medium tracking-[0.4em] uppercase text-[var(--accent)]">
                 Explorar
               </span>
-              <h2 className="text-[clamp(24px,3.5vw,40px)] font-normal text-[var(--gallery-black)] tracking-[-0.02em] leading-[1.1] mt-3 font-editorial">
-                Tota l'agenda
+              <h2 className="text-[clamp(28px,4vw,52px)] font-normal text-[var(--gallery-black)] tracking-[-0.03em] leading-[1.0] mt-4 font-editorial">
+                Tota l&apos;agenda
               </h2>
             </div>
 
-            {/* Filters */}
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center gap-3">
               {[
                 { value: "todas", label: "Tot" },
                 { value: "exposición", label: "Exposicions" },
@@ -407,53 +389,59 @@ export default function EstaSemanaPage() {
                 <button
                   key={f.value}
                   onClick={() => setActiveFilter(f.value)}
-                  className={`px-4 py-2 text-[10px] font-medium tracking-[0.1em] uppercase transition-all duration-500 ${
+                  className={`text-[10px] font-medium tracking-[0.15em] uppercase transition-all duration-500 pb-1 ${
                     activeFilter === f.value
-                      ? "bg-[var(--gallery-black)] text-white"
-                      : "text-neutral-400 hover:text-[var(--gallery-black)] bg-transparent border border-neutral-200 hover:border-neutral-400"
+                      ? "text-[var(--gallery-black)] border-b border-[var(--gallery-black)]"
+                      : "text-neutral-300 hover:text-[var(--gallery-black)]"
                   }`}
                 >
                   {f.label}
-                  {f.value === "gratis" && (
-                    <span className="ml-1.5 opacity-50">{freeCount}</span>
-                  )}
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Divider */}
-          <div className="h-px bg-neutral-100 mb-2" />
+          <div className="h-px bg-neutral-200/50 mb-0" />
 
-          {/* Events list — editorial style */}
-          <div>
+          <div
+            ref={listRef}
+            className="relative"
+            onMouseMove={handleListMouseMove}
+          >
+            {/* Floating hover image */}
+            {hoveredEvent && hoveredEvent.imageUrl.includes("estatics") && (
+              <div
+                className="hidden md:block fixed w-[280px] h-[360px] pointer-events-none z-30 overflow-hidden transition-opacity duration-300"
+                style={{
+                  left: mousePos.x + (listRef.current?.getBoundingClientRect().left || 0) + 24,
+                  top: mousePos.y + (listRef.current?.getBoundingClientRect().top || 0) - 180,
+                  opacity: hoveredEvent ? 1 : 0,
+                }}
+              >
+                <Image
+                  src={hoveredEvent.imageUrl}
+                  alt=""
+                  fill
+                  sizes="280px"
+                  className="object-cover"
+                />
+              </div>
+            )}
+
             {filteredEvents
               .filter((e) => activeFilter !== "todas" || !topPicks.find(p => p.id === e.id))
-              .map((event, i) => (
+              .map((event) => (
               <Link
                 href={`/evento/${event.id}`}
                 key={event.id}
                 className="group block border-b border-neutral-100/80 last:border-0"
+                onMouseEnter={() => setHoveredEvent(event)}
+                onMouseLeave={() => setHoveredEvent(null)}
               >
-                <div className="flex items-center gap-6 py-6 transition-all duration-500 hover:px-4 hover:bg-neutral-50/50"
-                  style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
-                >
-                  {/* Image */}
-                  <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-sm overflow-hidden flex-shrink-0 bg-neutral-100">
-                    <Image
-                      src={event.imageUrl}
-                      alt={event.title}
-                      fill
-                      sizes="80px"
-                      className="object-cover transition-transform duration-[1200ms] group-hover:scale-110"
-                      style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
-                    />
-                  </div>
-
-                  {/* Info */}
+                <div className="flex items-center gap-6 py-7 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:pl-4">
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-3 mb-1">
-                      <span className="text-[9px] font-medium uppercase tracking-[0.15em] text-[var(--accent)]">
+                    <div className="flex items-center gap-3 mb-1.5">
+                      <span className="text-[9px] font-medium uppercase tracking-[0.2em] text-[var(--accent)]">
                         {categoryLabels[event.category] || event.category}
                       </span>
                       {event.neighborhood && (
@@ -465,24 +453,22 @@ export default function EstaSemanaPage() {
                         </>
                       )}
                     </div>
-                    <h3 className="text-[16px] sm:text-[18px] font-medium text-[var(--gallery-black)] tracking-[-0.01em] group-hover:text-neutral-500 transition-colors duration-500 truncate font-editorial">
+                    <h3 className="text-[clamp(16px,2vw,22px)] font-normal text-[var(--gallery-black)] tracking-[-0.01em] group-hover:text-neutral-400 transition-colors duration-700 font-editorial truncate">
                       {event.title}
                     </h3>
-                    <p className="text-[12px] text-neutral-400 font-light mt-1 hidden sm:block">
+                    <p className="text-[12px] text-neutral-300 font-light mt-1 hidden sm:block">
                       {event.venue}
                     </p>
                   </div>
 
-                  {/* Date */}
                   <div className="hidden md:block flex-shrink-0 text-right">
                     <span className="text-[11px] text-neutral-300 tracking-wide">
                       {formatDateRange(event.startDate, event.endDate)}
                     </span>
                   </div>
 
-                  {/* Price + Web + Save */}
                   <div className="flex items-center gap-3 flex-shrink-0">
-                    <span className={`text-[12px] font-medium ${event.price === null ? "text-emerald-600" : "text-neutral-400"}`}>
+                    <span className={`text-[12px] font-medium ${event.price === null ? "text-emerald-600" : "text-neutral-300"}`}>
                       {event.price === null ? "Gratis" : `${event.price} €`}
                     </span>
                     {event.url && event.url.startsWith("http") && (
@@ -492,12 +478,9 @@ export default function EstaSemanaPage() {
                           e.stopPropagation();
                           window.open(event.url, "_blank", "noopener,noreferrer");
                         }}
-                        className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-medium tracking-[0.08em] uppercase bg-[var(--gallery-black)] text-white hover:bg-black transition-colors duration-300"
+                        className="hidden sm:block text-[9px] tracking-[0.15em] uppercase text-neutral-300 hover:text-[var(--gallery-black)] transition-colors duration-300"
                       >
-                        Assistir
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
-                        </svg>
+                        Web →
                       </button>
                     )}
                     <button
@@ -509,7 +492,7 @@ export default function EstaSemanaPage() {
                       className={`w-8 h-8 flex items-center justify-center transition-all duration-300 ${
                         saved.includes(event.id)
                           ? "text-[var(--gallery-black)]"
-                          : "text-neutral-300 hover:text-[var(--gallery-black)]"
+                          : "text-neutral-200 hover:text-[var(--gallery-black)]"
                       }`}
                     >
                       <svg
@@ -530,58 +513,51 @@ export default function EstaSemanaPage() {
           </div>
 
           {filteredEvents.length === 0 && (
-            <div className="text-center py-24">
-              <p className="text-neutral-300 text-lg font-light font-editorial italic">
-                No hi ha esdeveniments d'aquesta categoria aquesta setmana.
+            <div className="text-center py-32">
+              <p className="text-neutral-300 text-[20px] font-light font-editorial italic">
+                No hi ha esdeveniments d&apos;aquesta categoria aquesta setmana.
               </p>
             </div>
           )}
         </div>
       </section>
 
-      {/* ── FOOTER ──────────────────────────────────── */}
+      {/* ── FOOTER — minimal ───────────────────── */}
       <footer className="bg-[var(--gallery-black)] text-white">
-        <div className="max-w-[1400px] mx-auto px-8 py-20">
-          <div className="flex flex-col md:flex-row items-start justify-between gap-12">
+        <div className="max-w-[1400px] mx-auto px-8 py-24">
+          <div className="flex flex-col md:flex-row items-start justify-between gap-16">
             <div>
-              <Link href="/" className="group">
-                <span className="text-[32px] tracking-[-0.04em] text-white font-editorial italic font-medium">
-                  Yetz
-                </span>
-              </Link>
-              <p className="text-[13px] text-white/30 font-light mt-4 max-w-xs leading-relaxed">
-                El teu portal cultural de Barcelona.
-                Exposicions, teatre, música i els millors plans de la ciutat.
+              <span className="text-[clamp(40px,6vw,72px)] tracking-[-0.04em] text-white font-editorial italic font-medium leading-none">
+                Yetz
+              </span>
+              <p className="text-[13px] text-white/25 font-light mt-6 max-w-xs leading-relaxed">
+                Cultura a Barcelona, cada setmana.
               </p>
             </div>
 
-            <div className="flex gap-16">
+            <div className="flex gap-20">
               <div>
-                <p className="text-[10px] font-medium tracking-[0.2em] uppercase text-white/20 mb-4">Navegar</p>
-
-                <div className="flex flex-col gap-3">
-                  <Link href="/" className="text-[13px] text-white/50 hover:text-white transition-colors">Agenda</Link>
-                  <Link href="/calendario" className="text-[13px] text-white/50 hover:text-white transition-colors">Calendari</Link>
-                  <Link href="/sorprendeme" className="text-[13px] text-white/50 hover:text-white transition-colors">Sorprèn-me</Link>
+                <p className="text-[9px] font-medium tracking-[0.3em] uppercase text-white/15 mb-5">Navegar</p>
+                <div className="flex flex-col gap-4">
+                  <Link href="/" className="text-[13px] text-white/40 hover:text-white transition-colors duration-500">Agenda</Link>
+                  <Link href="/calendario" className="text-[13px] text-white/40 hover:text-white transition-colors duration-500">Calendari</Link>
+                  <Link href="/sorprendeme" className="text-[13px] text-white/40 hover:text-white transition-colors duration-500">Sorprèn-me</Link>
                 </div>
               </div>
               <div>
-                <p className="text-[10px] font-medium tracking-[0.2em] uppercase text-white/20 mb-4">Legal</p>
-                <div className="flex flex-col gap-3">
-                  <Link href="/avis-legal" className="text-[13px] text-white/50 hover:text-white transition-colors">Avís legal</Link>
-                  <Link href="/privacitat" className="text-[13px] text-white/50 hover:text-white transition-colors">Privacitat</Link>
-                  <Link href="/cookies" className="text-[13px] text-white/50 hover:text-white transition-colors">Cookies</Link>
+                <p className="text-[9px] font-medium tracking-[0.3em] uppercase text-white/15 mb-5">Legal</p>
+                <div className="flex flex-col gap-4">
+                  <Link href="/avis-legal" className="text-[13px] text-white/40 hover:text-white transition-colors duration-500">Avís legal</Link>
+                  <Link href="/privacitat" className="text-[13px] text-white/40 hover:text-white transition-colors duration-500">Privacitat</Link>
+                  <Link href="/cookies" className="text-[13px] text-white/40 hover:text-white transition-colors duration-500">Cookies</Link>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="mt-16 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <p className="text-[10px] text-white/20 tracking-[0.1em]">
-              2026 YETZ. FET A BARCELONA.
-            </p>
-            <p className="text-[10px] text-white/20 tracking-[0.05em]">
-              Dades: Ajuntament de Barcelona Open Data
+          <div className="mt-20 pt-6 border-t border-white/5">
+            <p className="text-[9px] text-white/15 tracking-[0.2em] uppercase">
+              © 2026 Yetz · Dades: Ajuntament de Barcelona Open Data
             </p>
           </div>
         </div>
