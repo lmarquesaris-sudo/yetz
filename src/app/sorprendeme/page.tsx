@@ -5,14 +5,14 @@ import Link from "next/link";
 import { useState, useEffect, useRef, useCallback } from "react";
 
 const SUGGESTIONS = [
-  "Un sábado cultural sin prisas",
-  "Plan romántico para dos",
-  "Algo divertido sin gastar mucho",
-  "Noche de música en el Poblenou",
-  "Tarde por Gràcia con vermut",
-  "Plan cultural por el Raval",
-  "Paseo y cena por el Born",
-  "Sorpréndeme con lo que sea",
+  "Un dissabte cultural sense presses",
+  "Pla romàntic per a dos",
+  "Alguna cosa divertida sense gastar gaire",
+  "Nit de música al Poblenou",
+  "Tarda per Gràcia amb vermut",
+  "Pla cultural pel Raval",
+  "Passeig i sopar pel Born",
+  "Sorprèn-me amb el que sigui",
 ];
 
 /** Build a Google Maps search URL for a venue in Barcelona */
@@ -139,7 +139,7 @@ export default function SorprendemePage() {
       setIsDone(true);
     } catch (err: unknown) {
       if (err instanceof Error && err.name === "AbortError") return;
-      setError(err instanceof Error ? err.message : "Algo ha fallado. Inténtalo de nuevo.");
+      setError(err instanceof Error ? err.message : "Alguna cosa ha fallat. Torna-ho a intentar.");
     } finally {
       setIsGenerating(false);
     }
@@ -175,7 +175,7 @@ export default function SorprendemePage() {
           <div className="inline-flex items-center gap-3 mb-5">
             <div className="w-8 h-px bg-neutral-900" />
             <span className="text-[10px] font-semibold text-neutral-400 uppercase tracking-[0.35em]">
-              Tu plan perfecto
+              El teu pla perfecte
             </span>
             <div className="w-8 h-px bg-neutral-900" />
           </div>
@@ -183,12 +183,12 @@ export default function SorprendemePage() {
             className="text-[clamp(32px,5vw,48px)] font-normal text-neutral-900 tracking-[-0.03em] leading-[1.1]"
             style={{ fontFamily: "var(--font-playfair), serif" }}
           >
-            Cuéntame qué te{" "}
-            <span className="italic font-light">apetece</span>
+            Explica'm què et{" "}
+            <span className="italic font-light">ve de gust</span>
           </h1>
           <p className="mt-4 text-[15px] text-neutral-400 font-light leading-relaxed max-w-md mx-auto">
-            Dime cómo te sientes y te escribo un plan completo:
-            paseo, cultura, dónde comer y dónde tomar algo.
+            Digues-me com et sents i t&apos;escric un pla complet:
+            passeig, cultura, on menjar i on prendre alguna cosa.
           </p>
         </div>
 
@@ -207,7 +207,7 @@ export default function SorprendemePage() {
               <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ej: Quiero un sábado tranquilo con arte, un paseo por el Born y cenar sin gastarme mucho..."
+                placeholder="Ex: Vull un dissabte tranquil amb art, un passeig pel Born i sopar sense gastar gaire..."
                 className="flex-1 bg-transparent resize-none text-[15px] text-neutral-900 placeholder:text-neutral-300 font-light leading-relaxed focus:outline-none min-h-[56px] max-h-[120px] py-2"
                 rows={2}
                 onKeyDown={(e) => {
@@ -271,7 +271,7 @@ export default function SorprendemePage() {
                 onClick={() => generate(lastQuery || input)}
                 className="text-[12px] text-neutral-500 hover:text-neutral-900 font-medium transition-colors duration-300"
               >
-                Reintentar
+                Tornar a intentar
               </button>
             </div>
           </div>
@@ -286,7 +286,7 @@ export default function SorprendemePage() {
                   className="text-[13px] text-neutral-400 font-light italic mr-2"
                   style={{ fontFamily: "var(--font-playfair), serif" }}
                 >
-                  Escribiendo tu plan
+                  Escrivint el teu pla
                 </span>
                 <span
                   className="w-1.5 h-1.5 bg-neutral-300 rounded-full animate-bounce"
@@ -379,7 +379,7 @@ export default function SorprendemePage() {
                       <path d="M1 4v6h6M23 20v-6h-6" />
                       <path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15" />
                     </svg>
-                    Otra versión
+                    Una altra versió
                   </button>
                   <span className="h-3 w-px bg-neutral-200" />
                   <button
@@ -392,7 +392,7 @@ export default function SorprendemePage() {
                     }}
                     className="text-[12px] text-neutral-500 hover:text-neutral-900 font-medium transition-colors duration-300"
                   >
-                    Nuevo plan
+                    Nou pla
                   </button>
                 </div>
               </div>
@@ -414,7 +414,7 @@ export default function SorprendemePage() {
             <div className="flex items-center gap-4 mb-8 justify-center">
               <div className="w-8 h-px bg-neutral-200" />
               <span className="text-[10px] font-semibold text-neutral-300 uppercase tracking-[0.35em]">
-                Cómo funciona
+                Com funciona
               </span>
               <div className="w-8 h-px bg-neutral-200" />
             </div>
@@ -423,18 +423,18 @@ export default function SorprendemePage() {
               {[
                 {
                   step: "01",
-                  title: "Cuéntame",
-                  desc: "Describe qué te apetece: tranquilo, romántico, con presupuesto, fiestero...",
+                  title: "Explica'm",
+                  desc: "Descriu què et ve de gust: tranquil, romàntic, amb pressupost, fester...",
                 },
                 {
                   step: "02",
-                  title: "Te escribo el plan",
-                  desc: "Con sitios reales de Barcelona: restaurantes, bares, paseos y cultura del momento.",
+                  title: "T'escric el pla",
+                  desc: "Amb llocs reals de Barcelona: restaurants, bars, passejades i cultura del moment.",
                 },
                 {
                   step: "03",
-                  title: "Sal a vivirlo",
-                  desc: "Cada vez un plan distinto. Si no te convence, dale a «otra versión».",
+                  title: "Surt a viure'l",
+                  desc: "Cada cop un pla diferent. Si no et convenç, clica «una altra versió».",
                 },
               ].map((item) => (
                 <div key={item.step} className="text-center">
@@ -469,7 +469,7 @@ export default function SorprendemePage() {
             </span>
           </Link>
           <p className="text-[11px] text-neutral-300 tracking-wide font-light">
-            Tu portal cultural de Barcelona
+            El teu portal cultural de Barcelona
           </p>
         </div>
       </footer>

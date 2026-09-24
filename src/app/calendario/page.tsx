@@ -114,13 +114,13 @@ function getEventDatesForMonth(allEvents: Event[], year: number, month: number):
   return counts;
 }
 
-const MONTHS_ES = [
-  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
+const MONTHS_CA = [
+  "Gener", "Febrer", "Març", "Abril", "Maig", "Juny",
+  "Juliol", "Agost", "Setembre", "Octubre", "Novembre", "Desembre",
 ];
 
-const DAYS_ES = ["L", "M", "X", "J", "V", "S", "D"];
-const DAYS_FULL = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
+const DAYS_CA = ["Dl", "Dt", "Dc", "Dj", "Dv", "Ds", "Dg"];
+const DAYS_FULL = ["Dll", "Dmt", "Dmc", "Dij", "Div", "Dis", "Diu"];
 
 function getCategoryBadgeStyle(filter: CategoryFilter): string {
   switch (filter) {
@@ -234,18 +234,18 @@ export default function CalendarPage() {
             <div className="flex items-center gap-4 mb-4">
               <div className="w-10 h-px bg-neutral-900" />
               <span className="text-[10px] font-semibold text-neutral-400 uppercase tracking-[0.35em]">
-                Agenda cultural Barcelona
+                Agenda cultural de Barcelona
               </span>
             </div>
             <h1
               className="text-[clamp(28px,5vw,44px)] font-normal text-neutral-900 tracking-[-0.03em] leading-[1.1]"
               style={{ fontFamily: "var(--font-playfair), serif" }}
             >
-              Qué hacer en Barcelona
+              Què fer a Barcelona
             </h1>
             <p className="mt-3 text-[15px] text-neutral-400 font-light leading-relaxed max-w-lg">
-              Exposiciones, teatro, conciertos, talleres y festivales. Elige un día
-              y descubre todo lo que pasa en la ciudad.
+              Exposicions, teatre, concerts, tallers i festivals. Tria un dia
+              i descobreix tot el que passa a la ciutat.
             </p>
           </div>
 
@@ -261,7 +261,7 @@ export default function CalendarPage() {
               className="text-[clamp(22px,3vw,32px)] font-normal text-neutral-900 tracking-[-0.02em] min-w-[220px] text-center"
               style={{ fontFamily: "var(--font-playfair), serif" }}
             >
-              {MONTHS_ES[currentMonth]}{" "}
+              {MONTHS_CA[currentMonth]}{" "}
               <span className="font-light text-neutral-300">{currentYear}</span>
             </h2>
             <button
@@ -281,7 +281,7 @@ export default function CalendarPage() {
                   {d}
                 </div>
               ))}
-              {DAYS_ES.map((d) => (
+              {DAYS_CA.map((d) => (
                 <div key={`m-${d}`} className="text-center text-[11px] font-semibold text-neutral-300 uppercase tracking-[0.12em] py-2 sm:hidden">
                   {d}
                 </div>
@@ -342,7 +342,7 @@ export default function CalendarPage() {
                     {hasEvents && info && !selected && (
                       <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 translate-y-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-20">
                         <div className="bg-neutral-900 text-white text-[10px] font-medium px-2 py-1 rounded-lg whitespace-nowrap shadow-lg">
-                          {info.total} eventos
+                          {info.total} esdeveniments
                         </div>
                       </div>
                     )}
@@ -375,7 +375,7 @@ export default function CalendarPage() {
                 className="text-[20px] text-neutral-300 font-light"
                 style={{ fontFamily: "var(--font-playfair), serif" }}
               >
-                Selecciona un día para explorar
+                Selecciona un dia per explorar
               </p>
             </div>
           ) : (
@@ -388,14 +388,14 @@ export default function CalendarPage() {
                     className="text-[clamp(24px,4vw,36px)] font-normal text-neutral-900 tracking-[-0.02em] leading-[1.1] capitalize"
                     style={{ fontFamily: "var(--font-playfair), serif" }}
                   >
-                    {selectedDate.toLocaleDateString("es-ES", {
+                    {selectedDate.toLocaleDateString("ca-ES", {
                       weekday: "long",
                       day: "numeric",
                       month: "long",
                     })}
                   </h2>
                   <p className="text-[13px] text-neutral-400 font-light mt-1.5">
-                    {selectedDate ? getEventsForDate(allEvents, selectedDate).length : 0} eventos culturales
+                    {selectedDate ? getEventsForDate(allEvents, selectedDate).length : 0} esdeveniments culturals
                   </p>
                 </div>
 
@@ -431,13 +431,13 @@ export default function CalendarPage() {
               {selectedEvents.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-16 text-center">
                   <p className="text-[15px] text-neutral-400 font-light">
-                    No hay eventos de {activeFilter} este día
+                    No hi ha esdeveniments de {activeFilter} aquest dia
                   </p>
                   <button
                     onClick={() => setActiveFilter("todos")}
                     className="text-[12px] text-neutral-900 font-medium mt-3 underline underline-offset-4 decoration-neutral-200 hover:decoration-neutral-900 transition-colors"
                   >
-                    Ver todos los eventos
+                    Veure tots els esdeveniments
                   </button>
                 </div>
               ) : (
@@ -467,7 +467,7 @@ export default function CalendarPage() {
                             onClick={() => setShowAll(true)}
                             className="px-8 py-3 rounded-full text-[13px] font-medium text-neutral-900 bg-white shadow-sm hover:shadow-md border border-neutral-100 transition-all duration-300"
                           >
-                            Explorar {hiddenCount} eventos más
+                            Explorar {hiddenCount} esdeveniments més
                           </button>
                         </div>
                       )}
@@ -493,7 +493,7 @@ export default function CalendarPage() {
             </span>
           </Link>
           <p className="text-[11px] text-neutral-300 tracking-wide font-light">
-            Tu portal cultural de Barcelona
+            El teu portal cultural de Barcelona
           </p>
         </div>
       </footer>
@@ -515,10 +515,10 @@ function EventCard({ event, index, dateStr }: { event: Event; index: number; dat
 
   const formatDate = (start: string, end: string) => {
     if (start === end) {
-      return new Date(start).toLocaleDateString("es-ES", { day: "numeric", month: "short" });
+      return new Date(start).toLocaleDateString("ca-ES", { day: "numeric", month: "short" });
     }
-    const s = new Date(start).toLocaleDateString("es-ES", { day: "numeric", month: "short" });
-    const e = new Date(end).toLocaleDateString("es-ES", { day: "numeric", month: "short" });
+    const s = new Date(start).toLocaleDateString("ca-ES", { day: "numeric", month: "short" });
+    const e = new Date(end).toLocaleDateString("ca-ES", { day: "numeric", month: "short" });
     return `${s} — ${e}`;
   };
 
@@ -555,7 +555,7 @@ function EventCard({ event, index, dateStr }: { event: Event; index: number; dat
                 ? "bg-blue-500/90 text-white"
                 : "bg-neutral-900/80 text-white"
             }`}>
-              {isLastDays ? "Últimos días" : isOpening ? "Estreno" : "Solo hoy"}
+              {isLastDays ? "Últims dies" : isOpening ? "Estrena" : "Només avui"}
             </span>
           </div>
         )}

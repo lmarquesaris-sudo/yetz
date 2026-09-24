@@ -73,11 +73,11 @@ export type Category =
 export type CategoryFilter = "todos" | "arte" | "música" | "teatro" | "talleres";
 
 export const CATEGORY_FILTERS: { key: CategoryFilter; label: string; icon: string }[] = [
-  { key: "todos", label: "Todos", icon: "✦" },
-  { key: "arte", label: "Arte", icon: "◐" },
+  { key: "todos", label: "Tot", icon: "✦" },
+  { key: "arte", label: "Art", icon: "◐" },
   { key: "música", label: "Música", icon: "♪" },
-  { key: "teatro", label: "Teatro", icon: "◎" },
-  { key: "talleres", label: "Talleres", icon: "✂" },
+  { key: "teatro", label: "Teatre", icon: "◎" },
+  { key: "talleres", label: "Tallers", icon: "✂" },
 ];
 
 export function getCategoryFilter(category: Category): CategoryFilter {
