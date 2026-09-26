@@ -31,7 +31,7 @@ export interface Walk {
 
 export interface CulturalSpot {
   name: string;
-  type: "museo" | "galería" | "centro cultural" | "teatro" | "sala" | "espacio";
+  type: "museo" | "galeria" | "centre cultural" | "teatre" | "sala" | "espai";
   zone: Zone;
   what: string;
   price: string;
@@ -233,65 +233,70 @@ const ZONE_NAMES: Record<Zone, string> = {
 
 export const RESTAURANTS_BUDGET: Restaurant[] = [
   // Born
-  { name: "Tres Mentiras", type: "Mexicana", priceRange: "€", zone: "born", vibe: "tacos de autor en un local pequeño con mucho rollo" },
-  { name: "Bodega la Palma", type: "Ibérica", priceRange: "€", zone: "born", vibe: "bodega clásica con jamón, quesos y vinos de barril" },
-  { name: "Fragments", type: "Mediterránea", priceRange: "€", zone: "born", vibe: "cocina de mercado en una placita escondida, platos para compartir" },
-  { name: "El Xampanyet", type: "Catalana", priceRange: "€", zone: "born", vibe: "cava y tapas de toda la vida en un bar con azulejos que lleva ahí más de cien años" },
+  { name: "Tres Mentiras", type: "Mexicana", priceRange: "€", zone: "born", vibe: "tacos d'autor en un local petit amb molt rotllo" },
+  { name: "Bodega la Palma", type: "Ibèrica", priceRange: "€", zone: "born", vibe: "bodega clàssica amb pernil, formatges i vins de barril" },
+  { name: "Fragments", type: "Mediterrània", priceRange: "€", zone: "born", vibe: "cuina de mercat en una placeta amagada, plats per compartir" },
+  { name: "El Xampanyet", type: "Catalana", priceRange: "€", zone: "born", vibe: "cava i tapes de tota la vida en un bar amb rajoles que porta aquí més de cent anys" },
   // Raval
-  { name: "Bar Cañete", type: "Mediterránea", priceRange: "€", zone: "raval", vibe: "barra de mercado con tapas espectaculares, de lo mejor del Raval" },
-  { name: "Dos Palillos", type: "Asiática fusión", priceRange: "€", zone: "raval", vibe: "tapas asiáticas en barra, cocina abierta y mucha personalidad" },
-  { name: "Caravelle", type: "Brunch / casual", priceRange: "€", zone: "raval", vibe: "brunch con producto, bowls y buen café en un local bonito" },
+  { name: "Bar Cañete", type: "Mediterrània", priceRange: "€", zone: "raval", vibe: "barra de mercat amb tapes espectaculars, del millor del Raval" },
+  { name: "Dos Palillos", type: "Asiàtica fusió", priceRange: "€", zone: "raval", vibe: "tapes asiàtiques a la barra, cuina oberta i molta personalitat" },
+  { name: "Caravelle", type: "Brunch / casual", priceRange: "€", zone: "raval", vibe: "brunch amb producte, bowls i bon cafè en un local bonic" },
   // Eixample Esquerra
-  { name: "Kasa Ramen", type: "Japonesa", priceRange: "€", zone: "eixample-esquerra", vibe: "ramen reconfortante y bien hecho a buen precio" },
-  { name: "Moritz", type: "Variada", priceRange: "€", zone: "eixample-esquerra", vibe: "la fábrica de cerveza reconvertida en un espacio brutal" },
-  { name: "Flax & Kale", type: "Healthy", priceRange: "€", zone: "eixample-esquerra", vibe: "cocina saludable y flexiteriana con terraza en Tallers" },
+  { name: "Kasa Ramen", type: "Japonesa", priceRange: "€", zone: "eixample-esquerra", vibe: "ramen reconfortant i ben fet a bon preu, al cor de l'Eixample" },
+  { name: "La Flauta", type: "Catalana", priceRange: "€", zone: "eixample-esquerra", vibe: "flautetes farcides, tapes de mercat i vins per copes al carrer Aribau — institució del barri" },
+  { name: "De Tapa Madre", type: "Tapes", priceRange: "€", zone: "eixample-esquerra", vibe: "tapes creatives i generoses a Enric Granados, bona terrassa i ambient animat" },
+  { name: "Amaltea", type: "Vegetariana", priceRange: "€", zone: "eixample-esquerra", vibe: "cuina vegetariana de mercat amb menú del dia excel·lent, al carrer Diputació" },
+  { name: "Céleri", type: "Healthy", priceRange: "€", zone: "eixample-esquerra", vibe: "brunch i menjar saludable amb producte fresc a Enric Granados, ambient bonic i lluminós" },
+  // Eixample Esquerra (moved from wrong zones)
+  { name: "Moritz", type: "Variada", priceRange: "€", zone: "sant-antoni", vibe: "la fàbrica de cervesa reconvertida en un espai brutal amb terrassa i menjar per compartir" },
+  { name: "Flax & Kale", type: "Healthy", priceRange: "€", zone: "raval", vibe: "cuina saludable i flexitariana amb terrassa al carrer Tallers" },
   // Gràcia
-  { name: "La Pepita", type: "Bocadillos", priceRange: "€", zone: "gracia", vibe: "los mejores bocadillos gourmet de Barcelona, sin discusión" },
-  { name: "Chivuo's", type: "Burgers", priceRange: "€", zone: "gracia", vibe: "burgers de calidad con toques creativos en plena Gràcia" },
-  { name: "Café Godot", type: "Mediterránea", priceRange: "€", zone: "gracia", vibe: "menú del día bueno y bonito en una esquina con encanto" },
-  { name: "Sol Soler", type: "Tapas", priceRange: "€", zone: "gracia", vibe: "tapas catalanas en Plaça del Sol, institución del barrio" },
+  { name: "La Pepita", type: "Entrepans", priceRange: "€", zone: "gracia", vibe: "els millors entrepans gourmet de Barcelona, sense discussió" },
+  { name: "Chivuo's", type: "Hamburgueses", priceRange: "€", zone: "gracia", vibe: "hamburgueses de qualitat amb tocs creatius en ple Gràcia" },
+  { name: "Café Godot", type: "Mediterrània", priceRange: "€", zone: "gracia", vibe: "menú del dia bo i bonic en una cantonada amb encant" },
+  { name: "Sol Soler", type: "Tapes", priceRange: "€", zone: "gracia", vibe: "tapes catalanes a la Plaça del Sol, institució del barri" },
   // Poblenou
-  { name: "Els Pescadors", type: "Marinera", priceRange: "€", zone: "poblenou", vibe: "arroces y pescado de mercado en la plaça de Prim, un clásico del barrio" },
-  { name: "La Llavor dels Orígens", type: "Catalana", priceRange: "€", zone: "poblenou", vibe: "todo producto catalán kilómetro cero, en un local precioso" },
-  { name: "Can Recasens", type: "Catalana", priceRange: "€", zone: "poblenou", vibe: "bodega-colmado de toda la vida, embutidos, quesos y vinos a granel" },
-  { name: "Parking Pizza", type: "Italiana", priceRange: "€", zone: "poblenou", vibe: "pizza napolitana de masa madre en un antiguo parking industrial" },
+  { name: "Els Pescadors", type: "Marinera", priceRange: "€", zone: "poblenou", vibe: "arrossos i peix de mercat a la plaça de Prim, un clàssic del barri" },
+  { name: "La Llavor dels Orígens", type: "Catalana", priceRange: "€", zone: "poblenou", vibe: "tot producte català quilòmetre zero, en un local preciós" },
+  { name: "Can Recasens", type: "Catalana", priceRange: "€", zone: "poblenou", vibe: "bodega-colmado de tota la vida, embotits, formatges i vins a granel" },
+  { name: "Parking Pizza", type: "Italiana", priceRange: "€", zone: "poblenou", vibe: "pizza napolitana de massa mare en un antic pàrquing industrial" },
   // Barceloneta
-  { name: "Bronzo", type: "Italiana", priceRange: "€", zone: "barceloneta", vibe: "pasta fresca artesanal con vistas al mar" },
-  { name: "La Mar Salada", type: "Marinera", priceRange: "€", zone: "barceloneta", vibe: "arroces y fideuà con producto fresco del día, bien de precio" },
-  { name: "Bitácora", type: "Mediterránea", priceRange: "€", zone: "barceloneta", vibe: "terraza en el passeig marítim con tapas de mercado y buen ambiente" },
+  { name: "Bronzo", type: "Italiana", priceRange: "€", zone: "barceloneta", vibe: "pasta fresca artesanal amb vistes al mar" },
+  { name: "La Mar Salada", type: "Marinera", priceRange: "€", zone: "barceloneta", vibe: "arrossos i fideuà amb producte fresc del dia, bé de preu" },
+  { name: "Bitácora", type: "Mediterrània", priceRange: "€", zone: "barceloneta", vibe: "terrassa al passeig marítim amb tapes de mercat i bon ambient" },
   // Poble-sec
-  { name: "Can Vilaró", type: "Catalana", priceRange: "€", zone: "poble-sec", vibe: "cocina catalana casera y honesta, menú del día por menos de quince euros" },
-  { name: "Quimet & Quimet", type: "Tapas", priceRange: "€", zone: "poble-sec", vibe: "montaditos increíbles en un local minúsculo lleno de botellas — mítico de Poble-sec" },
-  { name: "Bodega Saltó", type: "Tapas", priceRange: "€", zone: "poble-sec", vibe: "bodega castiza con vermouth de grifo, tapas y decoración imposible" },
+  { name: "Can Vilaró", type: "Catalana", priceRange: "€", zone: "poble-sec", vibe: "cuina catalana casolana i honesta, menú del dia per menys de quinze euros" },
+  { name: "Quimet & Quimet", type: "Tapes", priceRange: "€", zone: "poble-sec", vibe: "muntaditos increïbles en un local minúscul ple d'ampolles — mític de Poble-sec" },
+  { name: "Bodega Saltó", type: "Tapes", priceRange: "€", zone: "poble-sec", vibe: "bodega castissa amb vermut de tap, tapes i decoració impossible" },
   // Sant Antoni
-  { name: "Gèlida", type: "Mediterránea", priceRange: "€", zone: "sant-antoni", vibe: "vinos naturales y platos para compartir en un ambiente relajado" },
-  { name: "Federal Café", type: "Brunch", priceRange: "€", zone: "sant-antoni", vibe: "brunch australiano con terraza interior, buen café y huevos perfectos" },
+  { name: "Gèlida", type: "Mediterrània", priceRange: "€", zone: "sant-antoni", vibe: "vins naturals i plats per compartir en un ambient relaxat" },
+  { name: "Federal Café", type: "Brunch", priceRange: "€", zone: "sant-antoni", vibe: "brunch australià amb terrassa interior, bon cafè i ous perfectes" },
   // Sarrià / Zona Alta
-  { name: "Flash Flash", type: "Tortillas", priceRange: "€", zone: "sarria-pedralbes", vibe: "mítico de Barcelona — tortillas espectaculares y decoración pop de los 70" },
-  { name: "Vivanda", type: "Catalana", priceRange: "€", zone: "sarria-pedralbes", vibe: "cocina catalana de mercado en un jardín precioso de Sarrià" },
-  { name: "Bar Tomás", type: "Tapas", priceRange: "€", zone: "sarria-pedralbes", vibe: "las patatas bravas más famosas de Barcelona, punto" },
+  { name: "Flash Flash", type: "Truites", priceRange: "€", zone: "sarria-pedralbes", vibe: "mític de Barcelona — truites espectaculars i decoració pop dels 70" },
+  { name: "Vivanda", type: "Catalana", priceRange: "€", zone: "sarria-pedralbes", vibe: "cuina catalana de mercat en un jardí preciós de Sarrià" },
+  { name: "Bar Tomás", type: "Tapes", priceRange: "€", zone: "sarria-pedralbes", vibe: "les patates braves més famoses de Barcelona, punt" },
   // Les Corts
-  { name: "A Contraluz", type: "Mediterránea", priceRange: "€", zone: "les-corts", vibe: "terraza con jardín interior escondida en Les Corts, un oasis que pocos conocen" },
-  { name: "La Tagliatella (Les Corts)", type: "Italiana", priceRange: "€", zone: "les-corts", vibe: "pasta fresca y pizzas fiables en pleno barrio, bien para ir sin pensar mucho" },
-  { name: "Can Culleretes de Les Corts", type: "Catalana", priceRange: "€", zone: "les-corts", vibe: "cocina catalana casera de toda la vida, menú del día honesto" },
+  { name: "A Contraluz", type: "Mediterrània", priceRange: "€", zone: "les-corts", vibe: "terrassa amb jardí interior amagada a Les Corts, un oasi que pocs coneixen" },
+  { name: "La Tagliatella (Les Corts)", type: "Italiana", priceRange: "€", zone: "les-corts", vibe: "pasta fresca i pizzes fiables en ple barri, bé per anar-hi sense pensar-hi gaire" },
+  { name: "Can Culleretes de Les Corts", type: "Catalana", priceRange: "€", zone: "les-corts", vibe: "cuina catalana casolana de tota la vida, menú del dia honest" },
   // Sant Martí (Clot / Camp de l'Arpa)
-  { name: "El 58", type: "Tapas fusión", priceRange: "€", zone: "sant-marti", vibe: "tapas creativas con toque internacional, una de las sorpresas del Clot" },
-  { name: "La Mundana", type: "Mediterránea", priceRange: "€", zone: "sant-marti", vibe: "producto de mercado y carta corta que cambia cada semana, ambiente acogedor" },
-  { name: "Can Vallès", type: "Catalana", priceRange: "€", zone: "sant-marti", vibe: "cocina de mercado de barrio como la de antes, con guisos que reconfortan" },
+  { name: "El 58", type: "Tapes fusió", priceRange: "€", zone: "sant-marti", vibe: "tapes creatives amb toc internacional, una de les sorpreses del Clot" },
+  { name: "La Mundana", type: "Mediterrània", priceRange: "€", zone: "sant-marti", vibe: "producte de mercat i carta curta que canvia cada setmana, ambient acollidor" },
+  { name: "Can Vallès", type: "Catalana", priceRange: "€", zone: "sant-marti", vibe: "cuina de mercat de barri com la d'abans, amb guisats que reconforten" },
   // Sant Martí / Vila Olímpica
-  { name: "Honest Greens (Glòries)", type: "Healthy", priceRange: "€", zone: "sant-marti", vibe: "comida sana y bien hecha a buen precio, perfecto para ir rápido" },
-  { name: "Bar Leo", type: "Tapas", priceRange: "€", zone: "sant-marti", vibe: "bravas, bombas y calamares en un bar de barrio que lleva décadas" },
-  { name: "La Lluna (Vila Olímpica)", type: "Marinera", priceRange: "€", zone: "vila-olimpica", vibe: "paellas y fideuà con vistas al Port Olímpic, buen plan de domingo" },
+  { name: "Honest Greens (Glòries)", type: "Healthy", priceRange: "€", zone: "sant-marti", vibe: "menjar sa i ben fet a bon preu, perfecte per anar-hi ràpid" },
+  { name: "Bar Leo", type: "Tapes", priceRange: "€", zone: "sant-marti", vibe: "braves, bombes i calamars en un bar de barri que porta dècades" },
+  { name: "La Lluna (Vila Olímpica)", type: "Marinera", priceRange: "€", zone: "vila-olimpica", vibe: "paelles i fideuà amb vistes al Port Olímpic, bon pla de diumenge" },
   // Horta-Guinardó
-  { name: "Can Travi Nou", type: "Catalana", priceRange: "€", zone: "horta-guinardo", vibe: "masía del XVII con jardín, cocina catalana en un sitio que no parece Barcelona" },
-  { name: "El Rincón de Horta", type: "Mediterránea", priceRange: "€", zone: "horta-guinardo", vibe: "terraza tranquila con menú casero, el secreto mejor guardado de Horta" },
-  { name: "La Vermutería del Guinardó", type: "Tapas", priceRange: "€", zone: "horta-guinardo", vibe: "vermut de grifo, anchoas y bravas en un bar con alma de barrio" },
+  { name: "Can Travi Nou", type: "Catalana", priceRange: "€", zone: "horta-guinardo", vibe: "masia del XVII amb jardí, cuina catalana en un lloc que no sembla Barcelona" },
+  { name: "El Rincón de Horta", type: "Mediterrània", priceRange: "€", zone: "horta-guinardo", vibe: "terrassa tranquil·la amb menú casolà, el secret més ben guardat d'Horta" },
+  { name: "La Vermutería del Guinardó", type: "Tapes", priceRange: "€", zone: "horta-guinardo", vibe: "vermut de tap, anxoves i braves en un bar amb ànima de barri" },
   // Sant Andreu
-  { name: "Can Sadurní", type: "Catalana", priceRange: "€", zone: "sant-andreu", vibe: "cocina catalana de tota la vida en la rambla de Sant Andreu, como comer en casa" },
-  { name: "El Petit Andreu", type: "Tapas", priceRange: "€", zone: "sant-andreu", vibe: "tapas y vinos en un bar bonito del barrio, buen ambiente local" },
+  { name: "Can Sadurní", type: "Catalana", priceRange: "€", zone: "sant-andreu", vibe: "cuina catalana de tota la vida a la rambla de Sant Andreu, com menjar a casa" },
+  { name: "El Petit Andreu", type: "Tapes", priceRange: "€", zone: "sant-andreu", vibe: "tapes i vins en un bar bonic del barri, bon ambient local" },
   // Nou Barris
-  { name: "Can Paixano Nou Barris", type: "Catalana", priceRange: "€", zone: "nou-barris", vibe: "cocina casera catalana sin pretensiones y a buen precio" },
-  { name: "El Mirador de Roquetes", type: "Mediterránea", priceRange: "€", zone: "nou-barris", vibe: "restaurante con terraza y vistas a la ciudad, la recompensa después de subir" },
+  { name: "Can Paixano Nou Barris", type: "Catalana", priceRange: "€", zone: "nou-barris", vibe: "cuina casolana catalana sense pretensions i a bon preu" },
+  { name: "El Mirador de Roquetes", type: "Mediterrània", priceRange: "€", zone: "nou-barris", vibe: "restaurant amb terrassa i vistes a la ciutat, la recompensa després de pujar" },
   // Gòtic
   { name: "Can Culleretes", type: "Catalana", priceRange: "€", zone: "gotic", vibe: "el restaurant més antic de Barcelona, des de 1786 — escudella, carn d'olla i cuina catalana de tota la vida" },
   { name: "Café de l'Acadèmia", type: "Catalana", priceRange: "€", zone: "gotic", vibe: "cuina catalana de mercat a la Plaça Sant Just, un dels racons més bonics del Gòtic" },
@@ -300,49 +305,50 @@ export const RESTAURANTS_BUDGET: Restaurant[] = [
   { name: "La Paradeta", type: "Marinera", priceRange: "€", zone: "sagrada-familia", vibe: "tries el peix i marisc a pes com al mercat i te'l cuinen al moment — format únic i divertit" },
   { name: "Arume", type: "Gallega", priceRange: "€", zone: "sagrada-familia", vibe: "cuina gallega autèntica amb polp, pimentos de Padrón i vins del Rías Baixas" },
   // Eixample Dreta
-  { name: "Cervecería Catalana", type: "Tapas", priceRange: "€", zone: "eixample-dreta", vibe: "la barra de tapes més famosa de Barcelona — patates braves, anxoves i croquetes de tota la vida" },
-  { name: "Ciudad Condal", type: "Tapas", priceRange: "€", zone: "eixample-dreta", vibe: "tapes generoses i cerveses fredes a Rambla Catalunya, institució del barri" },
+  { name: "Cervecería Catalana", type: "Tapes", priceRange: "€", zone: "eixample-dreta", vibe: "la barra de tapes més famosa de Barcelona — patates braves, anxoves i croquetes de tota la vida" },
+  { name: "Ciudad Condal", type: "Tapes", priceRange: "€", zone: "eixample-dreta", vibe: "tapes generoses i cerveses fredes a Rambla Catalunya, institució del barri" },
   { name: "Taktika Berri", type: "Basca", priceRange: "€", zone: "eixample-dreta", vibe: "pintxos bascos autèntics a la barra, txacolí i ambient de taberna de San Sebastián" },
 ];
 
 export const RESTAURANTS_PREMIUM: Restaurant[] = [
   // Born
-  { name: "Coure", type: "Catalana", priceRange: "€€", zone: "born", vibe: "alta cocina catalana accesible, menú degustación muy bueno" },
-  { name: "Shunka", type: "Japonesa", priceRange: "€€", zone: "born", vibe: "el japonés de referencia de Barcelona, barra de sushi increíble" },
-  { name: "Cal Pep", type: "Marinera", priceRange: "€€", zone: "born", vibe: "barra mítica con el mejor producto de mercado, comer aquí es una experiencia" },
+  { name: "Coure", type: "Catalana", priceRange: "€€", zone: "born", vibe: "alta cuina catalana accessible, menú degustació molt bo" },
+  { name: "Shunka", type: "Japonesa", priceRange: "€€", zone: "born", vibe: "el japonès de referència de Barcelona, barra de sushi increïble" },
+  { name: "Cal Pep", type: "Marinera", priceRange: "€€", zone: "born", vibe: "barra mítica amb el millor producte de mercat, menjar aquí és una experiència" },
   // Raval
-  { name: "Ca l'Isidre", type: "Catalana", priceRange: "€€", zone: "raval", vibe: "cocina catalana clásica de toda la vida, uno de los grandes de la ciudad" },
+  { name: "Ca l'Isidre", type: "Catalana", priceRange: "€€", zone: "raval", vibe: "cuina catalana clàssica de tota la vida, un dels grans de la ciutat" },
   // Eixample Dreta
-  { name: "Nairod", type: "Catalana", priceRange: "€€", zone: "eixample-dreta", vibe: "cocina catalana contemporánea con producto de temporada" },
-  { name: "Gresca", type: "Catalana", priceRange: "€€", zone: "eixample-dreta", vibe: "cocina creativa de autor, una de las mejores relaciones calidad-precio de la ciudad" },
-  { name: "Nomo", type: "Japonesa", priceRange: "€€", zone: "eixample-dreta", vibe: "japonesa premium con omakase y productos de primera" },
-  { name: "Leku", type: "Vasca", priceRange: "€€", zone: "eixample-dreta", vibe: "pintxos y cocina vasca de nivel con una barra espectacular" },
+  { name: "Nairod", type: "Catalana", priceRange: "€€", zone: "eixample-dreta", vibe: "cuina catalana contemporània amb producte de temporada" },
+  { name: "Gresca", type: "Catalana", priceRange: "€€", zone: "eixample-dreta", vibe: "cuina creativa d'autor, una de les millors relacions qualitat-preu de la ciutat" },
+  { name: "Nomo", type: "Japonesa", priceRange: "€€", zone: "eixample-dreta", vibe: "japonesa premium amb omakase i productes de primera" },
+  { name: "Leku", type: "Basca", priceRange: "€€", zone: "eixample-dreta", vibe: "pintxos i cuina basca de nivell amb una barra espectacular" },
   // Gràcia
-  { name: "Deliri", type: "Catalana", priceRange: "€€", zone: "gracia", vibe: "cocina catalana moderna en un espacio íntimo" },
-  { name: "Botafumeiro", type: "Gallega", priceRange: "€€", zone: "gracia", vibe: "marisco gallego de primer nivel, de los mejores de Barcelona" },
+  { name: "Deliri", type: "Catalana", priceRange: "€€", zone: "gracia", vibe: "cuina catalana moderna en un espai íntim" },
+  { name: "Botafumeiro", type: "Gallega", priceRange: "€€", zone: "gracia", vibe: "marisc gallec de primer nivell, dels millors de Barcelona" },
   // Poblenou
-  { name: "Disfrutar", type: "Creativa", priceRange: "€€", zone: "eixample-esquerra", vibe: "tres estrellas Michelin, cocina creativa de los ex-chefs de El Bulli — experiencia única" },
-  { name: "La Barca del Salamanca", type: "Marinera", priceRange: "€€", zone: "poblenou", vibe: "arroces con vistas al puerto olímpico, cocina marinera de nivel" },
+  { name: "Cinc Sentits", type: "Catalana", priceRange: "€€", zone: "eixample-esquerra", vibe: "cuina catalana d'autor amb producte de temporada, menú degustació que val molt la pena — estrella Michelin accessible" },
+  { name: "Mordisco", type: "Mediterrània", priceRange: "€€", zone: "eixample-esquerra", vibe: "cuina mediterrània informal però amb molt de nivell a Enric Granados, terrassa i ambient cuidat" },
+  { name: "La Barca del Salamanca", type: "Marinera", priceRange: "€€", zone: "poblenou", vibe: "arrossos amb vistes al port olímpic, cuina marinera de nivell" },
   // Barceloneta
-  { name: "Can Paixano (La Xampanyeria)", type: "Catalana", priceRange: "€€", zone: "barceloneta", vibe: "cava y bocadillos a precio de risa en el bar más divertido del barrio" },
+  { name: "Can Paixano (La Xampanyeria)", type: "Catalana", priceRange: "€€", zone: "barceloneta", vibe: "cava i entrepans a preu de riure al bar més divertit del barri" },
   // Poble-sec
-  { name: "Tickets", type: "Creativa", priceRange: "€€", zone: "poble-sec", vibe: "tapas creativas de los Adrià, cada plato es un espectáculo" },
+  { name: "Tickets", type: "Creativa", priceRange: "€€", zone: "poble-sec", vibe: "tapes creatives dels Adrià, cada plat és un espectacle" },
   // Sant Antoni
-  { name: "Maleducat", type: "Catalana", priceRange: "€€", zone: "sant-antoni", vibe: "arroces espectaculares y cocina de mercado con personalidad" },
+  { name: "Maleducat", type: "Catalana", priceRange: "€€", zone: "sant-antoni", vibe: "arrossos espectaculars i cuina de mercat amb personalitat" },
   // Sarrià / Zona Alta
-  { name: "Asador de Aranda", type: "Castellana", priceRange: "€€", zone: "sarria-pedralbes", vibe: "cordero y cochinillo en un edificio modernista espectacular" },
-  { name: "Hofmann", type: "Creativa", priceRange: "€€", zone: "sarria-pedralbes", vibe: "escuela de cocina y restaurante, creatividad con base clásica impecable" },
+  { name: "Asador de Aranda", type: "Castellana", priceRange: "€€", zone: "sarria-pedralbes", vibe: "xai i porcella en un edifici modernista espectacular" },
+  { name: "Hofmann", type: "Creativa", priceRange: "€€", zone: "sarria-pedralbes", vibe: "escola de cuina i restaurant, creativitat amb base clàssica impecable" },
   // Les Corts
-  { name: "Via Veneto", type: "Clásica", priceRange: "€€", zone: "les-corts", vibe: "alta cocina clásica con estrella Michelin, elegancia de otra época" },
+  { name: "Via Veneto", type: "Clàssica", priceRange: "€€", zone: "les-corts", vibe: "alta cuina clàssica amb estrella Michelin, elegància d'una altra època" },
   // Sant Martí (Clot / Camp de l'Arpa)
-  { name: "Xemei", type: "Italiana", priceRange: "€€", zone: "sant-marti", vibe: "cocina veneciana de autor con cícheti y pastas hechas en casa" },
-  { name: "La Mundana (degustación)", type: "Mediterránea", priceRange: "€€", zone: "sant-marti", vibe: "menú degustación con producto de mercado que cambia cada semana" },
+  { name: "Xemei", type: "Italiana", priceRange: "€€", zone: "sant-marti", vibe: "cuina veneciana d'autor amb cícheti i pastes fetes a casa" },
+  { name: "La Mundana (degustación)", type: "Mediterrània", priceRange: "€€", zone: "sant-marti", vibe: "menú degustació amb producte de mercat que canvia cada setmana" },
   // Sant Martí
-  { name: "Arola (Hotel Arts)", type: "Mediterránea", priceRange: "€€", zone: "vila-olimpica", vibe: "terraza junto al mar del Hotel Arts, cocina mediterránea de nivel con vistas" },
+  { name: "Arola (Hotel Arts)", type: "Mediterrània", priceRange: "€€", zone: "vila-olimpica", vibe: "terrassa vora el mar de l'Hotel Arts, cuina mediterrània de nivell amb vistes" },
   // Horta-Guinardó
-  { name: "Can Travi Nou (menú)", type: "Catalana premium", priceRange: "€€", zone: "horta-guinardo", vibe: "menú degustación en una masía histórica con jardín, experiencia única fuera del centro" },
+  { name: "Can Travi Nou (menú)", type: "Catalana premium", priceRange: "€€", zone: "horta-guinardo", vibe: "menú degustació en una masia històrica amb jardí, experiència única fora del centre" },
   // Sant Andreu
-  { name: "La Fonda del Recó", type: "Catalana", priceRange: "€€", zone: "sant-andreu", vibe: "cocina catalana actualizada con producto de mercado en Sant Andreu" },
+  { name: "La Fonda del Recó", type: "Catalana", priceRange: "€€", zone: "sant-andreu", vibe: "cuina catalana actualitzada amb producte de mercat a Sant Andreu" },
   // Gòtic
   { name: "Koy Shunka", type: "Japonesa", priceRange: "€€", zone: "gotic", vibe: "japonès d'alt nivell davant la Catedral, estrella Michelin — omakase que deixa sense paraules" },
   { name: "Sensi Tapas", type: "Mediterrània", priceRange: "€€", zone: "gotic", vibe: "tapes d'autor mediterrànies amb producte de primera, al cor del Gòtic" },
@@ -354,102 +360,104 @@ export const RESTAURANTS_PREMIUM: Restaurant[] = [
 
 export const BARS: Bar[] = [
   // Born
-  { name: "Paradiso", type: "Speakeasy", zone: "born", vibe: "se esconde detrás de una nevera de un bar de pastrami — top 50 mundial" },
-  { name: "La Vinya del Senyor", type: "Wine bar", zone: "born", vibe: "terraza frente a Santa Maria del Mar con una carta de vinos brutal" },
-  { name: "Bodega Maestrazgo", type: "Bodega", zone: "born", vibe: "vermut de grifo y conservas, bodega con cincuenta años de historia" },
-  { name: "Collage Cocktail Bar", type: "Cocktail bar", zone: "born", vibe: "cocktails de autor en un local íntimo con ladrillo visto" },
+  { name: "Paradiso", type: "Speakeasy", zone: "born", vibe: "s'amaga darrere d'una nevera d'un bar de pastrami — top 50 mundial" },
+  { name: "La Vinya del Senyor", type: "Wine bar", zone: "born", vibe: "terrassa davant de Santa Maria del Mar amb una carta de vins brutal" },
+  { name: "Bodega Maestrazgo", type: "Bodega", zone: "born", vibe: "vermut de tap i conserves, bodega amb cinquanta anys d'història" },
+  { name: "Collage Cocktail Bar", type: "Cocktail bar", zone: "born", vibe: "còctels d'autor en un local íntim amb maó vist" },
   // Raval
-  { name: "33|45", type: "Bar musical", zone: "raval", vibe: "vinilos, cocktails y buena música en un bar con alma" },
-  { name: "Betty Ford's", type: "Cocktail bar", zone: "raval", vibe: "bar americano kitsch con cocktails potentes y buen rollo" },
-  { name: "Casa Almirall", type: "Bar histórico", zone: "raval", vibe: "el bar más antiguo del Raval, con el absenta de siempre y un interior modernista precioso" },
-  { name: "Negroni", type: "Cocktail bar", zone: "raval", vibe: "cocktails clásicos bien hechos en un local oscuro y acogedor de Joaquín Costa" },
+  { name: "33|45", type: "Bar musical", zone: "raval", vibe: "vinils, còctels i bona música en un bar amb ànima" },
+  { name: "Betty Ford's", type: "Cocktail bar", zone: "raval", vibe: "bar americà kitsch amb còctels potents i bon rotllo" },
+  { name: "Casa Almirall", type: "Bar històric", zone: "raval", vibe: "el bar més antic del Raval, amb l'absenta de sempre i un interior modernista preciós" },
+  { name: "Negroni", type: "Cocktail bar", zone: "raval", vibe: "còctels clàssics ben fets en un local fosc i acollidor de Joaquín Costa" },
   // Eixample Dreta
-  { name: "Dry Martini", type: "Cocktail bar clásico", zone: "eixample-dreta", vibe: "el bar de cocktails clásico por excelencia, barra de madera y camareros de chaqueta" },
-  { name: "Bar Mut", type: "Wine bar", zone: "eixample-dreta", vibe: "vermut, anchoas y ese punto de bar clásico barcelonés que siempre funciona" },
-  { name: "Bobby's Free", type: "Speakeasy", zone: "eixample-dreta", vibe: "speakeasy dentro de una barbería — encuentras la puerta y es otro mundo" },
-  { name: "El Maravillas", type: "Rooftop", zone: "eixample-dreta", vibe: "Aperol Spritz en la azotea del Hotel Almanac con vistas a la ciudad" },
-  { name: "Bridge 48", type: "Cocktail bar", zone: "eixample-dreta", vibe: "cocktails de autor en un espacio industrial muy cuidado" },
+  { name: "Dry Martini", type: "Cocktail bar clàssic", zone: "eixample-dreta", vibe: "el bar de còctels clàssic per excel·lència, barra de fusta i cambrers de jaqueta" },
+  { name: "Bar Mut", type: "Wine bar", zone: "eixample-dreta", vibe: "vermut, anxoves i aquell punt de bar clàssic barceloní que sempre funciona" },
+  { name: "Bobby's Free", type: "Speakeasy", zone: "eixample-dreta", vibe: "speakeasy dins d'una barberia — trobes la porta i és un altre món" },
+  { name: "El Maravillas", type: "Rooftop", zone: "eixample-dreta", vibe: "Aperol Spritz a l'àtic de l'Hotel Almanac amb vistes a la ciutat" },
+  { name: "Bridge 48", type: "Cocktail bar", zone: "eixample-dreta", vibe: "còctels d'autor en un espai industrial molt cuidat" },
   // Gràcia
-  { name: "Elephanta", type: "Bar musical", zone: "gracia", vibe: "cocktails, música en vinilo y una barra preciosa en el corazón de Gràcia" },
-  { name: "Bobby Gin", type: "Gin bar", zone: "gracia", vibe: "gin-tonics de autor con botánicos propios, en un local con mucho carácter" },
-  { name: "Virreina Bar", type: "Terraza", zone: "gracia", vibe: "terraza en la Plaça de la Virreina con cañas y vermut, paz total" },
-  { name: "Café del Sol", type: "Terraza", zone: "gracia", vibe: "la terraza clásica de Plaça del Sol, cañas y atardecer" },
+  { name: "Elephanta", type: "Bar musical", zone: "gracia", vibe: "còctels, música en vinil i una barra preciosa al cor de Gràcia" },
+  { name: "Bobby Gin", type: "Gin bar", zone: "gracia", vibe: "gin-tonics d'autor amb botànics propis, en un local amb molt de caràcter" },
+  { name: "Virreina Bar", type: "Terrassa", zone: "gracia", vibe: "terrassa a la Plaça de la Virreina amb canyes i vermut, pau total" },
+  { name: "Café del Sol", type: "Terrassa", zone: "gracia", vibe: "la terrassa clàssica de Plaça del Sol, canyes i capvespre" },
   // Poblenou
-  { name: "Madame George", type: "Cocktail bar", zone: "poblenou", vibe: "cocktails creativos en un local precioso con planta y ladrillo visto" },
-  { name: "Nomad Coffee", type: "Specialty coffee", zone: "poblenou", vibe: "el mejor café de especialidad de Barcelona, tostado aquí mismo" },
-  { name: "La Cervecita Nuestra de Cada Día", type: "Cervecería craft", zone: "poblenou", vibe: "treinta grifos de cerveza artesana y el mejor pulled pork de la zona" },
-  { name: "Oso", type: "Wine bar", zone: "poblenou", vibe: "vinos naturales y tapas de mercado en un espacio industrial del Poblenou" },
+  { name: "Madame George", type: "Cocktail bar", zone: "poblenou", vibe: "còctels creatius en un local preciós amb planta i maó vist" },
+  { name: "Nomad Coffee", type: "Specialty coffee", zone: "poblenou", vibe: "el millor cafè d'especialitat de Barcelona, torrat aquí mateix" },
+  { name: "La Cervecita Nuestra de Cada Día", type: "Cerveseria craft", zone: "poblenou", vibe: "trenta grifons de cervesa artesana i el millor pulled pork de la zona" },
+  { name: "Oso", type: "Wine bar", zone: "poblenou", vibe: "vins naturals i tapes de mercat en un espai industrial del Poblenou" },
   // Barceloneta
-  { name: "La Cervecería", type: "Cervecería", zone: "barceloneta", vibe: "cañas y bravas frente al mar, institución de la Barceloneta" },
-  { name: "Vai Moana", type: "Chiringuito", zone: "barceloneta", vibe: "mojitos con los pies casi en la arena y atardecer delante" },
-  { name: "Santa Marta", type: "Terraza", zone: "barceloneta", vibe: "terraza con vistas al mar y cocina mediterránea informal" },
+  { name: "La Cervecería", type: "Cerveseria", zone: "barceloneta", vibe: "canyes i braves davant del mar, institució de la Barceloneta" },
+  { name: "Vai Moana", type: "Chiringuito", zone: "barceloneta", vibe: "mojitos amb els peus gairebé a la sorra i capvespre davant" },
+  { name: "Santa Marta", type: "Terrassa", zone: "barceloneta", vibe: "terrassa amb vistes al mar i cuina mediterrània informal" },
   // Poble-sec
-  { name: "Bar Calders", type: "Terraza", zone: "poble-sec", vibe: "la terraza más buscada de Poble-sec, vermut y platos para picar" },
-  { name: "La Caseta del Migdia", type: "Chiringuito", zone: "poble-sec", vibe: "chiringuito escondido en Montjuïc entre pinos — cuesta encontrarlo pero merece la pena" },
-  { name: "Absenta Bar", type: "Bar histórico", zone: "poble-sec", vibe: "absenta y cocktails en un local lleno de muñecos y arte urbano" },
+  { name: "Bar Calders", type: "Terrassa", zone: "poble-sec", vibe: "la terrassa més buscada de Poble-sec, vermut i plats per picar" },
+  { name: "La Caseta del Migdia", type: "Chiringuito", zone: "poble-sec", vibe: "chiringuito amagat a Montjuïc entre pins — costa trobar-lo però val la pena" },
+  { name: "Absenta Bar", type: "Bar històric", zone: "poble-sec", vibe: "absenta i còctels en un local ple de nines i art urbà" },
   // Sant Antoni
-  { name: "Bar Brutal", type: "Wine bar", zone: "sant-antoni", vibe: "vinos naturales y tapas en Can Cisa, el colmado reconvertido más bonito del barrio" },
-  { name: "La Confitería", type: "Bar histórico", zone: "sant-antoni", vibe: "antigua confitería del XIX reconvertida en bar de cocktails, el techo es una obra de arte" },
+  { name: "Bar Brutal", type: "Wine bar", zone: "sant-antoni", vibe: "vins naturals i tapes a Can Cisa, el colmado reconvertit més bonic del barri" },
+  { name: "La Confitería", type: "Bar històric", zone: "sant-antoni", vibe: "antiga confiteria del XIX reconvertida en bar de còctels, el sostre és una obra d'art" },
   // Sarrià / Zona Alta
-  { name: "Mirablau", type: "Bar con vistas", zone: "sarria-pedralbes", vibe: "cocktails con las vistas más espectaculares de Barcelona, al pie del Tibidabo" },
-  { name: "Terraza del Hotel Ohla", type: "Rooftop", zone: "sarria-pedralbes", vibe: "piscina y cocktails con vistas panorámicas de la ciudad" },
-  { name: "Marcel", type: "Wine bar", zone: "sarria-pedralbes", vibe: "vinoteca tranquila en Sarrià con buena selección y tapas de autor" },
+  { name: "Mirablau", type: "Bar amb vistes", zone: "sarria-pedralbes", vibe: "còctels amb les vistes més espectaculars de Barcelona, al peu del Tibidabo" },
+  { name: "Terraza del Hotel Ohla", type: "Rooftop", zone: "sarria-pedralbes", vibe: "piscina i còctels amb vistes panoràmiques de la ciutat" },
+  { name: "Marcel", type: "Wine bar", zone: "sarria-pedralbes", vibe: "vinoteca tranquil·la a Sarrià amb bona selecció i tapes d'autor" },
   // Les Corts
-  { name: "Garage Beer Co (Les Corts)", type: "Cervecería craft", zone: "les-corts", vibe: "cerveza artesana de barrio con terraza, buen plan informal" },
-  { name: "Cocktail Bar Les Corts", type: "Cocktail bar", zone: "les-corts", vibe: "cocktails clásicos bien hechos en un bar de barrio con encanto" },
+  { name: "Garage Beer Co (Les Corts)", type: "Cerveseria craft", zone: "les-corts", vibe: "cervesa artesana de barri amb terrassa, bon pla informal" },
+  { name: "Cocktail Bar Les Corts", type: "Cocktail bar", zone: "les-corts", vibe: "còctels clàssics ben fets en un bar de barri amb encant" },
   // Sant Martí (Clot / Camp de l'Arpa)
-  { name: "La Rovira", type: "Terraza", zone: "sant-marti", vibe: "terraza de barrio con vermut, cañas y ese rollo de Clot auténtico" },
-  { name: "Bar Eléctric", type: "Cocktail bar", zone: "sant-marti", vibe: "cocktails creativos en un local pequeño con mucha personalidad en Camp de l'Arpa" },
-  { name: "La Cervecería del Clot", type: "Cervecería craft", zone: "sant-marti", vibe: "grifos de cerveza artesana local y tapas, ambiente joven y relajado" },
+  { name: "La Rovira", type: "Terrassa", zone: "sant-marti", vibe: "terrassa de barri amb vermut, canyes i aquell rotllo de Clot autèntic" },
+  { name: "Bar Eléctric", type: "Cocktail bar", zone: "sant-marti", vibe: "còctels creatius en un local petit amb molta personalitat a Camp de l'Arpa" },
+  { name: "La Cervecería del Clot", type: "Cerveseria craft", zone: "sant-marti", vibe: "grifons de cervesa artesana local i tapes, ambient jove i relaxat" },
   // Vila Olímpica
-  { name: "Shôko", type: "Lounge", zone: "vila-olimpica", vibe: "cocktails frente al mar en el Port Olímpic, terraza con atardecer" },
-  { name: "Opium Barcelona", type: "Lounge", zone: "vila-olimpica", vibe: "cocktails y música junto a la playa, ambiente nocturno con estilo" },
-  { name: "Ice Barcelona", type: "Bar temático", zone: "vila-olimpica", vibe: "bar de hielo con cocktails incluidos y la experiencia de estar a -5 grados" },
+  { name: "Shôko", type: "Lounge", zone: "vila-olimpica", vibe: "còctels davant del mar al Port Olímpic, terrassa amb capvespre" },
+  { name: "Opium Barcelona", type: "Lounge", zone: "vila-olimpica", vibe: "còctels i música vora la platja, ambient nocturn amb estil" },
+  { name: "Ice Barcelona", type: "Bar temàtic", zone: "vila-olimpica", vibe: "bar de gel amb còctels inclosos i l'experiència d'estar a -5 graus" },
   // Horta-Guinardó
-  { name: "El Mirador del Carmel", type: "Terraza", zone: "horta-guinardo", vibe: "cervezas con las mejores vistas de Barcelona desde los Bunkers, atardecer obligatorio" },
-  { name: "Bar del Laberint", type: "Terraza", zone: "horta-guinardo", vibe: "terraza tranquila cerca del Laberint d'Horta, vermut y calma" },
-  { name: "La Vermutería del Guinardó", type: "Vermutería", zone: "horta-guinardo", vibe: "vermut artesano, aceitunas gordas y esa vida de barrio que no encuentras en el centro" },
+  { name: "El Mirador del Carmel", type: "Terrassa", zone: "horta-guinardo", vibe: "cerveses amb les millors vistes de Barcelona des dels Bunkers, capvespre obligatori" },
+  { name: "Bar del Laberint", type: "Terrassa", zone: "horta-guinardo", vibe: "terrassa tranquil·la a prop del Laberint d'Horta, vermut i calma" },
+  { name: "La Vermutería del Guinardó", type: "Vermuteria", zone: "horta-guinardo", vibe: "vermut artesà, olives grosses i aquella vida de barri que no trobes al centre" },
   // Sant Andreu
-  { name: "Bar La Rambla de Sant Andreu", type: "Terraza", zone: "sant-andreu", vibe: "vermut y tapas en la rambla peatonal, el centro de la vida del barrio" },
-  { name: "La Fábrica (Fabra i Coats)", type: "Bar cultural", zone: "sant-andreu", vibe: "bar en el recinto cultural de Fabra i Coats, cerveza y exposiciones" },
+  { name: "Bar La Rambla de Sant Andreu", type: "Terrassa", zone: "sant-andreu", vibe: "vermut i tapes a la rambla per a vianants, el centre de la vida del barri" },
+  { name: "La Fábrica (Fabra i Coats)", type: "Bar cultural", zone: "sant-andreu", vibe: "bar al recinte cultural de Fabra i Coats, cervesa i exposicions" },
   // Nou Barris
-  { name: "Bar Mirador Torre Baró", type: "Terraza", zone: "nou-barris", vibe: "cervezas con vistas panorámicas desde lo alto de Nou Barris, un secreto de la ciudad" },
-  { name: "El Chiringuito de Roquetes", type: "Terraza", zone: "nou-barris", vibe: "terraza de barrio con ambiente local y precios populares, buen vermut" },
+  { name: "Bar Mirador Torre Baró", type: "Terrassa", zone: "nou-barris", vibe: "cerveses amb vistes panoràmiques des de dalt de Nou Barris, un secret de la ciutat" },
+  { name: "El Chiringuito de Roquetes", type: "Terrassa", zone: "nou-barris", vibe: "terrassa de barri amb ambient local i preus populars, bon vermut" },
   // Gòtic
   { name: "L'Ascensor", type: "Cocktail bar", zone: "gotic", vibe: "cocktails en un local amb porta d'ascensor antiga, un clàssic amagat del Gòtic" },
   { name: "Sor Rita", type: "Bar", zone: "gotic", vibe: "decoració kitsch i camp, vermuts i ambient desinhibit a la Plaça George Orwell" },
   { name: "Glaciar", type: "Terrassa", zone: "gotic", vibe: "la terrassa de tota la vida a Plaça Reial, cerveses i veure la gent passar" },
   // Sagrada Família
   { name: "Garage Beer Co", type: "Cerveceria craft", zone: "sagrada-familia", vibe: "cervesa artesana feta aquí mateix, grifos rotatius i ambient informal" },
-  { name: "La Vermuteria de la Sagrada Família", type: "Vermuteria", zone: "sagrada-familia", vibe: "vermut de grifo, olives i aquell rotllo de barri que no trobes al centre" },
+  { name: "La Vermuteria de la Sagrada Família", type: "Vermuteria", zone: "sagrada-familia", vibe: "vermut de tap, olives i aquell rotllo de barri que no trobes al centre" },
   // Eixample Esquerra
-  { name: "Milano Cocktail Bar", type: "Cocktail bar", zone: "eixample-esquerra", vibe: "cocktails clàssics en un soterrani elegant, un dels secrets més ben guardats de l'Eixample" },
+  { name: "Milano Cocktail Bar", type: "Cocktail bar", zone: "eixample-esquerra", vibe: "còctels clàssics en un soterrani elegant, un dels secrets més ben guardats de l'Eixample" },
+  { name: "Slow Barcelona", type: "Wine bar", zone: "eixample-esquerra", vibe: "vins naturals i tapes d'autor a Enric Granados, ambient íntim i carta curta però impecable" },
+  { name: "Garage Beer Co", type: "Cerveceria craft", zone: "eixample-esquerra", vibe: "cervesa artesana elaborada aquí mateix amb grifos rotatius, ambient industrial i informal" },
 ];
 
 // ─── Walks ────────────────────────────────────────────────────
 
 export const WALKS: Walk[] = [
-  { name: "el Born", zone: "born", description: "callejuelas llenas de galerías, tiendas bonitas y terrazas hasta Santa Maria del Mar", duration: "45 min" },
-  { name: "el Gòtic", zone: "gotic", description: "desde la Catedral por la Plaça del Rei, el Call Jueu y placitas que llevan siglos ahí", duration: "40 min" },
-  { name: "el Raval", zone: "raval", description: "del MACBA por Carrer dels Tallers, ambiente multicultural y sitios inesperados", duration: "35 min" },
-  { name: "Gràcia", zone: "gracia", description: "placitas con terrazas, tiendas vintage y ese rollo de pueblo dentro de la ciudad", duration: "40 min" },
-  { name: "la Rambla del Poblenou", zone: "poblenou", description: "la rambla de barrio más auténtica de Barcelona, terrazas, plátanos y vecinos de toda la vida", duration: "30 min" },
-  { name: "Poblenou industrial", zone: "poblenou", description: "naves reconvertidas, street art, Palo Alto y el Poblenou que mira al futuro sin olvidar las fábricas", duration: "50 min" },
-  { name: "la Barceloneta", zone: "barceloneta", description: "por el Port Vell, cruzar las callejuelas de pescadores y acabar en la playa", duration: "50 min" },
-  { name: "el passeig marítim", zone: "barceloneta", description: "desde la Barceloneta hasta el Port Olímpic con el Mediterráneo a la izquierda", duration: "40 min" },
-  { name: "Montjuïc", zone: "poble-sec", description: "subir hasta el MNAC con vistas de toda Barcelona, jardines y ese silencio de montaña en medio de la ciudad", duration: "1h" },
-  { name: "Poble-sec y Paral·lel", zone: "poble-sec", description: "del Paral·lel subiendo por las calles empinadas del barrio, huertos urbanos y terrazas escondidas", duration: "35 min" },
-  { name: "el Eixample", zone: "eixample-dreta", description: "Passeig de Gràcia, fachadas modernistas, Enric Granados y el ritmo pausado de las manzanas del Cerdà", duration: "1h" },
-  { name: "Sarrià pueblo", zone: "sarria-pedralbes", description: "calles de pueblo dentro de la ciudad, el Mercat de Sarrià y el Monestir de Pedralbes", duration: "45 min" },
-  { name: "Sant Antoni y alrededores", zone: "sant-antoni", description: "desde el Mercat de Sant Antoni por Parlament y Manso, buen ambiente y tiendas de diseño", duration: "30 min" },
+  { name: "el Born", zone: "born", description: "carrerons plens de galeries, botigues boniques i terrasses fins a Santa Maria del Mar", duration: "45 min" },
+  { name: "el Gòtic", zone: "gotic", description: "des de la Catedral per la Plaça del Rei, el Call Jueu i placetes que porten segles allà", duration: "40 min" },
+  { name: "el Raval", zone: "raval", description: "del MACBA pel Carrer dels Tallers, ambient multicultural i llocs inesperats", duration: "35 min" },
+  { name: "Gràcia", zone: "gracia", description: "placetes amb terrasses, botigues vintage i aquell rotllo de poble dins la ciutat", duration: "40 min" },
+  { name: "la Rambla del Poblenou", zone: "poblenou", description: "la rambla de barri més autèntica de Barcelona, terrasses, plataners i veïns de tota la vida", duration: "30 min" },
+  { name: "Poblenou industrial", zone: "poblenou", description: "naus reconvertides, street art, Palo Alto i el Poblenou que mira al futur sense oblidar les fàbriques", duration: "50 min" },
+  { name: "la Barceloneta", zone: "barceloneta", description: "pel Port Vell, travessar els carrerons de pescadors i acabar a la platja", duration: "50 min" },
+  { name: "el passeig marítim", zone: "barceloneta", description: "des de la Barceloneta fins al Port Olímpic amb el Mediterrani a l'esquerra", duration: "40 min" },
+  { name: "Montjuïc", zone: "poble-sec", description: "pujar fins al MNAC amb vistes de tota Barcelona, jardins i aquell silenci de muntanya enmig de la ciutat", duration: "1h" },
+  { name: "Poble-sec y Paral·lel", zone: "poble-sec", description: "del Paral·lel pujant pels carrers empinats del barri, horts urbans i terrasses amagades", duration: "35 min" },
+  { name: "el Eixample", zone: "eixample-dreta", description: "Passeig de Gràcia, façanes modernistes, Enric Granados i el ritme pausat de les illes del Cerdà", duration: "1h" },
+  { name: "Sarrià pueblo", zone: "sarria-pedralbes", description: "carrers de poble dins la ciutat, el Mercat de Sarrià i el Monestir de Pedralbes", duration: "45 min" },
+  { name: "Sant Antoni y alrededores", zone: "sant-antoni", description: "des del Mercat de Sant Antoni per Parlament i Manso, bon ambient i botigues de disseny", duration: "30 min" },
   // Nuevas zonas
-  { name: "Les Corts y el Camp Nou", zone: "les-corts", description: "por la zona universitaria hasta el Camp Nou, barrio residencial con rincones tranquilos", duration: "40 min" },
-  { name: "el Clot y Camp de l'Arpa", zone: "sant-marti", description: "calles con ambiente de barrio, plazas escondidas y murales de arte urbano que pocos turistas ven", duration: "35 min" },
-  { name: "la Vila Olímpica al port", zone: "vila-olimpica", description: "desde Ciutadella por el Port Olímpic hasta la playa de la Nova Icària, paseo entre arte y mar", duration: "45 min" },
-  { name: "Horta y el Laberint", zone: "horta-guinardo", description: "subir al Laberint d'Horta, el jardín neoclásico más antiguo de Barcelona, y bajar por calles con historia", duration: "1h" },
-  { name: "los Bunkers del Carmel", zone: "horta-guinardo", description: "la subida hasta el mirador más famoso de Barcelona — el esfuerzo merece cada vista", duration: "50 min" },
-  { name: "Rambla de Sant Andreu", zone: "sant-andreu", description: "paseo por la rambla peatonal del barrio, mercado, iglesia y ambiente de pueblo dentro de la ciudad", duration: "30 min" },
-  { name: "Nou Barris y miradores", zone: "nou-barris", description: "subir a Torre Baró por vistas que compiten con Montjuïc pero sin un solo turista", duration: "50 min" },
+  { name: "Les Corts y el Camp Nou", zone: "les-corts", description: "per la zona universitària fins al Camp Nou, barri residencial amb racons tranquils", duration: "40 min" },
+  { name: "el Clot y Camp de l'Arpa", zone: "sant-marti", description: "carrers amb ambient de barri, places amagades i murals d'art urbà que pocs turistes veuen", duration: "35 min" },
+  { name: "la Vila Olímpica al port", zone: "vila-olimpica", description: "des de Ciutadella pel Port Olímpic fins a la platja de la Nova Icària, passeig entre art i mar", duration: "45 min" },
+  { name: "Horta y el Laberint", zone: "horta-guinardo", description: "pujar al Laberint d'Horta, el jardí neoclàssic més antic de Barcelona, i baixar per carrers amb història", duration: "1h" },
+  { name: "los Bunkers del Carmel", zone: "horta-guinardo", description: "la pujada fins al mirador més famós de Barcelona — l'esforç val cada vista", duration: "50 min" },
+  { name: "Rambla de Sant Andreu", zone: "sant-andreu", description: "passeig per la rambla per a vianants del barri, mercat, església i ambient de poble dins la ciutat", duration: "30 min" },
+  { name: "Nou Barris y miradores", zone: "nou-barris", description: "pujar a Torre Baró per vistes que competeixen amb Montjuïc però sense un sol turista", duration: "50 min" },
   { name: "l'Avinguda Gaudí", zone: "sagrada-familia", description: "el passeig peatonal que connecta la Sagrada Família amb l'Hospital de Sant Pau, modernisme a banda i banda", duration: "20 min" },
   { name: "Enric Granados", zone: "eixample-esquerra", description: "el carrer peatonal més bonic de l'Eixample, terrasses, galeries i botigues de disseny entre illes del Cerdà", duration: "30 min" },
 ];
@@ -458,142 +466,142 @@ export const WALKS: Walk[] = [
 
 export const CULTURAL_SPOTS: CulturalSpot[] = [
   // Born
-  { name: "Museu Picasso", type: "museo", zone: "born", what: "cinco palacios medievales con la etapa más joven de Picasso", price: "12 €" },
-  { name: "MEAM", type: "museo", zone: "born", what: "arte figurativo contemporáneo en un palacio del Born — sorprende mucho", price: "11 €" },
-  { name: "Moco Museum", type: "museo", zone: "born", what: "Banksy, KAWS, Haring — arte moderno y contemporáneo muy visual", price: "16 €" },
+  { name: "Museu Picasso", type: "museo", zone: "born", what: "cinc palaus medievals amb l'etapa més jove de Picasso", price: "12 €" },
+  { name: "MEAM", type: "museo", zone: "born", what: "art figuratiu contemporani en un palau del Born — sorprèn molt", price: "11 €" },
+  { name: "Moco Museum", type: "museo", zone: "born", what: "Banksy, KAWS, Haring — art modern i contemporani molt visual", price: "16 €" },
   // Gòtic
-  { name: "Museu d'Història de Barcelona (MUHBA)", type: "museo", zone: "gotic", what: "la Barcelona romana bajo tus pies, una pasada caminar por calles del siglo I", price: "7 €" },
-  { name: "Basílica de Santa Maria del Mar", type: "espacio", zone: "born", what: "gótico catalán en estado puro, la luz que entra es mágica", price: "gratuita" },
+  { name: "Museu d'Història de Barcelona (MUHBA)", type: "museo", zone: "gotic", what: "la Barcelona romana sota els teus peus, una passada caminar per carrers del segle I", price: "7 €" },
+  { name: "Basílica de Santa Maria del Mar", type: "espai", zone: "born", what: "gòtic català en estat pur, la llum que hi entra és màgica", price: "gratuïta" },
   // Raval
-  { name: "MACBA", type: "museo", zone: "raval", what: "arte contemporáneo con la plaza llena de skaters y buen ambiente", price: "11 €" },
-  { name: "CCCB", type: "centro cultural", zone: "raval", what: "exposiciones que te hacen pensar y un patio de cristal precioso", price: "6 €" },
-  { name: "Filmoteca de Catalunya", type: "centro cultural", zone: "raval", what: "cine de autor, ciclos y retrospectivas a precio de risa en la Plaça de Salvador Seguí", price: "4 €" },
-  { name: "Arts Santa Mònica", type: "centro cultural", zone: "raval", what: "arte y cultura contemporánea con entrada gratis al final de la Rambla", price: "gratuita" },
+  { name: "MACBA", type: "museo", zone: "raval", what: "art contemporani amb la plaça plena de skaters i bon ambient", price: "11 €" },
+  { name: "CCCB", type: "centre cultural", zone: "raval", what: "exposicions que et fan pensar i un pati de vidre preciós", price: "6 €" },
+  { name: "Filmoteca de Catalunya", type: "centre cultural", zone: "raval", what: "cinema d'autor, cicles i retrospectives a preu de riure a la Plaça de Salvador Seguí", price: "4 €" },
+  { name: "Arts Santa Mònica", type: "centre cultural", zone: "raval", what: "art i cultura contemporània amb entrada gratuïta al final de la Rambla", price: "gratuïta" },
   // Eixample Dreta
-  { name: "Fundació Antoni Tàpies", type: "museo", zone: "eixample-dreta", what: "la obra de Tàpies en un edificio modernista de Domènech i Montaner", price: "8 €" },
-  { name: "Casa Batlló", type: "museo", zone: "eixample-dreta", what: "Gaudí en estado puro, la fachada del dragón y un interior que parece el fondo del mar", price: "35 €" },
-  { name: "La Pedrera", type: "museo", zone: "eixample-dreta", what: "la azotea de guerreros de Gaudí y la exposición del piso modernista", price: "25 €" },
-  { name: "Fundació Suñol", type: "galería", zone: "eixample-dreta", what: "arte contemporáneo de la colección Suñol, gratis y siempre con alguna joya", price: "gratuita" },
+  { name: "Fundació Antoni Tàpies", type: "museo", zone: "eixample-dreta", what: "l'obra de Tàpies en un edifici modernista de Domènech i Montaner", price: "8 €" },
+  { name: "Casa Batlló", type: "museo", zone: "eixample-dreta", what: "Gaudí en estat pur, la façana del drac i un interior que sembla el fons del mar", price: "35 €" },
+  { name: "La Pedrera", type: "museo", zone: "eixample-dreta", what: "l'àtic de guerrers de Gaudí i l'exposició del pis modernista", price: "25 €" },
+  { name: "Fundació Suñol", type: "galeria", zone: "eixample-dreta", what: "art contemporani de la col·lecció Suñol, gratis i sempre amb alguna joia", price: "gratuïta" },
   // Gràcia
-  { name: "Casa Vicens", type: "museo", zone: "gracia", what: "la primera casa de Gaudí, azulejos imposibles y un jardín precioso", price: "18 €" },
-  { name: "Mercat de l'Abaceria", type: "espacio", zone: "gracia", what: "mercado de barrio con producto fresco y buen ambiente local", price: "gratuita" },
+  { name: "Casa Vicens", type: "museo", zone: "gracia", what: "la primera casa de Gaudí, rajoles impossibles i un jardí preciós", price: "18 €" },
+  { name: "Mercat de l'Abaceria", type: "espai", zone: "gracia", what: "mercat de barri amb producte fresc i bon ambient local", price: "gratuïta" },
   // Poblenou
-  { name: "Museu del Disseny", type: "museo", zone: "poblenou", what: "diseño, moda y artes decorativas en el edificio Dhub de Glòries — gratuito el primer domingo", price: "8 €" },
-  { name: "Can Framis", type: "museo", zone: "poblenou", what: "pintura contemporánea catalana en una antigua fábrica textil reconvertida", price: "5 €" },
-  { name: "Palo Alto Market", type: "espacio", zone: "poblenou", what: "mercadillo creativo el primer fin de semana de mes en un recinto industrial con jardín — música, food trucks y diseñadores locales", price: "gratuita" },
-  { name: "Centre Cívic Can Felipa", type: "centro cultural", zone: "poblenou", what: "exposiciones y actividades culturales en una antigua fábrica del barrio", price: "gratuita" },
-  { name: "Espai Nyamnyam", type: "espacio", zone: "poblenou", what: "artes vivas y performativas en un espacio independiente del Poblenou", price: "5-10 €" },
+  { name: "Museu del Disseny", type: "museo", zone: "poblenou", what: "disseny, moda i arts decoratives a l'edifici Dhub de Glòries — gratuït el primer diumenge", price: "8 €" },
+  { name: "Can Framis", type: "museo", zone: "poblenou", what: "pintura contemporània catalana en una antiga fàbrica tèxtil reconvertida", price: "5 €" },
+  { name: "Palo Alto Market", type: "espai", zone: "poblenou", what: "mercat creatiu el primer cap de setmana de mes en un recinte industrial amb jardí — música, food trucks i dissenyadors locals", price: "gratuïta" },
+  { name: "Centre Cívic Can Felipa", type: "centre cultural", zone: "poblenou", what: "exposicions i activitats culturals en una antiga fàbrica del barri", price: "gratuïta" },
+  { name: "Espai Nyamnyam", type: "espai", zone: "poblenou", what: "arts vives i performatives en un espai independent del Poblenou", price: "5-10 €" },
   // Barceloneta
-  { name: "Museu d'Història de Catalunya", type: "museo", zone: "barceloneta", what: "la historia de Catalunya de forma interactiva, con una terraza en la azotea con vistas al puerto", price: "6 €" },
+  { name: "Museu d'Història de Catalunya", type: "museo", zone: "barceloneta", what: "la història de Catalunya de forma interactiva, amb una terrassa a l'àtic amb vistes al port", price: "6 €" },
   // Poble-sec / Montjuïc
-  { name: "Fundació Joan Miró", type: "museo", zone: "poble-sec", what: "el universo de Miró en un edificio de Sert con una luz increíble", price: "16 €" },
-  { name: "MNAC", type: "museo", zone: "poble-sec", what: "la mejor colección de arte románico del mundo, y las vistas desde la explanada", price: "12 € (gratis domingos tarde)" },
-  { name: "CaixaForum", type: "centro cultural", zone: "poble-sec", what: "grandes exposiciones internacionales en la antigua fábrica Casaramona", price: "6 €" },
-  { name: "Jardí Botànic de Barcelona", type: "espacio", zone: "poble-sec", what: "plantas mediterráneas con vistas al mar, un paseo de naturaleza en medio de la ciudad", price: "5 €" },
+  { name: "Fundació Joan Miró", type: "museo", zone: "poble-sec", what: "l'univers de Miró en un edifici de Sert amb una llum increïble", price: "16 €" },
+  { name: "MNAC", type: "museo", zone: "poble-sec", what: "la millor col·lecció d'art romànic del món, i les vistes des de l'esplanada", price: "12 € (gratis diumenges tarda)" },
+  { name: "CaixaForum", type: "centre cultural", zone: "poble-sec", what: "grans exposicions internacionals a l'antiga fàbrica Casaramona", price: "6 €" },
+  { name: "Jardí Botànic de Barcelona", type: "espai", zone: "poble-sec", what: "plantes mediterrànies amb vistes al mar, un passeig de natura enmig de la ciutat", price: "5 €" },
   // Sarrià / Zona Alta
-  { name: "CosmoCaixa", type: "museo", zone: "sarria-pedralbes", what: "el mejor museo de ciencia de España, con un bosque tropical dentro", price: "6 €" },
-  { name: "Monestir de Pedralbes", type: "museo", zone: "sarria-pedralbes", what: "claustro gótico con tres pisos y unos frescos medievales que quitan el hipo", price: "5 €" },
-  { name: "Jardins de Pedralbes", type: "espacio", zone: "sarria-pedralbes", what: "jardines señoriales y festival de música en verano", price: "gratuita" },
+  { name: "CosmoCaixa", type: "museo", zone: "sarria-pedralbes", what: "el millor museu de ciència d'Espanya, amb un bosc tropical a dins", price: "6 €" },
+  { name: "Monestir de Pedralbes", type: "museo", zone: "sarria-pedralbes", what: "claustre gòtic amb tres pisos i uns frescos medievals que treuen l'alè", price: "5 €" },
+  { name: "Jardins de Pedralbes", type: "espai", zone: "sarria-pedralbes", what: "jardins senyorials i festival de música a l'estiu", price: "gratuïta" },
   // Sant Antoni
-  { name: "Mercat de Sant Antoni", type: "espacio", zone: "sant-antoni", what: "el mercado más bonito de Barcelona tras su reforma, domingos hay mercadillo de libros", price: "gratuita" },
+  { name: "Mercat de Sant Antoni", type: "espai", zone: "sant-antoni", what: "el mercat més bonic de Barcelona després de la reforma, diumenges hi ha mercat de llibres", price: "gratuïta" },
   // Les Corts
-  { name: "Camp Nou Experience", type: "museo", zone: "les-corts", what: "el museo del Barça y el nuevo estadio, una peregrinación para cualquier culé", price: "28 €" },
-  { name: "Jardins de la Maternitat", type: "espacio", zone: "les-corts", what: "jardines del antiguo complejo modernista de la Maternitat, un remanso de paz en Les Corts", price: "gratuita" },
+  { name: "Camp Nou Experience", type: "museo", zone: "les-corts", what: "el museu del Barça i el nou estadi, una peregrinació per a qualsevol culer", price: "28 €" },
+  { name: "Jardins de la Maternitat", type: "espai", zone: "les-corts", what: "jardins de l'antic complex modernista de la Maternitat, un racó de pau a Les Corts", price: "gratuïta" },
   // Sant Martí (Clot)
-  { name: "Mercat del Clot", type: "espacio", zone: "sant-marti", what: "mercado de barrio con producto fresco y ambiente local auténtico", price: "gratuita" },
-  { name: "Parc del Clot", type: "espacio", zone: "sant-marti", what: "parque construido sobre una antigua estación de tren con arcos de ladrillo originales", price: "gratuita" },
+  { name: "Mercat del Clot", type: "espai", zone: "sant-marti", what: "mercat de barri amb producte fresc i ambient local autèntic", price: "gratuïta" },
+  { name: "Parc del Clot", type: "espai", zone: "sant-marti", what: "parc construït sobre una antiga estació de tren amb arcs de maó originals", price: "gratuïta" },
   // Vila Olímpica
-  { name: "Museu Olímpic i de l'Esport", type: "museo", zone: "vila-olimpica", what: "la historia de los JJOO del 92 y del deporte, interactivo y divertido", price: "5,80 €" },
-  { name: "Parc de la Ciutadella", type: "espacio", zone: "vila-olimpica", what: "el pulmón verde de Barcelona con la cascada monumental, lago y el zoo — pasear aquí es obligatorio", price: "gratuita" },
+  { name: "Museu Olímpic i de l'Esport", type: "museo", zone: "vila-olimpica", what: "la història dels JJOO del 92 i de l'esport, interactiu i divertit", price: "5,80 €" },
+  { name: "Parc de la Ciutadella", type: "espai", zone: "vila-olimpica", what: "el pulmó verd de Barcelona amb la cascada monumental, el llac i el zoo — passejar-hi és obligatori", price: "gratuïta" },
   // Horta-Guinardó
-  { name: "Laberint d'Horta", type: "espacio", zone: "horta-guinardo", what: "el jardín neoclásico más antiguo de Barcelona con un laberinto de cipreses, precioso y tranquilo", price: "gratuita dom/mié" },
-  { name: "Bunkers del Carmel", type: "espacio", zone: "horta-guinardo", what: "antiguas baterías antiaéreas convertidas en el mirador más espectacular de Barcelona — 360 grados de ciudad", price: "gratuita" },
-  { name: "Park Güell", type: "museo", zone: "horta-guinardo", what: "el parque de Gaudí con el dragón, el banco ondulado y vistas de toda Barcelona", price: "10 €" },
+  { name: "Laberint d'Horta", type: "espai", zone: "horta-guinardo", what: "el jardí neoclàssic més antic de Barcelona amb un laberint de xiprers, preciós i tranquil", price: "gratuïta dg/dc" },
+  { name: "Bunkers del Carmel", type: "espai", zone: "horta-guinardo", what: "antigues bateries antiaèries convertides en el mirador més espectacular de Barcelona — 360 graus de ciutat", price: "gratuïta" },
+  { name: "Park Güell", type: "museo", zone: "horta-guinardo", what: "el parc de Gaudí amb el drac, el banc ondulat i vistes de tota Barcelona", price: "10 €" },
   // Sant Andreu
-  { name: "Fabra i Coats", type: "centro cultural", zone: "sant-andreu", what: "antigua fábrica textil reconvertida en centro de creación artística con exposiciones y residencias", price: "gratuita" },
-  { name: "Església de Sant Andreu de Palomar", type: "espacio", zone: "sant-andreu", what: "iglesia románica en el corazón del barrio, la plaza alrededor tiene mucha vida", price: "gratuita" },
+  { name: "Fabra i Coats", type: "centre cultural", zone: "sant-andreu", what: "antiga fàbrica tèxtil reconvertida en centre de creació artística amb exposicions i residències", price: "gratuïta" },
+  { name: "Església de Sant Andreu de Palomar", type: "espai", zone: "sant-andreu", what: "església romànica al cor del barri, la plaça del voltant té molta vida", price: "gratuïta" },
   // Nou Barris
-  { name: "Mirador de Torre Baró", type: "espacio", zone: "nou-barris", what: "vistas panorámicas brutales de Barcelona y el Vallès, sin un solo turista", price: "gratuita" },
-  { name: "Ateneu Popular de Nou Barris", type: "centro cultural", zone: "nou-barris", what: "circo, teatro y cultura comunitaria en un espacio autogestionado con mucha historia", price: "5-10 €" },
+  { name: "Mirador de Torre Baró", type: "espai", zone: "nou-barris", what: "vistes panoràmiques brutals de Barcelona i el Vallès, sense un sol turista", price: "gratuïta" },
+  { name: "Ateneu Popular de Nou Barris", type: "centre cultural", zone: "nou-barris", what: "circ, teatre i cultura comunitària en un espai autogestionat amb molta història", price: "5-10 €" },
   // Sagrada Família
   { name: "Recinte Modernista de Sant Pau", type: "museo", zone: "sagrada-familia", what: "el conjunt modernista més gran d'Europa, Patrimoni UNESCO de Domènech i Montaner — una meravella", price: "15 €" },
   // Eixample Esquerra
   { name: "Museu del Modernisme", type: "museo", zone: "eixample-esquerra", what: "art modernista català en una planta baixa de l'Eixample — mobles, pintures i escultures de Gaudí, Casas i companyia", price: "10 €" },
-  { name: "Universitat de Barcelona (Edifici Històric)", type: "espacio", zone: "eixample-esquerra", what: "l'edifici neogòtic de la UB amb els seus claustres i jardins, un tresor amagat al bell mig de la ciutat", price: "gratuita" },
+  { name: "Universitat de Barcelona (Edifici Històric)", type: "espai", zone: "eixample-esquerra", what: "l'edifici neogòtic de la UB amb els seus claustres i jardins, un tresor amagat al bell mig de la ciutat", price: "gratuïta" },
 ];
 
 export const THEATERS: CulturalSpot[] = [
-  { name: "Teatre Nacional de Catalunya", type: "teatro", zone: "sagrada-familia", what: "el edificio de Bofill, todo cristal y columnas, con programación de primer nivel", price: "15-30 €" },
-  { name: "Teatre Lliure (Montjuïc)", type: "teatro", zone: "poble-sec", what: "teatro independiente con propuestas arriesgadas que casi siempre aciertan", price: "12-28 €" },
-  { name: "Teatre Lliure (Gràcia)", type: "teatro", zone: "gracia", what: "la sala de Gràcia del Lliure, más íntima y con obras de formato pequeño", price: "10-22 €" },
-  { name: "Sala Beckett", type: "sala", zone: "poblenou", what: "dramaturgia contemporánea en un espacio íntimo — las obras pegan fuerte", price: "10-18 €" },
-  { name: "Teatre Romea", type: "teatro", zone: "raval", what: "uno de los teatros más antiguos de Barcelona, siempre con buenas obras", price: "15-28 €" },
-  { name: "Mercat de les Flors", type: "teatro", zone: "poble-sec", what: "danza contemporánea y artes del movimiento, cosas que no ves en otro sitio", price: "10-22 €" },
-  { name: "Teatre Condal", type: "teatro", zone: "eixample-esquerra", what: "musicales y comedia en Paral·lel, buen plan para pasar un rato divertido", price: "15-35 €" },
-  { name: "Antic Teatre", type: "sala", zone: "born", what: "teatro alternativo con un bar-terraza con jardín que es un oasis escondido", price: "8-15 €" },
-  { name: "Teatre Poliorama", type: "teatro", zone: "raval", what: "en plena Rambla, programación variada y siempre con algo interesante", price: "12-30 €" },
+  { name: "Teatre Nacional de Catalunya", type: "teatre", zone: "sagrada-familia", what: "l'edifici de Bofill, tot vidre i columnes, amb programació de primer nivell", price: "15-30 €" },
+  { name: "Teatre Lliure (Montjuïc)", type: "teatre", zone: "poble-sec", what: "teatre independent amb propostes arriscades que gairebé sempre encerten", price: "12-28 €" },
+  { name: "Teatre Lliure (Gràcia)", type: "teatre", zone: "gracia", what: "la sala de Gràcia del Lliure, més íntima i amb obres de format petit", price: "10-22 €" },
+  { name: "Sala Beckett", type: "sala", zone: "poblenou", what: "dramatúrgia contemporània en un espai íntim — les obres peguen fort", price: "10-18 €" },
+  { name: "Teatre Romea", type: "teatre", zone: "raval", what: "un dels teatres més antics de Barcelona, sempre amb bones obres", price: "15-28 €" },
+  { name: "Mercat de les Flors", type: "teatre", zone: "poble-sec", what: "dansa contemporània i arts del moviment, coses que no veus enlloc més", price: "10-22 €" },
+  { name: "Teatre Condal", type: "teatre", zone: "eixample-esquerra", what: "musicals i comèdia al Paral·lel, bon pla per passar una bona estona", price: "15-35 €" },
+  { name: "Antic Teatre", type: "sala", zone: "born", what: "teatre alternatiu amb un bar-terrassa amb jardí que és un oasi amagat", price: "8-15 €" },
+  { name: "Teatre Poliorama", type: "teatre", zone: "raval", what: "en plena Rambla, programació variada i sempre amb alguna cosa interessant", price: "12-30 €" },
   // Nuevos teatros — zonas expandidas + más variedad
-  { name: "Sala Flyhard", type: "sala", zone: "sant-antoni", what: "teatro de texto contemporáneo en un espacio pequeño donde sientes la respiración de los actores", price: "12-18 €" },
-  { name: "Teatre Gaudí Barcelona", type: "teatro", zone: "eixample-esquerra", what: "teatro de barrio con programación ecléctica — desde comedia hasta drama social, siempre sorprende", price: "12-24 €" },
-  { name: "Teatre Victoria", type: "teatro", zone: "poble-sec", what: "musicales y grandes producciones en Paral·lel, la Broadway barcelonesa", price: "20-45 €" },
-  { name: "Almeria Teatre", type: "sala", zone: "sant-andreu", what: "sala independiente en Sant Andreu con propuestas frescas y mucho teatro emergente", price: "10-15 €" },
-  { name: "Versus Teatre", type: "sala", zone: "eixample-esquerra", what: "sala íntima con obras que te remueven, de esas que sales pensando durante días", price: "12-18 €" },
-  { name: "La Seca Espai Brossa", type: "sala", zone: "born", what: "magia, circo y artes parateatrales en un edificio con historia en el Born — algo distinto", price: "10-20 €" },
-  { name: "Teatre Tantarantana", type: "sala", zone: "born", what: "sala alternativa en el corazón del Born, obras con garra y un público fiel", price: "10-16 €" },
-  { name: "Sala Hiroshima", type: "sala", zone: "poblenou", what: "artes escénicas experimentales y danza contemporánea, de lo más vanguardista de la ciudad", price: "8-15 €" },
-  { name: "La Villarroel", type: "teatro", zone: "eixample-esquerra", what: "teatro de autor con producciones propias que llevan años llenando — calidad asegurada", price: "15-28 €" },
-  { name: "Teatre Apolo", type: "teatro", zone: "poble-sec", what: "musicales a lo grande en Paral·lel, decoración de época y ese rollo de teatro clásico", price: "20-50 €" },
-  { name: "Teatre del Raval", type: "sala", zone: "raval", what: "sala de barrio con teatro social y comunitario, producciones que hablan de lo que pasa en la calle", price: "8-15 €" },
-  { name: "Teatreneu", type: "teatro", zone: "gracia", what: "comedia y microteatro en Gràcia — si te ríes pagas, el concepto más genial del mundo", price: "paga por risa" },
-  { name: "SAT! Sant Andreu Teatre", type: "teatro", zone: "sant-andreu", what: "el teatro de referencia del barrio, programación familiar y clásicos con buen nivel", price: "10-22 €" },
-  { name: "Teatre BARTS", type: "teatro", zone: "poble-sec", what: "sala polivalente en Paral·lel con teatro, humor y conciertos, siempre pasa algo", price: "15-30 €" },
-  { name: "Sala Planeta", type: "sala", zone: "sarria-pedralbes", what: "teatro íntimo en la zona alta con obras de calidad en un espacio recogido", price: "12-20 €" },
-  { name: "Ateneu Popular de Nou Barris (teatro)", type: "sala", zone: "nou-barris", what: "circo contemporáneo y teatro comunitario con una energía que no encuentras en el centro", price: "5-12 €" },
-  { name: "Teatre Ovidi Montllor", type: "teatro", zone: "horta-guinardo", what: "teatro de barrio en Horta con programación para todos, nombrado en honor al gran cantautor", price: "8-18 €" },
-  { name: "Sala Fènix", type: "sala", zone: "les-corts", what: "espacio escénico independiente en Les Corts con teatro de texto y propuestas emergentes", price: "10-16 €" },
-  { name: "El Molino", type: "teatro", zone: "poble-sec", what: "cabaret, revista y espectáculos en el mítico Molino del Paral·lel — historia viva de Barcelona", price: "20-40 €" },
+  { name: "Sala Flyhard", type: "sala", zone: "sant-antoni", what: "teatre de text contemporani en un espai petit on sents la respiració dels actors", price: "12-18 €" },
+  { name: "Teatre Gaudí Barcelona", type: "teatre", zone: "eixample-esquerra", what: "teatre de barri amb programació eclèctica — des de comèdia fins a drama social, sempre sorprèn", price: "12-24 €" },
+  { name: "Teatre Victoria", type: "teatre", zone: "poble-sec", what: "musicals i grans produccions al Paral·lel, la Broadway barcelonina", price: "20-45 €" },
+  { name: "Almeria Teatre", type: "sala", zone: "sant-andreu", what: "sala independent a Sant Andreu amb propostes fresques i molt teatre emergent", price: "10-15 €" },
+  { name: "Versus Teatre", type: "sala", zone: "eixample-esquerra", what: "sala íntima amb obres que et remouen, d'aquelles que surts pensant durant dies", price: "12-18 €" },
+  { name: "La Seca Espai Brossa", type: "sala", zone: "born", what: "màgia, circ i arts parateatrals en un edifici amb història al Born — alguna cosa diferent", price: "10-20 €" },
+  { name: "Teatre Tantarantana", type: "sala", zone: "born", what: "sala alternativa al cor del Born, obres amb urpa i un públic fidel", price: "10-16 €" },
+  { name: "Sala Hiroshima", type: "sala", zone: "poblenou", what: "arts escèniques experimentals i dansa contemporània, del més avantguardista de la ciutat", price: "8-15 €" },
+  { name: "La Villarroel", type: "teatre", zone: "eixample-esquerra", what: "teatre d'autor amb produccions pròpies que porten anys omplint — qualitat assegurada", price: "15-28 €" },
+  { name: "Teatre Apolo", type: "teatre", zone: "poble-sec", what: "musicals a lo grande al Paral·lel, decoració d'època i aquell rotllo de teatre clàssic", price: "20-50 €" },
+  { name: "Teatre del Raval", type: "sala", zone: "raval", what: "sala de barri amb teatre social i comunitari, produccions que parlen del que passa al carrer", price: "8-15 €" },
+  { name: "Teatreneu", type: "teatre", zone: "gracia", what: "comèdia i microteatre a Gràcia — si rius pagues, el concepte més genial del món", price: "paga per riure" },
+  { name: "SAT! Sant Andreu Teatre", type: "teatre", zone: "sant-andreu", what: "el teatre de referència del barri, programació familiar i clàssics de bon nivell", price: "10-22 €" },
+  { name: "Teatre BARTS", type: "teatre", zone: "poble-sec", what: "sala polivalent al Paral·lel amb teatre, humor i concerts, sempre hi passa alguna cosa", price: "15-30 €" },
+  { name: "Sala Planeta", type: "sala", zone: "sarria-pedralbes", what: "teatre íntim a la zona alta amb obres de qualitat en un espai recollit", price: "12-20 €" },
+  { name: "Ateneu Popular de Nou Barris (teatro)", type: "sala", zone: "nou-barris", what: "circ contemporani i teatre comunitari amb una energia que no trobes al centre", price: "5-12 €" },
+  { name: "Teatre Ovidi Montllor", type: "teatre", zone: "horta-guinardo", what: "teatre de barri a Horta amb programació per a tothom, anomenat en honor al gran cantautor", price: "8-18 €" },
+  { name: "Sala Fènix", type: "sala", zone: "les-corts", what: "espai escènic independent a Les Corts amb teatre de text i propostes emergents", price: "10-16 €" },
+  { name: "El Molino", type: "teatre", zone: "poble-sec", what: "cabaret, revista i espectacles al mític Molino del Paral·lel — història viva de Barcelona", price: "20-40 €" },
 ];
 
 export const MUSIC_VENUES: CulturalSpot[] = [
-  { name: "Jamboree Jazz Club", type: "sala", zone: "gotic", what: "jazz en directo cada noche en un sótano de Plaça Reial con mucha historia", price: "15 €" },
-  { name: "Sala Apolo", type: "sala", zone: "poble-sec", what: "música en directo con una energía especial, desde indie hasta electrónica", price: "15-25 €" },
-  { name: "Razzmatazz", type: "sala", zone: "poblenou", what: "cinco salas con estilos distintos, siempre encuentras algo que te va", price: "15-20 €" },
-  { name: "Palau de la Música", type: "sala", zone: "born", what: "una de las salas de conciertos más bonitas del mundo — el modernismo en su máxima expresión", price: "20-50 €" },
-  { name: "L'Auditori", type: "sala", zone: "sagrada-familia", what: "la sala grande de Barcelona para clásica y contemporánea, sonido impecable", price: "10-40 €" },
-  { name: "Heliogàbal", type: "sala", zone: "gracia", what: "música en directo y poesía en un sótano de Gràcia, espíritu underground de verdad", price: "5-10 €" },
-  { name: "Sidecar", type: "sala", zone: "gotic", what: "rock y músicas alternativas en Plaça Reial desde los 80", price: "10-15 €" },
-  { name: "La [2] de Apolo", type: "sala", zone: "poble-sec", what: "la sala pequeña de Apolo, más íntima, sesiones electrónicas y DJ sets de nivel", price: "10-15 €" },
-  { name: "Upload", type: "sala", zone: "poblenou", what: "sala de conciertos nueva en Poblenou, buen sonido y propuestas actuales", price: "10-20 €" },
+  { name: "Jamboree Jazz Club", type: "sala", zone: "gotic", what: "jazz en directe cada nit en un soterrani de Plaça Reial amb molta història", price: "15 €" },
+  { name: "Sala Apolo", type: "sala", zone: "poble-sec", what: "música en directe amb una energia especial, des d'indie fins a electrònica", price: "15-25 €" },
+  { name: "Razzmatazz", type: "sala", zone: "poblenou", what: "cinc sales amb estils diferents, sempre trobes alguna cosa que et va bé", price: "15-20 €" },
+  { name: "Palau de la Música", type: "sala", zone: "born", what: "una de les sales de concerts més boniques del món — el modernisme en la seva màxima expressió", price: "20-50 €" },
+  { name: "L'Auditori", type: "sala", zone: "sagrada-familia", what: "la sala gran de Barcelona per a clàssica i contemporània, so impecable", price: "10-40 €" },
+  { name: "Heliogàbal", type: "sala", zone: "gracia", what: "música en directe i poesia en un soterrani de Gràcia, esperit underground de veritat", price: "5-10 €" },
+  { name: "Sidecar", type: "sala", zone: "gotic", what: "rock i músiques alternatives a Plaça Reial des dels 80", price: "10-15 €" },
+  { name: "La [2] de Apolo", type: "sala", zone: "poble-sec", what: "la sala petita de l'Apolo, més íntima, sessions electròniques i DJ sets de nivell", price: "10-15 €" },
+  { name: "Upload", type: "sala", zone: "poblenou", what: "sala de concerts nova al Poblenou, bon so i propostes actuals", price: "10-20 €" },
   // Nuevas salas de música — zonas expandidas + más variedad
-  { name: "Luz de Gas", type: "sala", zone: "eixample-esquerra", what: "sala de conciertos en un antiguo music hall modernista, desde jazz hasta pop con clase", price: "15-30 €" },
-  { name: "Bikini", type: "sala", zone: "les-corts", what: "tres ambientes musicales distintos bajo el mismo techo, referente nocturno de la zona alta", price: "12-25 €" },
-  { name: "Sala BARTS", type: "sala", zone: "poble-sec", what: "conciertos y shows en Paral·lel con un sonido brutal y capacidad perfecta — ni muy grande ni muy pequeño", price: "15-30 €" },
-  { name: "Harlem Jazz Club", type: "sala", zone: "gotic", what: "jazz, blues y swing en un local diminuto del Gòtic donde la música te envuelve", price: "8-12 €" },
-  { name: "Moog", type: "sala", zone: "raval", what: "techno y electrónica en un club compacto del Raval que lleva décadas siendo referencia", price: "10-15 €" },
-  { name: "Marula Café", type: "sala", zone: "gotic", what: "funk, soul y ritmos afro en un sótano de Plaça Reial donde el cuerpo se mueve solo", price: "8-15 €" },
-  { name: "Freedonia", type: "sala", zone: "raval", what: "soul, funk y r&b en directo en un bar-sala del Raval con mucha personalidad", price: "8-12 €" },
-  { name: "Vol", type: "sala", zone: "sant-antoni", what: "sala de conciertos nueva en Sant Antoni, propuestas actuales y buena cerveza artesana", price: "10-18 €" },
-  { name: "Jazz Sí Club", type: "sala", zone: "raval", what: "jam sessions y conciertos de jazz, flamenco y cubana a precio de ganga en el Taller de Músics", price: "5-10 €" },
-  { name: "La Nau", type: "sala", zone: "barceloneta", what: "espacio cultural junto al mar con conciertos, DJ sets y noches temáticas", price: "10-20 €" },
-  { name: "Garage442", type: "sala", zone: "eixample-esquerra", what: "sala independiente con bandas emergentes y ese sonido crudo de local pequeño que mola mucho", price: "8-15 €" },
-  { name: "Sala Salamandra", type: "sala", zone: "sant-andreu", what: "rock, metal y músicas alternativas en una sala con historia en la zona nord", price: "10-20 €" },
-  { name: "Laut", type: "sala", zone: "sant-marti", what: "sala de conciertos en el Clot con programación indie y electrónica, descubrimiento de bandas", price: "8-15 €" },
-  { name: "Café Royale", type: "sala", zone: "gotic", what: "música en directo y DJ sessions en un espacio acogedor cerca de Plaça Reial", price: "8-12 €" },
+  { name: "Luz de Gas", type: "sala", zone: "eixample-esquerra", what: "sala de concerts en un antic music hall modernista, des de jazz fins a pop amb classe", price: "15-30 €" },
+  { name: "Bikini", type: "sala", zone: "les-corts", what: "tres ambients musicals diferents sota el mateix sostre, referent nocturn de la zona alta", price: "12-25 €" },
+  { name: "Sala BARTS", type: "sala", zone: "poble-sec", what: "concerts i shows al Paral·lel amb un so brutal i capacitat perfecta — ni massa gran ni massa petit", price: "15-30 €" },
+  { name: "Harlem Jazz Club", type: "sala", zone: "gotic", what: "jazz, blues i swing en un local diminut del Gòtic on la música t'envolta", price: "8-12 €" },
+  { name: "Moog", type: "sala", zone: "raval", what: "techno i electrònica en un club compacte del Raval que porta dècades sent referència", price: "10-15 €" },
+  { name: "Marula Café", type: "sala", zone: "gotic", what: "funk, soul i ritmes afro en un soterrani de Plaça Reial on el cos es mou sol", price: "8-15 €" },
+  { name: "Freedonia", type: "sala", zone: "raval", what: "soul, funk i r&b en directe en un bar-sala del Raval amb molta personalitat", price: "8-12 €" },
+  { name: "Vol", type: "sala", zone: "sant-antoni", what: "sala de concerts nova a Sant Antoni, propostes actuals i bona cervesa artesana", price: "10-18 €" },
+  { name: "Jazz Sí Club", type: "sala", zone: "raval", what: "jam sessions i concerts de jazz, flamenc i cubana a preu de ganga al Taller de Músics", price: "5-10 €" },
+  { name: "La Nau", type: "sala", zone: "barceloneta", what: "espai cultural vora el mar amb concerts, DJ sets i nits temàtiques", price: "10-20 €" },
+  { name: "Garage442", type: "sala", zone: "eixample-esquerra", what: "sala independent amb bandes emergents i aquell so cru de local petit que mola molt", price: "8-15 €" },
+  { name: "Sala Salamandra", type: "sala", zone: "sant-andreu", what: "rock, metal i músiques alternatives en una sala amb història a la zona nord", price: "10-20 €" },
+  { name: "Laut", type: "sala", zone: "sant-marti", what: "sala de concerts al Clot amb programació indie i electrònica, descobriment de bandes", price: "8-15 €" },
+  { name: "Café Royale", type: "sala", zone: "gotic", what: "música en directe i DJ sessions en un espai acollidor a prop de Plaça Reial", price: "8-12 €" },
 ];
 
 // ─── Cinemas ─────────────────────────────────────────────────
 
 export const CINEMAS: CulturalSpot[] = [
-  { name: "Filmoteca de Catalunya", type: "centro cultural", zone: "raval", what: "cine de autor, retrospectivas y ciclos temáticos a precio ridículo — el templo cinéfilo de Barcelona", price: "4 €" },
-  { name: "Cinemes Girona", type: "sala", zone: "eixample-dreta", what: "cine independiente y de autor en versión original, programación cuidadísima y buen café en el vestíbulo", price: "8-10 €" },
-  { name: "Phenomena", type: "sala", zone: "sagrada-familia", what: "la experiencia de ver cine como antes — pantalla enorme, sonido perfecto y clásicos que merecen sala grande", price: "9-11 €" },
-  { name: "Renoir Floridablanca", type: "sala", zone: "sant-antoni", what: "cine europeo y de autor en V.O., de esos sitios donde siempre encuentras algo que no está en las plataformas", price: "8-10 €" },
-  { name: "Zumzeig Cinema", type: "sala", zone: "les-corts", what: "cine cooperativo con bar y programación militante — pelis que no pasan en otro sitio y debates después", price: "7-9 €" },
-  { name: "Cinemes Texas", type: "sala", zone: "gracia", what: "sala de barrio en Gràcia con cine independiente y reestrenos, ambiente de cinéfilos de verdad", price: "7-9 €" },
-  { name: "Verdi", type: "sala", zone: "gracia", what: "el cine en V.O. de toda la vida en Gràcia, multisalas con buena selección y helados artesanos en el bar", price: "8-10 €" },
-  { name: "Verdi Park", type: "sala", zone: "gracia", what: "la extensión del Verdi, más salas con la misma filosofía de cine en versión original", price: "8-10 €" },
-  { name: "Cine Maldà", type: "sala", zone: "gotic", what: "microcine escondido en una galería del Gòtic con pelis raras, anime y sesiones golfa — un sitio con culto", price: "6-8 €" },
-  { name: "CCCB Xcèntric", type: "centro cultural", zone: "raval", what: "ciclos de cine experimental y videoarte en el CCCB, para cuando quieres ver algo que rompa moldes", price: "4-6 €" },
+  { name: "Filmoteca de Catalunya", type: "centre cultural", zone: "raval", what: "cinema d'autor, retrospectives i cicles temàtics a preu ridícul — el temple cinèfil de Barcelona", price: "4 €" },
+  { name: "Cinemes Girona", type: "sala", zone: "eixample-dreta", what: "cinema independent i d'autor en versió original, programació cuidadíssima i bon cafè al vestíbul", price: "8-10 €" },
+  { name: "Phenomena", type: "sala", zone: "sagrada-familia", what: "l'experiència de veure cinema com abans — pantalla enorme, so perfecte i clàssics que mereixen sala gran", price: "9-11 €" },
+  { name: "Renoir Floridablanca", type: "sala", zone: "sant-antoni", what: "cinema europeu i d'autor en V.O., d'aquells llocs on sempre trobes alguna cosa que no és a les plataformes", price: "8-10 €" },
+  { name: "Zumzeig Cinema", type: "sala", zone: "les-corts", what: "cinema cooperatiu amb bar i programació militant — pel·lícules que no passen enlloc més i debats després", price: "7-9 €" },
+  { name: "Cinemes Texas", type: "sala", zone: "gracia", what: "sala de barri a Gràcia amb cinema independent i reestrenes, ambient de cinèfils de veritat", price: "7-9 €" },
+  { name: "Verdi", type: "sala", zone: "gracia", what: "el cinema en V.O. de tota la vida a Gràcia, multisales amb bona selecció i gelats artesans al bar", price: "8-10 €" },
+  { name: "Verdi Park", type: "sala", zone: "gracia", what: "l'extensió del Verdi, més sales amb la mateixa filosofia de cinema en versió original", price: "8-10 €" },
+  { name: "Cine Maldà", type: "sala", zone: "gotic", what: "microcinema amagat en una galeria del Gòtic amb pel·lícules rares, anime i sessions golfes — un lloc de culte", price: "6-8 €" },
+  { name: "CCCB Xcèntric", type: "centre cultural", zone: "raval", what: "cicles de cinema experimental i videoart al CCCB, per quan vols veure alguna cosa que trenqui motlles", price: "4-6 €" },
 ];
 
 // ─── Outdoor spots ───────────────────────────────────────────
@@ -606,26 +614,26 @@ export interface OutdoorSpot {
 }
 
 export const OUTDOOR_SPOTS: OutdoorSpot[] = [
-  { name: "Parc de la Ciutadella", zone: "vila-olimpica", description: "el parque grande de Barcelona, con lago, cascada monumental y gente tocando música bajo los árboles — ideal para tumbarse con un libro", bestTime: "mañana" },
-  { name: "Platja de la Barceloneta", zone: "barceloneta", description: "la playa de toda la vida, chiringuitos, voley y ese rollo mediterráneo que nunca falla", bestTime: "mañana" },
-  { name: "Jardins de Mossèn Costa i Llobera", zone: "poble-sec", description: "el jardín de cactus más espectacular de Europa, en la ladera de Montjuïc con vistas al puerto — parece otro país", bestTime: "mañana" },
-  { name: "Turó Park", zone: "sarria-pedralbes", description: "jardín señorial en la zona alta con patos, esculturas y calma total", bestTime: "cualquier hora" },
-  { name: "Carretera de les Aigües", zone: "sarria-pedralbes", description: "el paseo más bonito de Barcelona a media montaña, camino llano con vistas panorámicas de toda la ciudad y el mar", bestTime: "atardecer" },
-  { name: "Parc del Laberint d'Horta", zone: "horta-guinardo", description: "jardín neoclásico del XVIII con un laberinto de cipreses que te atrapa — tranquilo, romántico y lejos de las masas", bestTime: "mañana" },
-  { name: "Bunkers del Carmel", zone: "horta-guinardo", description: "las antiguas baterías antiaéreas con la mejor vista 360 grados de Barcelona — al atardecer es mágico", bestTime: "atardecer" },
-  { name: "Platja del Bogatell", zone: "poblenou", description: "playa más tranquila que la Barceloneta, buen espacio y menos agobio, perfecta para un baño sin multitudes", bestTime: "mañana" },
-  { name: "Jardins de Joan Brossa", zone: "poble-sec", description: "jardines en la ladera de Montjuïc con juegos, esculturas y vistas al mar — uno de los secretos mejor guardados", bestTime: "cualquier hora" },
-  { name: "Parc del Guinardó", zone: "horta-guinardo", description: "parque frondoso con miradores escondidos y escalinatas que parecen de película, mucho menos masificado que el Güell", bestTime: "atardecer" },
-  { name: "Parc de Cervantes (Rosaleda)", zone: "les-corts", description: "más de diez mil rosales de doscientas variedades — en mayo y junio es una locura de colores y olores", bestTime: "mañana" },
-  { name: "Jardins de Laribal", zone: "poble-sec", description: "jardines escalonados con fuentes árabes y rincones escondidos en Montjuïc, de lo más bonito y menos conocido", bestTime: "cualquier hora" },
-  { name: "Parc de la Creueta del Coll", zone: "horta-guinardo", description: "piscina natural de verano excavada en una antigua cantera con escultura de Chillida colgando — plan perfecto de día caluroso", bestTime: "mañana" },
-  { name: "Platja de la Nova Icària", zone: "vila-olimpica", description: "la playa más familiar y tranquila del frente marítimo, con chiringuitos y zona de vóley", bestTime: "mañana" },
-  { name: "Parc del Turó de la Peira", zone: "nou-barris", description: "colina verde en Nou Barris con vistas que nadie espera y un silencio que no parece Barcelona", bestTime: "atardecer" },
-  { name: "Jardins del Palau de Pedralbes", zone: "sarria-pedralbes", description: "jardines con fuente de Gaudí, bambú gigante y pavos reales paseando entre naranjos — señorial y precioso", bestTime: "mañana" },
-  { name: "Moll de la Fusta", zone: "barceloneta", description: "paseo junto al Port Vell con la brisa del mar, veleros al fondo y el skyline de la ciudad detrás", bestTime: "atardecer" },
-  { name: "Parc Central de Nou Barris", zone: "nou-barris", description: "parque amplio con acueducto romano restaurado y zonas de juego, la sala de estar al aire libre del barrio", bestTime: "cualquier hora" },
-  { name: "Mirador de l'Alcalde", zone: "poble-sec", description: "mirador con mosaicos de colores y vistas al puerto y la ciudad, uno de los rincones más fotogénicos de Montjuïc", bestTime: "atardecer" },
-  { name: "Parc del Clot", zone: "sant-marti", description: "parque construido sobre una antigua estación de tren conservando los arcos de ladrillo — industrial y bonito a partes iguales", bestTime: "cualquier hora" },
+  { name: "Parc de la Ciutadella", zone: "vila-olimpica", description: "el parc gran de Barcelona, amb llac, cascada monumental i gent tocant música sota els arbres — ideal per estirar-se amb un llibre", bestTime: "matí" },
+  { name: "Platja de la Barceloneta", zone: "barceloneta", description: "la platja de tota la vida, chiringuitos, vòlei i aquell rotllo mediterrani que mai falla", bestTime: "matí" },
+  { name: "Jardins de Mossèn Costa i Llobera", zone: "poble-sec", description: "el jardí de cactus més espectacular d'Europa, al vessant de Montjuïc amb vistes al port — sembla un altre país", bestTime: "matí" },
+  { name: "Turó Park", zone: "sarria-pedralbes", description: "jardí senyorial a la zona alta amb ànecs, escultures i calma total", bestTime: "qualsevol hora" },
+  { name: "Carretera de les Aigües", zone: "sarria-pedralbes", description: "el passeig més bonic de Barcelona a mitja muntanya, camí pla amb vistes panoràmiques de tota la ciutat i el mar", bestTime: "capvespre" },
+  { name: "Parc del Laberint d'Horta", zone: "horta-guinardo", description: "jardí neoclàssic del XVIII amb un laberint de xiprers que t'atrapa — tranquil, romàntic i lluny de les masses", bestTime: "matí" },
+  { name: "Bunkers del Carmel", zone: "horta-guinardo", description: "les antigues bateries antiaèries amb la millor vista 360 graus de Barcelona — al capvespre és màgic", bestTime: "capvespre" },
+  { name: "Platja del Bogatell", zone: "poblenou", description: "platja més tranquil·la que la Barceloneta, bon espai i menys aglomeració, perfecta per a un bany sense multituds", bestTime: "matí" },
+  { name: "Jardins de Joan Brossa", zone: "poble-sec", description: "jardins al vessant de Montjuïc amb jocs, escultures i vistes al mar — un dels secrets més ben guardats", bestTime: "qualsevol hora" },
+  { name: "Parc del Guinardó", zone: "horta-guinardo", description: "parc frondós amb miradors amagats i escalinates que semblen de pel·lícula, molt menys massificat que el Güell", bestTime: "capvespre" },
+  { name: "Parc de Cervantes (Rosaleda)", zone: "les-corts", description: "més de deu mil rosers de dues-centes varietats — al maig i juny és una bogeria de colors i olors", bestTime: "matí" },
+  { name: "Jardins de Laribal", zone: "poble-sec", description: "jardins esglaonats amb fonts àrabs i racons amagats a Montjuïc, del més bonic i menys conegut", bestTime: "qualsevol hora" },
+  { name: "Parc de la Creueta del Coll", zone: "horta-guinardo", description: "piscina natural d'estiu excavada en una antiga pedrera amb escultura de Chillida penjant — pla perfecte de dia calorós", bestTime: "matí" },
+  { name: "Platja de la Nova Icària", zone: "vila-olimpica", description: "la platja més familiar i tranquil·la del front marítim, amb chiringuitos i zona de vòlei", bestTime: "matí" },
+  { name: "Parc del Turó de la Peira", zone: "nou-barris", description: "turó verd a Nou Barris amb vistes que ningú espera i un silenci que no sembla Barcelona", bestTime: "capvespre" },
+  { name: "Jardins del Palau de Pedralbes", zone: "sarria-pedralbes", description: "jardins amb font de Gaudí, bambú gegant i paons passejant entre tarongers — senyorial i preciós", bestTime: "matí" },
+  { name: "Moll de la Fusta", zone: "barceloneta", description: "passeig vora el Port Vell amb la brisa del mar, veleres al fons i el skyline de la ciutat al darrere", bestTime: "capvespre" },
+  { name: "Parc Central de Nou Barris", zone: "nou-barris", description: "parc ampli amb aqüeducte romà restaurat i zones de joc, la sala d'estar a l'aire lliure del barri", bestTime: "qualsevol hora" },
+  { name: "Mirador de l'Alcalde", zone: "poble-sec", description: "mirador amb mosaics de colors i vistes al port i la ciutat, un dels racons més fotogènics de Montjuïc", bestTime: "capvespre" },
+  { name: "Parc del Clot", zone: "sant-marti", description: "parc construït sobre una antiga estació de tren conservant els arcs de maó — industrial i bonic a parts iguals", bestTime: "qualsevol hora" },
   { name: "Plaça Reial", zone: "gotic", description: "la plaça amb les palmeres, els fanals de Gaudí i les terrasses — el cor del Gòtic amb vida a totes hores", bestTime: "tarda" },
   { name: "Plaça del Rei", zone: "gotic", description: "la plaça medieval més espectacular de Barcelona, silenciosa i monumental — concerts d'estiu sota les estrelles", bestTime: "tarda" },
   { name: "Jardins de la Indústria", zone: "sagrada-familia", description: "parc tranquil al cor del barri, amb zona de jocs i bancs a l'ombra — la plaça de la gent del barri", bestTime: "qualsevol hora" },
@@ -676,43 +684,9 @@ function detectZone(input: string): Zone | null {
   return null;
 }
 
-/** Filter an array of items that have a `zone` field by zone, with fallback to neighbors */
 function filterByZone<T extends { zone: Zone }>(items: T[], zone: Zone | null): T[] {
   if (!zone) return items;
-  // Direct matches
-  const direct = items.filter((i) => i.zone === zone);
-  if (direct.length >= 2) return direct;
-  // Include neighboring zones if not enough
-  const neighbors = getNeighborZones(zone);
-  const expanded = items.filter((i) => i.zone === zone || neighbors.includes(i.zone));
-  if (expanded.length >= 2) return expanded;
-  // Fallback: return all
-  return items;
-}
-
-function getNeighborZones(zone: Zone): Zone[] {
-  const map: Record<Zone, Zone[]> = {
-    "gotic": ["born", "raval", "barceloneta", "eixample-dreta"],
-    "born": ["gotic", "raval", "barceloneta", "vila-olimpica", "eixample-dreta"],
-    "raval": ["gotic", "born", "sant-antoni", "poble-sec"],
-    "eixample-dreta": ["eixample-esquerra", "gracia", "born", "gotic", "sagrada-familia"],
-    "eixample-esquerra": ["eixample-dreta", "sant-antoni", "gracia", "poble-sec"],
-    "sagrada-familia": ["eixample-dreta", "gracia", "sant-marti", "poblenou"],
-    "gracia": ["eixample-dreta", "eixample-esquerra", "sarria-pedralbes", "horta-guinardo"],
-    "poblenou": ["barceloneta", "born", "sant-marti", "vila-olimpica"],
-    "vila-olimpica": ["born", "barceloneta", "poblenou", "sant-marti"],
-    "barceloneta": ["born", "gotic", "vila-olimpica", "poblenou"],
-    "poble-sec": ["raval", "sant-antoni", "eixample-esquerra", "les-corts"],
-    "sarria-pedralbes": ["gracia", "eixample-dreta", "les-corts"],
-    "sant-antoni": ["raval", "eixample-esquerra", "poble-sec"],
-    "horta-guinardo": ["gracia", "nou-barris", "sant-andreu", "sant-marti"],
-    "nou-barris": ["horta-guinardo", "sant-andreu"],
-    "sant-andreu": ["nou-barris", "horta-guinardo", "sant-marti"],
-    "sant-marti": ["poblenou", "vila-olimpica", "sant-andreu", "horta-guinardo", "sagrada-familia"],
-    "les-corts": ["sarria-pedralbes", "eixample-esquerra", "poble-sec"],
-    "any": [],
-  };
-  return map[zone] || [];
+  return items.filter((i) => i.zone === zone);
 }
 
 // ─── Real events integration ──────────────────────────────────
@@ -754,13 +728,7 @@ function getActiveEvents(zone: Zone | null, categories: string[]): Event[] {
     (e) => categories.includes(e.category) && e.endDate >= refDate && e.startDate <= future
   );
   if (zone) {
-    const zoneEvents = events.filter((e) => eventToZone(e.neighborhood) === zone);
-    const neighbors = getNeighborZones(zone);
-    const nearbyEvents = events.filter((e) => {
-      const ez = eventToZone(e.neighborhood);
-      return ez && neighbors.includes(ez);
-    });
-    if (zoneEvents.length >= 1) events = [...zoneEvents, ...nearbyEvents.slice(0, 2)];
+    events = events.filter((e) => eventToZone(e.neighborhood) === zone);
   }
   return events;
 }
@@ -853,7 +821,7 @@ function pWalkIntro(walk: Walk): string {
 
 function pCulture(spot: CulturalSpot): string {
   const cap = spot.what.charAt(0).toUpperCase() + spot.what.slice(1);
-  const free = spot.price === "gratuita";
+  const free = spot.price === "gratuïta";
   const templates = [
     `T'acostes al **${spot.name}**. ${cap}. ${free ? "Entrada gratuïta." : `L'entrada són ${spot.price} i val la pena.`}`,
     `Parada al **${spot.name}**. ${cap}. ${free ? "Entrada gratuïta." : `${spot.price} l'entrada.`}`,
@@ -964,7 +932,7 @@ function pCinema(cinema: CulturalSpot): string {
 
 function pOutdoor(spot: OutdoorSpot): string {
   const cap = spot.description.charAt(0).toUpperCase() + spot.description.slice(1);
-  const timeHint = spot.bestTime === "cualquier hora" ? "a qualsevol hora del dia" : `millor per la ${spot.bestTime}`;
+  const timeHint = spot.bestTime === "qualsevol hora" ? "a qualsevol hora del dia" : `millor per la ${spot.bestTime}`;
   const templates = [
     `Primera destinació: **${spot.name}**. ${cap}. Ideal ${timeHint}. Respira fons.`,
     `Comences a l'aire lliure a **${spot.name}** — ${spot.description}. Vés-hi ${timeHint}. Avui toca cel obert.`,

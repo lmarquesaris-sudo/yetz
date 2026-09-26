@@ -14,33 +14,9 @@ import { MOCK_EVENTS } from "./mock-events";
 
 /* ── Zone-aware helpers ─────────────────────────────────── */
 
-const NEIGHBOR_ZONES: Record<string, string[]> = {
-  "gotic": ["born", "raval"],
-  "born": ["gotic", "barceloneta"],
-  "raval": ["gotic", "sant-antoni"],
-  "barceloneta": ["born"],
-  "sant-antoni": ["raval", "poble-sec", "eixample-esquerra"],
-  "poble-sec": ["raval", "sant-antoni"],
-  "eixample-esquerra": ["sant-antoni", "eixample-dreta"],
-  "eixample-dreta": ["eixample-esquerra", "sagrada-familia"],
-  "sagrada-familia": ["eixample-dreta"],
-  "gracia": ["eixample-dreta"],
-  "poblenou": ["vila-olimpica", "sant-marti"],
-  "vila-olimpica": ["poblenou", "barceloneta"],
-  "sant-marti": ["poblenou"],
-  "sant-andreu": [],
-  "nou-barris": [],
-  "sarria-pedralbes": ["les-corts"],
-  "les-corts": ["sarria-pedralbes"],
-  "horta-guinardo": [],
-};
-
-function filterByZone<T extends { zone: string }>(items: T[], zone: string | null): T[] {
+function filterByZoneStrict<T extends { zone: string }>(items: T[], zone: string | null): T[] {
   if (!zone) return items;
-  const direct = items.filter(i => i.zone === zone);
-  if (direct.length > 0) return direct;
-  const neighbors = NEIGHBOR_ZONES[zone] || [];
-  return items.filter(i => i.zone === zone || neighbors.includes(i.zone));
+  return items.filter(i => i.zone === zone);
 }
 
 function filterEventsByZone(zone: string | null) {
@@ -50,30 +26,29 @@ function filterEventsByZone(zone: string | null) {
   let active = MOCK_EVENTS.filter(e => e.endDate >= refDate && e.startDate <= future);
 
   if (zone) {
-    const zoneNeighbors = NEIGHBOR_ZONES[zone] || [];
     const ZONE_NEIGHBORHOOD_MAP: Record<string, string[]> = {
-      "born-gotic": ["born", "gòtic", "gotic", "ciutat vella", "sant pere", "ribera", "santa caterina"],
+      "gotic": ["gòtic", "gotic", "ciutat vella", "la rambla", "las ramblas", "barri gòtic"],
+      "born": ["born", "sant pere", "ribera", "santa caterina"],
       "raval": ["raval"],
-      "eixample": ["eixample", "l'eixample", "sagrada", "sant pau"],
+      "eixample-esquerra": ["eixample esquerra", "aribau", "muntaner", "enric granados", "urgell", "rocafort"],
+      "eixample-dreta": ["eixample dreta", "passeig de gràcia", "paseo de gracia", "rambla catalunya"],
+      "eixample": ["eixample", "l'eixample"],
+      "sagrada-familia": ["sagrada", "sant pau", "fort pienc"],
       "gracia": ["gràcia", "gracia", "vila de gràcia"],
-      "poblenou": ["poblenou", "vila olímpica", "diagonal mar"],
-      "barceloneta": ["barceloneta", "port olímpic", "port vell"],
-      "montjuic-poblesec": ["montjuïc", "montjuic", "poble-sec", "poble sec", "sants"],
+      "poblenou": ["poblenou"],
+      "vila-olimpica": ["vila olímpica", "vila olimpica", "ciutadella", "port olímpic"],
+      "barceloneta": ["barceloneta", "port vell"],
+      "poble-sec": ["montjuïc", "montjuic", "poble-sec", "poble sec", "paral·lel"],
       "sarria-pedralbes": ["sarrià", "sarria", "pedralbes"],
       "sant-antoni": ["sant antoni"],
       "horta-guinardo": ["horta", "guinardó", "guinardo", "carmel"],
       "nou-barris": ["nou barris"],
       "sant-andreu": ["sant andreu", "sagrera"],
-      "sant-marti": ["sant martí", "sant marti"],
+      "sant-marti": ["sant martí", "sant marti", "clot", "camp de l'arpa"],
       "les-corts": ["les corts"],
-      "clot": ["clot", "camp de l'arpa"],
     };
 
-    const allZones = [zone, ...zoneNeighbors];
-    const keywords: string[] = [];
-    for (const z of allZones) {
-      keywords.push(...(ZONE_NEIGHBORHOOD_MAP[z] || []));
-    }
+    const keywords = ZONE_NEIGHBORHOOD_MAP[zone] || [];
 
     const filtered = active.filter(e => {
       const n = e.neighborhood.toLowerCase();
@@ -93,39 +68,39 @@ function filterEventsByZone(zone: string | null) {
 /* ── Formatters ─────────────────────────────────────────── */
 
 function formatRestaurants(zone: string | null) {
-  const budget = filterByZone(RESTAURANTS_BUDGET, zone);
-  const premium = filterByZone(RESTAURANTS_PREMIUM, zone);
+  const budget = filterByZoneStrict(RESTAURANTS_BUDGET, zone);
+  const premium = filterByZoneStrict(RESTAURANTS_PREMIUM, zone);
   const bLines = budget.map(r => `- **${r.name}** (${r.type}, ${r.priceRange}) [${r.zone}]: ${r.vibe}`).join("\n");
   const pLines = premium.map(r => `- **${r.name}** (${r.type}, ${r.priceRange}) [${r.zone}]: ${r.vibe}`).join("\n");
   return `## Restaurants econòmics (€)\n${bLines}\n\n## Restaurants premium (€€-€€€)\n${pLines}`;
 }
 
 function formatBars(zone: string | null) {
-  return filterByZone(BARS, zone).map(b => `- **${b.name}** (${b.type}) [${b.zone}]: ${b.vibe}`).join("\n");
+  return filterByZoneStrict(BARS, zone).map(b => `- **${b.name}** (${b.type}) [${b.zone}]: ${b.vibe}`).join("\n");
 }
 
 function formatWalks(zone: string | null) {
-  return filterByZone(WALKS, zone).map(w => `- **${w.name}** [${w.zone}]: ${w.description} (${w.duration})`).join("\n");
+  return filterByZoneStrict(WALKS, zone).map(w => `- **${w.name}** [${w.zone}]: ${w.description} (${w.duration})`).join("\n");
 }
 
 function formatCulture(zone: string | null) {
-  return filterByZone(CULTURAL_SPOTS, zone).map(s => `- **${s.name}** (${s.type}) [${s.zone}]: ${s.what} — ${s.price}`).join("\n");
+  return filterByZoneStrict(CULTURAL_SPOTS, zone).map(s => `- **${s.name}** (${s.type}) [${s.zone}]: ${s.what} — ${s.price}`).join("\n");
 }
 
 function formatTheaters(zone: string | null) {
-  return filterByZone(THEATERS, zone).map(t => `- **${t.name}** (${t.type}) [${t.zone}]: ${t.what} — ${t.price}`).join("\n");
+  return filterByZoneStrict(THEATERS, zone).map(t => `- **${t.name}** (${t.type}) [${t.zone}]: ${t.what} — ${t.price}`).join("\n");
 }
 
 function formatMusic(zone: string | null) {
-  return filterByZone(MUSIC_VENUES, zone).map(v => `- **${v.name}** [${v.zone}]: ${v.what} — ${v.price}`).join("\n");
+  return filterByZoneStrict(MUSIC_VENUES, zone).map(v => `- **${v.name}** [${v.zone}]: ${v.what} — ${v.price}`).join("\n");
 }
 
 function formatCinemas(zone: string | null) {
-  return filterByZone(CINEMAS, zone).map(c => `- **${c.name}** [${c.zone}]: ${c.what} — ${c.price}`).join("\n");
+  return filterByZoneStrict(CINEMAS, zone).map(c => `- **${c.name}** [${c.zone}]: ${c.what} — ${c.price}`).join("\n");
 }
 
 function formatOutdoor(zone: string | null) {
-  return filterByZone(OUTDOOR_SPOTS, zone).map(o => `- **${o.name}** [${o.zone}]: ${o.description} (millor: ${o.bestTime})`).join("\n");
+  return filterByZoneStrict(OUTDOOR_SPOTS, zone).map(o => `- **${o.name}** [${o.zone}]: ${o.description} (millor: ${o.bestTime})`).join("\n");
 }
 
 /* ── Main prompt builder ────────────────────────────────── */
@@ -135,7 +110,7 @@ export function buildSystemPrompt(userMessage?: string): string {
   const zoneName = zone ? zone.replace("-", " / ") : null;
 
   const zoneInstruction = zone
-    ? `L'usuari ha demanat un pla a la zona **${zoneName}**. TOTS els locals de sota ja estan filtrats per aquesta zona. Fes servir NOMÉS aquests locals. No n'inventis d'altres.`
+    ? `L'usuari ha demanat un pla a la zona **${zoneName}**. TOTS els locals de sota ja estan filtrats per aquesta zona. Fes servir NOMÉS aquests locals — NO inventis locals nous, NO afegeixis llocs d'altres zones, NO facis servir cap nom que no aparegui a les dades de sota. Si una categoria queda buida (sense locals), simplement no la incloguis al pla.`
     : `L'usuari no ha especificat zona. Pots fer servir qualsevol local de les dades, però manté coherència geogràfica (no saltis del Poblenou a Sarrià en el mateix pla).`;
 
   return `Ets la veu de Yetz, un portal cultural de Barcelona. No ets un chatbot. Ets algú que porta quinze anys vivint aquí, que coneix el bar on l'amo et serveix vermut sense que demanis, el carrer on la llum de les sis de la tarda fa alguna cosa rara amb les façanes, el restaurant de vuit taules on el xef surt a preguntar-te què tal.
