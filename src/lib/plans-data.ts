@@ -213,7 +213,7 @@ const ZONE_NAMES: Record<Zone, string> = {
   "raval": "el Raval",
   "barceloneta": "la Barceloneta",
   "sant-antoni": "Sant Antoni",
-  "poble-sec": "Poble-sec y Paral·lel",
+  "poble-sec": "Poble-sec i Paral·lel",
   "eixample-esquerra": "Eixample Esquerra",
   "eixample-dreta": "Eixample Dreta / Passeig de Gràcia",
   "sagrada-familia": "Sagrada Família / Fort Pienc",
@@ -292,6 +292,17 @@ export const RESTAURANTS_BUDGET: Restaurant[] = [
   // Nou Barris
   { name: "Can Paixano Nou Barris", type: "Catalana", priceRange: "€", zone: "nou-barris", vibe: "cocina casera catalana sin pretensiones y a buen precio" },
   { name: "El Mirador de Roquetes", type: "Mediterránea", priceRange: "€", zone: "nou-barris", vibe: "restaurante con terraza y vistas a la ciudad, la recompensa después de subir" },
+  // Gòtic
+  { name: "Can Culleretes", type: "Catalana", priceRange: "€", zone: "gotic", vibe: "el restaurant més antic de Barcelona, des de 1786 — escudella, carn d'olla i cuina catalana de tota la vida" },
+  { name: "Café de l'Acadèmia", type: "Catalana", priceRange: "€", zone: "gotic", vibe: "cuina catalana de mercat a la Plaça Sant Just, un dels racons més bonics del Gòtic" },
+  { name: "Los Caracoles", type: "Catalana", priceRange: "€", zone: "gotic", vibe: "cargols al forn, pollastre rostit i arrossos des de 1835 — institució de Barcelona" },
+  // Sagrada Família
+  { name: "La Paradeta", type: "Marinera", priceRange: "€", zone: "sagrada-familia", vibe: "tries el peix i marisc a pes com al mercat i te'l cuinen al moment — format únic i divertit" },
+  { name: "Arume", type: "Gallega", priceRange: "€", zone: "sagrada-familia", vibe: "cuina gallega autèntica amb polp, pimentos de Padrón i vins del Rías Baixas" },
+  // Eixample Dreta
+  { name: "Cervecería Catalana", type: "Tapas", priceRange: "€", zone: "eixample-dreta", vibe: "la barra de tapes més famosa de Barcelona — patates braves, anxoves i croquetes de tota la vida" },
+  { name: "Ciudad Condal", type: "Tapas", priceRange: "€", zone: "eixample-dreta", vibe: "tapes generoses i cerveses fredes a Rambla Catalunya, institució del barri" },
+  { name: "Taktika Berri", type: "Basca", priceRange: "€", zone: "eixample-dreta", vibe: "pintxos bascos autèntics a la barra, txacolí i ambient de taberna de San Sebastián" },
 ];
 
 export const RESTAURANTS_PREMIUM: Restaurant[] = [
@@ -332,6 +343,11 @@ export const RESTAURANTS_PREMIUM: Restaurant[] = [
   { name: "Can Travi Nou (menú)", type: "Catalana premium", priceRange: "€€", zone: "horta-guinardo", vibe: "menú degustación en una masía histórica con jardín, experiencia única fuera del centro" },
   // Sant Andreu
   { name: "La Fonda del Recó", type: "Catalana", priceRange: "€€", zone: "sant-andreu", vibe: "cocina catalana actualizada con producto de mercado en Sant Andreu" },
+  // Gòtic
+  { name: "Koy Shunka", type: "Japonesa", priceRange: "€€", zone: "gotic", vibe: "japonès d'alt nivell davant la Catedral, estrella Michelin — omakase que deixa sense paraules" },
+  { name: "Sensi Tapas", type: "Mediterrània", priceRange: "€€", zone: "gotic", vibe: "tapes d'autor mediterrànies amb producte de primera, al cor del Gòtic" },
+  // Sagrada Família
+  { name: "Alkimia", type: "Catalana", priceRange: "€€", zone: "sagrada-familia", vibe: "cuina catalana d'autor del chef Jordi Vilà, producte de temporada elevat al màxim" },
 ];
 
 // ─── Bars ─────────────────────────────────────────────────────
@@ -399,6 +415,15 @@ export const BARS: Bar[] = [
   // Nou Barris
   { name: "Bar Mirador Torre Baró", type: "Terraza", zone: "nou-barris", vibe: "cervezas con vistas panorámicas desde lo alto de Nou Barris, un secreto de la ciudad" },
   { name: "El Chiringuito de Roquetes", type: "Terraza", zone: "nou-barris", vibe: "terraza de barrio con ambiente local y precios populares, buen vermut" },
+  // Gòtic
+  { name: "L'Ascensor", type: "Cocktail bar", zone: "gotic", vibe: "cocktails en un local amb porta d'ascensor antiga, un clàssic amagat del Gòtic" },
+  { name: "Sor Rita", type: "Bar", zone: "gotic", vibe: "decoració kitsch i camp, vermuts i ambient desinhibit a la Plaça George Orwell" },
+  { name: "Glaciar", type: "Terrassa", zone: "gotic", vibe: "la terrassa de tota la vida a Plaça Reial, cerveses i veure la gent passar" },
+  // Sagrada Família
+  { name: "Garage Beer Co", type: "Cerveceria craft", zone: "sagrada-familia", vibe: "cervesa artesana feta aquí mateix, grifos rotatius i ambient informal" },
+  { name: "La Vermuteria de la Sagrada Família", type: "Vermuteria", zone: "sagrada-familia", vibe: "vermut de grifo, olives i aquell rotllo de barri que no trobes al centre" },
+  // Eixample Esquerra
+  { name: "Milano Cocktail Bar", type: "Cocktail bar", zone: "eixample-esquerra", vibe: "cocktails clàssics en un soterrani elegant, un dels secrets més ben guardats de l'Eixample" },
 ];
 
 // ─── Walks ────────────────────────────────────────────────────
@@ -425,6 +450,8 @@ export const WALKS: Walk[] = [
   { name: "los Bunkers del Carmel", zone: "horta-guinardo", description: "la subida hasta el mirador más famoso de Barcelona — el esfuerzo merece cada vista", duration: "50 min" },
   { name: "Rambla de Sant Andreu", zone: "sant-andreu", description: "paseo por la rambla peatonal del barrio, mercado, iglesia y ambiente de pueblo dentro de la ciudad", duration: "30 min" },
   { name: "Nou Barris y miradores", zone: "nou-barris", description: "subir a Torre Baró por vistas que compiten con Montjuïc pero sin un solo turista", duration: "50 min" },
+  { name: "l'Avinguda Gaudí", zone: "sagrada-familia", description: "el passeig peatonal que connecta la Sagrada Família amb l'Hospital de Sant Pau, modernisme a banda i banda", duration: "20 min" },
+  { name: "Enric Granados", zone: "eixample-esquerra", description: "el carrer peatonal més bonic de l'Eixample, terrasses, galeries i botigues de disseny entre illes del Cerdà", duration: "30 min" },
 ];
 
 // ─── Cultural spots ───────────────────────────────────────────
@@ -488,6 +515,11 @@ export const CULTURAL_SPOTS: CulturalSpot[] = [
   // Nou Barris
   { name: "Mirador de Torre Baró", type: "espacio", zone: "nou-barris", what: "vistas panorámicas brutales de Barcelona y el Vallès, sin un solo turista", price: "gratuita" },
   { name: "Ateneu Popular de Nou Barris", type: "centro cultural", zone: "nou-barris", what: "circo, teatro y cultura comunitaria en un espacio autogestionado con mucha historia", price: "5-10 €" },
+  // Sagrada Família
+  { name: "Recinte Modernista de Sant Pau", type: "museo", zone: "sagrada-familia", what: "el conjunt modernista més gran d'Europa, Patrimoni UNESCO de Domènech i Montaner — una meravella", price: "15 €" },
+  // Eixample Esquerra
+  { name: "Museu del Modernisme", type: "museo", zone: "eixample-esquerra", what: "art modernista català en una planta baixa de l'Eixample — mobles, pintures i escultures de Gaudí, Casas i companyia", price: "10 €" },
+  { name: "Universitat de Barcelona (Edifici Històric)", type: "espacio", zone: "eixample-esquerra", what: "l'edifici neogòtic de la UB amb els seus claustres i jardins, un tresor amagat al bell mig de la ciutat", price: "gratuita" },
 ];
 
 export const THEATERS: CulturalSpot[] = [
@@ -594,6 +626,16 @@ export const OUTDOOR_SPOTS: OutdoorSpot[] = [
   { name: "Parc Central de Nou Barris", zone: "nou-barris", description: "parque amplio con acueducto romano restaurado y zonas de juego, la sala de estar al aire libre del barrio", bestTime: "cualquier hora" },
   { name: "Mirador de l'Alcalde", zone: "poble-sec", description: "mirador con mosaicos de colores y vistas al puerto y la ciudad, uno de los rincones más fotogénicos de Montjuïc", bestTime: "atardecer" },
   { name: "Parc del Clot", zone: "sant-marti", description: "parque construido sobre una antigua estación de tren conservando los arcos de ladrillo — industrial y bonito a partes iguales", bestTime: "cualquier hora" },
+  { name: "Plaça Reial", zone: "gotic", description: "la plaça amb les palmeres, els fanals de Gaudí i les terrasses — el cor del Gòtic amb vida a totes hores", bestTime: "tarda" },
+  { name: "Plaça del Rei", zone: "gotic", description: "la plaça medieval més espectacular de Barcelona, silenciosa i monumental — concerts d'estiu sota les estrelles", bestTime: "tarda" },
+  { name: "Jardins de la Indústria", zone: "sagrada-familia", description: "parc tranquil al cor del barri, amb zona de jocs i bancs a l'ombra — la plaça de la gent del barri", bestTime: "qualsevol hora" },
+  { name: "Jardins de la Universitat", zone: "eixample-esquerra", description: "els jardins interiors de l'edifici històric de la UB, un oasi de calma entre el trànsit de la Gran Via", bestTime: "matí" },
+  { name: "Jardins de la Torre de les Aigües", zone: "eixample-dreta", description: "un pati interior de l'Eixample amb una torre de distribució d'aigües del XIX i piscina a l'estiu — sorpresa total", bestTime: "matí" },
+  { name: "Pla de Palau i Port Vell", zone: "born", description: "baixar del Born cap al port, passar per l'Estació de França i arribar al mar sense adonar-te'n", bestTime: "tarda" },
+  { name: "Jardins de les Tres Xemeneies", zone: "sant-antoni", description: "espai obert amb les tres xemeneies de l'antiga central elèctrica, skaters, bancs i vida de barri", bestTime: "tarda" },
+  { name: "Jardins de la Vila Amèlia", zone: "gracia", description: "jardins romàntics a l'alta Gràcia amb estanys, pins i aquella calma que sembla impossible tan a prop de Diagonal", bestTime: "matí" },
+  { name: "Jardins de Rubió i Lluch", zone: "raval", description: "el pati interior de l'antic Hospital de la Santa Creu, tarongers, bancs i silenci al cor del Raval — un dels secrets de la ciutat", bestTime: "qualsevol hora" },
+  { name: "Parc de la Pegaso", zone: "sant-andreu", description: "el parc gran de Sant Andreu amb estany, zona verda i la millor ombra del barri — perfecto per a un matí tranquil", bestTime: "matí" },
 ];
 
 // ─── Plan generation ───────────────────────────────────────────
@@ -731,64 +773,64 @@ function pickEvent(zone: Zone | null, categories: string[]): Event | null {
 // ─── Event paragraph templates ────────────────────────────────
 
 function pEventExpo(event: Event): string {
-  const price = event.price ? `${event.price} €` : "gratuita";
+  const price = event.price ? `${event.price} €` : "gratuïta";
   const templates = [
-    `Ahora mismo en el **${event.venue}** tienen *${event.title}*. ${event.description} La entrada son ${price}.`,
-    `Pásate por el **${event.venue}** a ver *${event.title}* — ${event.description.toLowerCase()} Entrada: ${price}.`,
-    `En el **${event.venue}** está *${event.title}*. ${event.description} ${price === "gratuita" ? "Gratis, además." : `${price} la entrada.`}`,
-    `No te pierdas *${event.title}* en el **${event.venue}**. ${event.description} ${price === "gratuita" ? "Y es gratis, que no está mal." : `Precio: ${price}.`}`,
-    `Exposición recomendada: *${event.title}* en el **${event.venue}**. ${event.description} ${price === "gratuita" ? "Gratis total." : `Son ${price} de entrada.`}`,
-    `Si te va el arte, hoy toca *${event.title}* en el **${event.venue}**. ${event.description} ${price === "gratuita" ? "Sin coste." : `La entrada va por ${price}.`}`,
+    `Ara mateix al **${event.venue}** tenen *${event.title}*. ${event.description} L'entrada són ${price}.`,
+    `Passa't pel **${event.venue}** a veure *${event.title}* — ${event.description.toLowerCase()} Entrada: ${price}.`,
+    `Al **${event.venue}** hi ha *${event.title}*. ${event.description} ${price === "gratuïta" ? "Gratis, a més." : `${price} l'entrada.`}`,
+    `No et perdis *${event.title}* al **${event.venue}**. ${event.description} ${price === "gratuïta" ? "I és gratis, que no està malament." : `Preu: ${price}.`}`,
+    `Exposició recomanada: *${event.title}* al **${event.venue}**. ${event.description} ${price === "gratuïta" ? "Gratis total." : `Són ${price} d'entrada.`}`,
+    `Si t'agrada l'art, avui toca *${event.title}* al **${event.venue}**. ${event.description} ${price === "gratuïta" ? "Sense cost." : `L'entrada va per ${price}.`}`,
   ];
   return pick(templates);
 }
 
 function pEventTeatro(event: Event): string {
-  const price = event.price ? `${event.price} €` : "precio variable";
+  const price = event.price ? `${event.price} €` : "preu variable";
   const templates = [
-    `En el **${event.venue}** están con *${event.title}*. ${event.description} Entradas desde ${price}. Se apagan las luces y durante un par de horas te olvidas de todo.`,
-    `Lo fuerte del plan: *${event.title}* en el **${event.venue}**. ${event.description} Desde ${price}.`,
-    `Para el teatro, *${event.title}* en el **${event.venue}** — ${event.description.toLowerCase()} Entradas desde ${price}.`,
-    `El escenario te espera con *${event.title}* en el **${event.venue}**. ${event.description} ${price}. Barcelona sabe de tablas.`,
-    `Noche de teatro: *${event.title}* en el **${event.venue}**. ${event.description} Desde ${price}. No te lo pierdas.`,
-    `Te recomiendo mucho *${event.title}* en el **${event.venue}**. ${event.description} Entradas desde ${price}. De esas obras que se quedan contigo.`,
+    `Al **${event.venue}** tenen *${event.title}*. ${event.description} Entrades des de ${price}. S'apaguen els llums i durant un parell d'hores t'oblides de tot.`,
+    `El plat fort del pla: *${event.title}* al **${event.venue}**. ${event.description} Des de ${price}.`,
+    `Per al teatre, *${event.title}* al **${event.venue}** — ${event.description.toLowerCase()} Entrades des de ${price}.`,
+    `L'escenari t'espera amb *${event.title}* al **${event.venue}**. ${event.description} ${price}. Barcelona sap de taules.`,
+    `Nit de teatre: *${event.title}* al **${event.venue}**. ${event.description} Des de ${price}. No te la perdis.`,
+    `Et recomano molt *${event.title}* al **${event.venue}**. ${event.description} Entrades des de ${price}. D'aquelles obres que es queden amb tu.`,
   ];
   return pick(templates);
 }
 
 function pEventMusica(event: Event): string {
-  const price = event.price ? `${event.price} €` : "precio variable";
+  const price = event.price ? `${event.price} €` : "preu variable";
   const templates = [
-    `Por la noche, *${event.title}* en el **${event.venue}**. ${event.description} Entrada unos ${price}.`,
-    `El plato fuerte: *${event.title}* en el **${event.venue}**. ${event.description} Sobre ${price}.`,
-    `Para la música, *${event.title}* — ${event.description.toLowerCase()} En el **${event.venue}**, unos ${price}.`,
-    `El bolo de la noche: *${event.title}* en el **${event.venue}**. ${event.description} Entradas a ${price}. La noche suena fuerte.`,
-    `Hoy la ciudad suena a *${event.title}* en el **${event.venue}**. ${event.description} Sobre ${price}. Hay que estar.`,
-    `Para tus oídos: *${event.title}* en el **${event.venue}**. ${event.description} Desde ${price}. Vas a salir tarareando.`,
+    `A la nit, *${event.title}* al **${event.venue}**. ${event.description} Entrada uns ${price}.`,
+    `El plat fort: *${event.title}* al **${event.venue}**. ${event.description} Sobre ${price}.`,
+    `Per a la música, *${event.title}* — ${event.description.toLowerCase()} Al **${event.venue}**, uns ${price}.`,
+    `El concert de la nit: *${event.title}* al **${event.venue}**. ${event.description} Entrades a ${price}. La nit sona fort.`,
+    `Avui la ciutat sona a *${event.title}* al **${event.venue}**. ${event.description} Sobre ${price}. Cal ser-hi.`,
+    `Per a les teves orelles: *${event.title}* al **${event.venue}**. ${event.description} Des de ${price}. Sortiràs taral·lejant.`,
   ];
   return pick(templates);
 }
 
 function pEventTaller(event: Event): string {
-  const price = event.price ? `${event.price} €` : "gratuito";
+  const price = event.price ? `${event.price} €` : "gratuït";
   const templates = [
-    `Hoy creas algo con tus manos: *${event.title}* en el **${event.venue}**. ${event.description} Precio: ${price}.`,
-    `Taller recomendado: *${event.title}* en el **${event.venue}**. ${event.description} ${price === "gratuito" ? "Y sin coste." : `Cuesta ${price}, pero sales con algo hecho por ti.`}`,
-    `Ponte creativo con *${event.title}* en el **${event.venue}**. ${event.description} ${price === "gratuito" ? "Entrada libre." : `Son ${price}.`} Vas a disfrutar.`,
-    `Hoy el plan tiene las manos sucias (en el buen sentido). *${event.title}* en el **${event.venue}**: ${event.description} ${price === "gratuito" ? "Gratis total." : `Precio: ${price}.`}`,
-    `Para hacer algo distinto: *${event.title}* en el **${event.venue}**. ${event.description} ${price === "gratuito" ? "Y no cuesta nada." : `${price} bien invertidos.`} Te llevas algo único a casa.`,
+    `Avui crees alguna cosa amb les teves mans: *${event.title}* al **${event.venue}**. ${event.description} Preu: ${price}.`,
+    `Taller recomanat: *${event.title}* al **${event.venue}**. ${event.description} ${price === "gratuït" ? "I sense cost." : `Costa ${price}, però surts amb alguna cosa feta per tu.`}`,
+    `Posa't creatiu amb *${event.title}* al **${event.venue}**. ${event.description} ${price === "gratuït" ? "Entrada lliure." : `Són ${price}.`} Ho gaudiràs.`,
+    `Avui el pla té les mans brutes (en el bon sentit). *${event.title}* al **${event.venue}**: ${event.description} ${price === "gratuït" ? "Gratis total." : `Preu: ${price}.`}`,
+    `Per fer alguna cosa diferent: *${event.title}* al **${event.venue}**. ${event.description} ${price === "gratuït" ? "I no costa res." : `${price} ben invertits.`} T'emportes alguna cosa única a casa.`,
   ];
   return pick(templates);
 }
 
 function pEventCine(event: Event): string {
-  const price = event.price ? `${event.price} €` : "gratuita";
+  const price = event.price ? `${event.price} €` : "gratuïta";
   const templates = [
-    `En cartelera: *${event.title}* en el **${event.venue}**. ${event.description} Entradas: ${price}.`,
-    `Hoy proyectan *${event.title}* en el **${event.venue}**. ${event.description} Desde ${price}. Cine de verdad.`,
-    `Sesión recomendada: *${event.title}* en el **${event.venue}**. ${event.description} ${price}.`,
-    `Para cinéfilos y curiosos: *${event.title}* en el **${event.venue}**. ${event.description} Entradas a ${price}. No es Netflix, es mejor.`,
-    `Pantalla grande con *${event.title}* en el **${event.venue}**. ${event.description} Precio: ${price}. De esas pelis que se ven en sala o no se ven.`,
+    `En cartellera: *${event.title}* al **${event.venue}**. ${event.description} Entrades: ${price}.`,
+    `Avui projecten *${event.title}* al **${event.venue}**. ${event.description} Des de ${price}. Cinema de veritat.`,
+    `Sessió recomanada: *${event.title}* al **${event.venue}**. ${event.description} ${price}.`,
+    `Per a cinèfils i curiosos: *${event.title}* al **${event.venue}**. ${event.description} Entrades a ${price}. No és Netflix, és millor.`,
+    `Pantalla gran amb *${event.title}* al **${event.venue}**. ${event.description} Preu: ${price}. D'aquelles pel·lícules que es veuen a sala o no es veuen.`,
   ];
   return pick(templates);
 }
@@ -798,13 +840,13 @@ function pEventCine(event: Event): string {
 function pWalkIntro(walk: Walk): string {
   const cap = walk.description.charAt(0).toUpperCase() + walk.description.slice(1);
   const templates = [
-    `Empiezas dando un paseo por **${walk.name}**. ${cap} — unos ${walk.duration} a tu ritmo, sin mapa ni destino fijo.`,
-    `Lo primero, caminar. Un paseo por **${walk.name}**: ${walk.description}. Unos ${walk.duration} dejándote llevar.`,
-    `Antes de nada, un rato caminando por **${walk.name}**. ${cap}. No hay prisa.`,
-    `Arrancas con un paseo tranquilo por **${walk.name}**. ${cap}. Calcula unos ${walk.duration} para empaparte bien del sitio.`,
-    `Para entrar en modo plan, nada como caminar por **${walk.name}**. ${cap} — ${walk.duration} sin prisa, que hoy no hay reloj.`,
-    `Ponte los zapatos cómodos y empieza por **${walk.name}**. ${cap}. Unos ${walk.duration} y ya estás en sintonía.`,
-    `El plan empieza andando. **${walk.name}** te espera: ${walk.description}. Date unos ${walk.duration} para ir calentando el día.`,
+    `Comences fent una passejada per **${walk.name}**. ${cap} — uns ${walk.duration} al teu ritme, sense mapa ni destinació fixa.`,
+    `El primer, caminar. Una passejada per **${walk.name}**: ${walk.description}. Uns ${walk.duration} deixant-te portar.`,
+    `Abans de res, una estona caminant per **${walk.name}**. ${cap}. Sense presses.`,
+    `Comences amb una passejada tranquil·la per **${walk.name}**. ${cap}. Calcula uns ${walk.duration} per amarar-te bé del lloc.`,
+    `Per entrar en mode pla, res com caminar per **${walk.name}**. ${cap} — ${walk.duration} sense presses, que avui no hi ha rellotge.`,
+    `Posa't les sabates còmodes i comença per **${walk.name}**. ${cap}. Uns ${walk.duration} i ja estàs en sintonia.`,
+    `El pla comença caminant. **${walk.name}** t'espera: ${walk.description}. Dona't uns ${walk.duration} per anar escalfant el dia.`,
   ];
   return pick(templates);
 }
@@ -813,13 +855,13 @@ function pCulture(spot: CulturalSpot): string {
   const cap = spot.what.charAt(0).toUpperCase() + spot.what.slice(1);
   const free = spot.price === "gratuita";
   const templates = [
-    `Te acercas al **${spot.name}**. ${cap}. ${free ? "Entrada gratuita." : `La entrada son ${spot.price} y merece la pena.`}`,
-    `Parada en el **${spot.name}**. ${cap}. ${free ? "Entrada gratuita." : `${spot.price} la entrada.`}`,
-    `El **${spot.name}** es buena opción — ${spot.what}. ${free ? "Gratis, además." : `La entrada son ${spot.price}.`}`,
-    `Ahora toca cultura: el **${spot.name}**. ${cap}. ${free ? "Lo mejor: no cuesta ni un euro." : `Por ${spot.price} merece mucho la pena.`}`,
-    `Date un capricho cultural en el **${spot.name}**. ${cap}. ${free ? "Ah, y es gratis. Mejor imposible." : `Entrada a ${spot.price}.`}`,
-    `Te recomiendo pasar por el **${spot.name}** — ${spot.what}. ${free ? "Encima gratis." : `Son ${spot.price} de entrada.`}`,
-    `Un imprescindible: el **${spot.name}**. ${cap}. ${free ? "Y sin soltar un duro, que ya es decir." : `La entrada ronda los ${spot.price}.`}`,
+    `T'acostes al **${spot.name}**. ${cap}. ${free ? "Entrada gratuïta." : `L'entrada són ${spot.price} i val la pena.`}`,
+    `Parada al **${spot.name}**. ${cap}. ${free ? "Entrada gratuïta." : `${spot.price} l'entrada.`}`,
+    `El **${spot.name}** és bona opció — ${spot.what}. ${free ? "Gratis, a més." : `L'entrada són ${spot.price}.`}`,
+    `Ara toca cultura: el **${spot.name}**. ${cap}. ${free ? "El millor: no costa ni un euro." : `Per ${spot.price} val molt la pena.`}`,
+    `Fes-te un capritx cultural al **${spot.name}**. ${cap}. ${free ? "Ah, i és gratis. Millor impossible." : `Entrada a ${spot.price}.`}`,
+    `Et recomano passar pel **${spot.name}** — ${spot.what}. ${free ? "I a sobre gratis." : `Són ${spot.price} d'entrada.`}`,
+    `Un imprescindible: el **${spot.name}**. ${cap}. ${free ? "I sense gastar ni un duro, que ja és dir." : `L'entrada ronda els ${spot.price}.`}`,
   ];
   return pick(templates);
 }
@@ -827,13 +869,13 @@ function pCulture(spot: CulturalSpot): string {
 function pRestaurantBudget(r: Restaurant): string {
   const cap = r.vibe.charAt(0).toUpperCase() + r.vibe.slice(1);
   const templates = [
-    `Para comer, **${r.name}**. ${cap}. Comes bien sin pasarte de treinta euros.`,
-    `A comer te recomiendo **${r.name}** — ${r.vibe}. No te gastas mucho y sales contento.`,
-    `La comida en **${r.name}**. ${cap}. Buen precio y buen nivel.`,
-    `El mediodía lo resuelves en **${r.name}**. ${cap}. Nivel de gasto bajo, nivel de satisfacción alto.`,
-    `Para llenar el estómago sin vaciar la cartera: **${r.name}**. ${cap}. Sale redondo.`,
-    `¿Hambre? Directo a **${r.name}**. ${cap}. Comes bien y sales con ganas de más.`,
-    `Te propongo comer en **${r.name}**. ${cap}. El bolsillo apenas se entera.`,
+    `Per menjar, **${r.name}**. ${cap}. Menges bé sense passar dels trenta euros.`,
+    `Per menjar et recomano **${r.name}** — ${r.vibe}. No et gastes gaire i surts content.`,
+    `El menjar a **${r.name}**. ${cap}. Bon preu i bon nivell.`,
+    `El migdia el resols a **${r.name}**. ${cap}. Nivell de despesa baix, nivell de satisfacció alt.`,
+    `Per omplir l'estómac sense buidar la cartera: **${r.name}**. ${cap}. Surt rodó.`,
+    `Gana? Directe a **${r.name}**. ${cap}. Menges bé i surts amb ganes de més.`,
+    `Et proposo menjar a **${r.name}**. ${cap}. La butxaca a penes se n'adona.`,
   ];
   return pick(templates);
 }
@@ -841,13 +883,13 @@ function pRestaurantBudget(r: Restaurant): string {
 function pRestaurantPremium(r: Restaurant): string {
   const cap = r.vibe.charAt(0).toUpperCase() + r.vibe.slice(1);
   const templates = [
-    `Para cenar, **${r.name}**. ${cap}. Sobre cincuenta-sesenta euros, pero merece mucho la pena.`,
-    `La cena en **${r.name}**. ${cap}. Es de esos sitios donde comes y piensas "qué bien he hecho viniendo aquí".`,
-    `Para la cena, apuesta por **${r.name}** — ${r.vibe}. Sobre cincuenta euros. De lo mejor que puedes cenar en la zona.`,
-    `Llega la cena y hay que estar a la altura. **${r.name}**: ${r.vibe}. Cada euro bien invertido.`,
-    `Esta noche cenas en **${r.name}**. ${cap}. Hay días que piden algo así. Disfrútalo.`,
-    `Para cerrar el día con clase: **${r.name}**. ${cap}. Brinda por el día.`,
-    `La cena merece algo memorable. **${r.name}** — ${r.vibe}. Sobre cincuenta euros. Se lo vale.`,
+    `Per sopar, **${r.name}**. ${cap}. Uns cinquanta-seixanta euros, però val molt la pena.`,
+    `El sopar a **${r.name}**. ${cap}. És d'aquells llocs on menges i penses "que bé que he fet venint aquí".`,
+    `Per al sopar, aposta per **${r.name}** — ${r.vibe}. Uns cinquanta euros. Del millor que pots sopar a la zona.`,
+    `Arriba el sopar i cal estar a l'altura. **${r.name}**: ${r.vibe}. Cada euro ben invertit.`,
+    `Aquesta nit sopes a **${r.name}**. ${cap}. Hi ha dies que demanen alguna cosa així. Gaudeix-ho.`,
+    `Per tancar el dia amb classe: **${r.name}**. ${cap}. Brinda pel dia.`,
+    `El sopar es mereix alguna cosa memorable. **${r.name}** — ${r.vibe}. Uns cinquanta euros. Val la pena.`,
   ];
   return pick(templates);
 }
@@ -855,13 +897,13 @@ function pRestaurantPremium(r: Restaurant): string {
 function pBar(bar: Bar): string {
   const cap = bar.vibe.charAt(0).toUpperCase() + bar.vibe.slice(1);
   const templates = [
-    `Después, **${bar.name}**. ${cap}. Buen sitio para acabar la noche.`,
-    `Para tomar algo, **${bar.name}** — ${bar.vibe}.`,
-    `Y para cerrar, unas copas en **${bar.name}**. ${cap}.`,
-    `La copa la tomas en **${bar.name}**. ${cap}. Uno de esos sitios que no fallan.`,
-    `Para el trago, **${bar.name}**. ${cap}. Imposible no quedarse a gusto.`,
-    `Siguiente: **${bar.name}**. ${cap}. Tiene ese punto que buscas para una buena copa.`,
-    `Ahora toca líquido. **${bar.name}**: ${bar.vibe}. Vas a querer quedarte un rato.`,
+    `Després, **${bar.name}**. ${cap}. Bon lloc per acabar la nit.`,
+    `Per fer una copa, **${bar.name}** — ${bar.vibe}.`,
+    `I per tancar, unes copes a **${bar.name}**. ${cap}.`,
+    `La copa te la prens a **${bar.name}**. ${cap}. Un d'aquells llocs que no fallen.`,
+    `Per al got, **${bar.name}**. ${cap}. Impossible no quedar-s'hi a gust.`,
+    `Següent: **${bar.name}**. ${cap}. Té aquell punt que busques per a una bona copa.`,
+    `Ara toca líquid. **${bar.name}**: ${bar.vibe}. Voldràs quedar-t'hi una bona estona.`,
   ];
   return pick(templates);
 }
@@ -869,13 +911,13 @@ function pBar(bar: Bar): string {
 function pBarCasual(bar: Bar): string {
   const cap = bar.vibe.charAt(0).toUpperCase() + bar.vibe.slice(1);
   const templates = [
-    `Para el vermut o unas cañas, **${bar.name}**. ${cap}. Un buen rato.`,
-    `Antes de nada, una parada en **${bar.name}** — ${bar.vibe}.`,
-    `Y un vermut en **${bar.name}**. ${cap}.`,
-    `Ahora toca descansar las piernas en **${bar.name}**. ${cap}. Un respiro bien merecido.`,
-    `Haces una pausa en **${bar.name}**. ${cap}. Pide lo que te apetezca sin pensar.`,
-    `Para pillar fuerzas: **${bar.name}**. ${cap}. De esos sitios donde el tiempo se para.`,
-    `Intermedio ideal: **${bar.name}**. ${cap}. Un vermut, una caña, lo que fluya.`,
+    `Per al vermut o unes canyes, **${bar.name}**. ${cap}. Una bona estona.`,
+    `Abans de res, una parada a **${bar.name}** — ${bar.vibe}.`,
+    `I un vermut a **${bar.name}**. ${cap}.`,
+    `Ara toca descansar les cames a **${bar.name}**. ${cap}. Un respir ben merescut.`,
+    `Fas una pausa a **${bar.name}**. ${cap}. Demana el que et vingui de gust sense pensar-hi.`,
+    `Per agafar forces: **${bar.name}**. ${cap}. D'aquells llocs on el temps s'atura.`,
+    `Intermedi ideal: **${bar.name}**. ${cap}. Un vermut, una canya, el que flueixi.`,
   ];
   return pick(templates);
 }
@@ -883,13 +925,13 @@ function pBarCasual(bar: Bar): string {
 function pTheater(t: CulturalSpot): string {
   const cap = t.what.charAt(0).toUpperCase() + t.what.slice(1);
   const templates = [
-    `En el **${t.name}** mira qué tienen en cartelera. ${cap}. La entrada va de ${t.price}. Se apagan las luces y durante un par de horas te olvidas de todo.`,
-    `Lo fuerte del plan: el **${t.name}**. ${cap}. Entradas entre ${t.price}.`,
-    `Por la tarde-noche, teatro en el **${t.name}** — ${t.what}. Entre ${t.price} la entrada. Cuando se apagan las luces es otra cosa.`,
-    `Hoy toca butaca y telón. **${t.name}** — ${t.what}. Entradas por ${t.price}. Merece muchísimo la pena.`,
-    `Para la noche, teatro en el **${t.name}**. ${cap}. Desde ${t.price} la entrada.`,
-    `Si no has ido al **${t.name}**, hoy es el día. ${cap}. El precio ronda ${t.price}.`,
-    `Barcelona y teatro van de la mano. Esta noche: el **${t.name}**. ${cap}. Entradas desde ${t.price}.`,
+    `Al **${t.name}** mira què tenen en cartellera. ${cap}. L'entrada va de ${t.price}. S'apaguen els llums i durant un parell d'hores t'oblides de tot.`,
+    `El plat fort del pla: el **${t.name}**. ${cap}. Entrades entre ${t.price}.`,
+    `A la tarda-nit, teatre al **${t.name}** — ${t.what}. Entre ${t.price} l'entrada. Quan s'apaguen els llums és una altra cosa.`,
+    `Avui toca butaca i teló. **${t.name}** — ${t.what}. Entrades per ${t.price}. Val moltíssim la pena.`,
+    `Per a la nit, teatre al **${t.name}**. ${cap}. Des de ${t.price} l'entrada.`,
+    `Si no has anat al **${t.name}**, avui és el dia. ${cap}. El preu ronda els ${t.price}.`,
+    `Barcelona i teatre van de la mà. Aquesta nit: el **${t.name}**. ${cap}. Entrades des de ${t.price}.`,
   ];
   return pick(templates);
 }
@@ -897,13 +939,13 @@ function pTheater(t: CulturalSpot): string {
 function pMusic(v: CulturalSpot): string {
   const cap = v.what.charAt(0).toUpperCase() + v.what.slice(1);
   const templates = [
-    `Por la noche, música en directo en el **${v.name}**. ${cap}. Entrada unos ${v.price}.`,
-    `El plato fuerte: **${v.name}**. ${cap}. Sobre ${v.price}.`,
-    `Para la música, **${v.name}** — ${v.what}. Unos ${v.price}.`,
-    `Para los oídos: **${v.name}**. ${cap}. Las entradas cuestan ${v.price}. Barcelona suena diferente en vivo.`,
-    `Toca música en directo. **${v.name}** — ${v.what}. Entradas por ${v.price}.`,
-    `El plan musical: **${v.name}**. ${cap}. Desde ${v.price}. Vas a salir tarareando.`,
-    `La noche tiene banda sonora. **${v.name}**: ${v.what}. Precio: ${v.price}. Déjate llevar por lo que suene.`,
+    `A la nit, música en directe al **${v.name}**. ${cap}. Entrada uns ${v.price}.`,
+    `El plat fort: **${v.name}**. ${cap}. Sobre ${v.price}.`,
+    `Per a la música, **${v.name}** — ${v.what}. Uns ${v.price}.`,
+    `Per a les orelles: **${v.name}**. ${cap}. Les entrades costen ${v.price}. Barcelona sona diferent en directe.`,
+    `Toca música en directe. **${v.name}** — ${v.what}. Entrades per ${v.price}.`,
+    `El pla musical: **${v.name}**. ${cap}. Des de ${v.price}. Sortiràs taral·lejant.`,
+    `La nit té banda sonora. **${v.name}**: ${v.what}. Preu: ${v.price}. Deixa't portar pel que soni.`,
   ];
   return pick(templates);
 }
@@ -911,24 +953,24 @@ function pMusic(v: CulturalSpot): string {
 function pCinema(cinema: CulturalSpot): string {
   const cap = cinema.what.charAt(0).toUpperCase() + cinema.what.slice(1);
   const templates = [
-    `Sesión de cine en el **${cinema.name}**. ${cap}. Entrada: ${cinema.price}. Palomitas opcionales pero recomendadas.`,
-    `Toca pantalla grande: **${cinema.name}**. ${cap}. Precio: ${cinema.price}. De esos cines que te recuerdan por qué ir a una sala mola.`,
-    `Para la peli, el **${cinema.name}** — ${cinema.what}. Entradas a ${cinema.price}. Cine como tiene que ser.`,
-    `Butaca y oscuridad: **${cinema.name}**. ${cap}. Desde ${cinema.price}. Barcelona tiene un cine independiente brutal.`,
-    `Nos metemos en el **${cinema.name}** a ver buen cine. ${cap}. La entrada ronda los ${cinema.price}. Prepárate para desconectar del mundo un rato.`,
+    `Sessió de cinema al **${cinema.name}**. ${cap}. Entrada: ${cinema.price}. Crispetes opcionals però recomanades.`,
+    `Toca pantalla gran: **${cinema.name}**. ${cap}. Preu: ${cinema.price}. D'aquells cinemes que et recorden per què anar a una sala mola.`,
+    `Per a la pel·lícula, el **${cinema.name}** — ${cinema.what}. Entrades a ${cinema.price}. Cinema com toca.`,
+    `Butaca i foscor: **${cinema.name}**. ${cap}. Des de ${cinema.price}. Barcelona té un cinema independent brutal.`,
+    `Ens fiquem al **${cinema.name}** a veure bon cinema. ${cap}. L'entrada ronda els ${cinema.price}. Prepara't per desconnectar del món una estona.`,
   ];
   return pick(templates);
 }
 
 function pOutdoor(spot: OutdoorSpot): string {
   const cap = spot.description.charAt(0).toUpperCase() + spot.description.slice(1);
-  const timeHint = spot.bestTime === "cualquier hora" ? "a cualquier hora del día" : `mejor por la ${spot.bestTime}`;
+  const timeHint = spot.bestTime === "cualquier hora" ? "a qualsevol hora del dia" : `millor per la ${spot.bestTime}`;
   const templates = [
-    `Primer destino: **${spot.name}**. ${cap}. Ideal ${timeHint}. Respira hondo.`,
-    `Empiezas al aire libre en **${spot.name}** — ${spot.description}. Ve ${timeHint}. Hoy toca cielo abierto.`,
-    `Te vas directo a **${spot.name}**. ${cap}. Mejor ir ${timeHint}, que es cuando brilla de verdad.`,
-    `Hoy el techo es el cielo. **${spot.name}**: ${spot.description}. Ve ${timeHint} para pillarlo en su mejor momento.`,
-    `Arrancas en **${spot.name}** — ${spot.description}. El truco: ir ${timeHint}. Vas a alucinar.`,
+    `Primera destinació: **${spot.name}**. ${cap}. Ideal ${timeHint}. Respira fons.`,
+    `Comences a l'aire lliure a **${spot.name}** — ${spot.description}. Vés-hi ${timeHint}. Avui toca cel obert.`,
+    `Vas directe a **${spot.name}**. ${cap}. Millor anar-hi ${timeHint}, que és quan brilla de veritat.`,
+    `Avui el sostre és el cel. **${spot.name}**: ${spot.description}. Vés-hi ${timeHint} per agafar-lo en el seu millor moment.`,
+    `Comences a **${spot.name}** — ${spot.description}. El truc: anar-hi ${timeHint}. Al·lucinaràs.`,
   ];
   return pick(templates);
 }
@@ -936,13 +978,13 @@ function pOutdoor(spot: OutdoorSpot): string {
 function pClosing(bar: Bar): string {
   const cap = bar.vibe.charAt(0).toUpperCase() + bar.vibe.slice(1);
   const templates = [
-    `Si la noche se alarga, **${bar.name}** — ${bar.vibe}. De esos sitios donde siempre acabas bien.`,
-    `Y si queda cuerpo, una última en **${bar.name}**. ${cap}.`,
-    `Para rematar, **${bar.name}**. ${cap}. El broche perfecto.`,
-    `Para poner el punto final: **${bar.name}**. ${cap}. La última copa siempre sabe mejor.`,
-    `El cierre perfecto es **${bar.name}** — ${bar.vibe}. Mañana ya verás, hoy se disfruta.`,
-    `Y para acabar como se merece: **${bar.name}**. ${cap}. Un buen final para un buen día.`,
-    `Última copa en **${bar.name}**. ${cap}. La noche cierra redonda. Salud.`,
+    `Si la nit s'allarga, **${bar.name}** — ${bar.vibe}. D'aquells llocs on sempre acabes bé.`,
+    `I si queda cos, una última a **${bar.name}**. ${cap}.`,
+    `Per rematar, **${bar.name}**. ${cap}. El colofó perfecte.`,
+    `Per posar el punt final: **${bar.name}**. ${cap}. L'última copa sempre sap millor.`,
+    `El tancament perfecte és **${bar.name}** — ${bar.vibe}. Demà ja ho veuràs, avui es gaudeix.`,
+    `I per acabar com toca: **${bar.name}**. ${cap}. Un bon final per a un bon dia.`,
+    `Última copa a **${bar.name}**. ${cap}. La nit tanca rodona. Salut.`,
   ];
   return pick(templates);
 }
@@ -952,13 +994,13 @@ function pClosing(bar: Bar): string {
 function pZoneIntro(zone: Zone): string {
   const name = ZONE_NAMES[zone];
   const intros = [
-    `Hoy el plan va por **${name}**. Uno de esos barrios que merece la pena explorar con calma.`,
-    `Te propongo un plan centrado en **${name}** — para que no tengas que cruzar media ciudad.`,
-    `Vamos a **${name}**. Todo lo que necesitas para un buen día está ahí.`,
-    `Hoy toca **${name}**. Uno de esos rincones de Barcelona que siempre tiene vida.`,
-    `El plan se cocina en **${name}**. Barrio con carácter y mil opciones.`,
-    `Nos vamos a **${name}**. Hay días que piden esta zona, y hoy es uno de ellos.`,
-    `Base de operaciones: **${name}**. Barcelona tiene muchos barrios, pero hoy manda este.`,
+    `Avui el pla va per **${name}**. Un d'aquells barris que val la pena explorar amb calma.`,
+    `Et proposo un pla centrat a **${name}** — perquè no hagis de creuar mitja ciutat.`,
+    `Anem a **${name}**. Tot el que necessites per a un bon dia és allà.`,
+    `Avui toca **${name}**. Un d'aquells racons de Barcelona que sempre té vida.`,
+    `El pla es cuina a **${name}**. Barri amb caràcter i mil opcions.`,
+    `Ens n'anem a **${name}**. Hi ha dies que demanen aquesta zona, i avui és un d'ells.`,
+    `Base d'operacions: **${name}**. Barcelona té molts barris, però avui mana aquest.`,
   ];
   return pick(intros);
 }
@@ -980,12 +1022,12 @@ function generateRelax(zone: Zone | null): Plan {
   const cultureParagraph = expoEvent ? pEventExpo(expoEvent) : pCulture(spot1);
 
   const titles = [
-    { title: "Un día sin prisas", subtitle: "Paseo, cultura y buen comer" },
-    { title: "Sábado tranquilo", subtitle: "Arte, vermut y callejear" },
-    { title: "Barcelona a tu ritmo", subtitle: "Cultura, comida honesta y un buen vermut" },
-    { title: "Déjate llevar", subtitle: "Pasear, ver algo bonito y comer bien" },
-    { title: "Calma y buen plan", subtitle: "Paseo, cultura y algo rico" },
-    { title: "Sin reloj ni prisa", subtitle: "Arte, comida y vermut a tu aire" },
+    { title: "Un dia sense presses", subtitle: "Passeig, cultura i bon menjar" },
+    { title: "Dissabte tranquil", subtitle: "Art, vermut i fer un tomb" },
+    { title: "Barcelona al teu ritme", subtitle: "Cultura, menjar honest i un bon vermut" },
+    { title: "Deixa't portar", subtitle: "Passejar, veure alguna cosa bonica i menjar bé" },
+    { title: "Calma i bon pla", subtitle: "Passeig, cultura i alguna cosa rica" },
+    { title: "Sense rellotge ni presses", subtitle: "Art, menjar i vermut al teu aire" },
   ];
   const t = pick(titles);
 
@@ -1011,11 +1053,11 @@ function generateRomantic(zone: Zone | null): Plan {
   const cultureParagraph = expoEvent ? pEventExpo(expoEvent) : pCulture(spot);
 
   const titles = [
-    { title: "Plan para dos", subtitle: "Arte, cena especial y cocktails" },
-    { title: "Una tarde que se queda", subtitle: "Cultura, buena cena y la noche por delante" },
-    { title: "Barcelona en pareja", subtitle: "Paseo, arte y cena con calma" },
-    { title: "Noche de esas", subtitle: "Arte, cena con velas y un cocktail final" },
-    { title: "La ciudad para dos", subtitle: "Paseo, exposición y cenar bien" },
+    { title: "Pla per a dos", subtitle: "Art, sopar especial i còctels" },
+    { title: "Una tarda que es queda", subtitle: "Cultura, bon sopar i la nit per davant" },
+    { title: "Barcelona en parella", subtitle: "Passeig, art i sopar amb calma" },
+    { title: "D'aquelles nits", subtitle: "Art, sopar amb espelmes i un còctel final" },
+    { title: "La ciutat per a dos", subtitle: "Passeig, exposició i sopar bé" },
   ];
   const t = pick(titles);
 
@@ -1041,20 +1083,20 @@ function generateBudget(zone: Zone | null): Plan {
   const cultureParagraph = expoEvent ? pEventExpo(expoEvent) : pCulture(spot);
 
   const titles = [
-    { title: "Barcelona por la cara", subtitle: "Cultura, buen comer y gastar poco" },
-    { title: "Plan sin rascarse el bolsillo", subtitle: "Todo lo bueno de la ciudad por cuatro duros" },
-    { title: "Mucho por poco", subtitle: "Cultura gratis, comer bien y disfrutar" },
-    { title: "Buen plan, poco gasto", subtitle: "Barcelona tiene mucho gratis si sabes dónde" },
-    { title: "A coste cero (casi)", subtitle: "Arte gratuito, menú del día y cañas baratas" },
+    { title: "Barcelona per la cara", subtitle: "Cultura, bon menjar i gastar poc" },
+    { title: "Pla sense gastar-se un ral", subtitle: "Tot el bo de la ciutat per quatre duros" },
+    { title: "Molt per poc", subtitle: "Cultura gratis, menjar bé i gaudir" },
+    { title: "Bon pla, poca despesa", subtitle: "Barcelona té molt de gratis si saps on" },
+    { title: "A cost zero (gairebé)", subtitle: "Art gratuït, menú del dia i canyes barates" },
   ];
   const t = pick(titles);
 
   const freeIntro = [
-    `Buen dato: muchos museos tienen días gratuitos o tarifas reducidas. Empieza por ahí.`,
-    `Barcelona tiene mucha cultura gratis si sabes dónde buscar. Primer domingo de mes varios museos abren gratis, y siempre hay expos con entrada libre.`,
-    `El truco es saber cuándo ir. Muchos museos tienen tardes gratuitas, y las galerías siempre son gratis.`,
-    `No hace falta gastar para pasarlo bien. Barcelona está llena de galerías con entrada libre, plazas con vida y parques brutales.`,
-    `La mejor Barcelona no está detrás de un ticket caro. Muchas de las cosas más interesantes son gratis o casi gratis.`,
+    `Bona dada: molts museus tenen dies gratuïts o tarifes reduïdes. Comença per aquí.`,
+    `Barcelona té molta cultura gratis si saps on buscar. El primer diumenge de mes diversos museus obren gratis, i sempre hi ha exposicions amb entrada lliure.`,
+    `El truc és saber quan anar-hi. Molts museus tenen tardes gratuïtes, i les galeries sempre són gratis.`,
+    `No cal gastar per passar-ho bé. Barcelona és plena de galeries amb entrada lliure, places amb vida i parcs brutals.`,
+    `La millor Barcelona no és darrere d'una entrada cara. Moltes de les coses més interessants són gratis o gairebé gratis.`,
   ];
 
   const paragraphs = zone
@@ -1077,11 +1119,11 @@ function generateMusic(zone: Zone | null): Plan {
   const musicParagraph = musicEvent ? pEventMusica(musicEvent) : pMusic(venue);
 
   const titles = [
-    { title: "La noche suena", subtitle: "Música en directo, cena y copas" },
-    { title: "Noche de buen rollo", subtitle: "Cenar, escuchar y brindar" },
-    { title: "Barcelona suena bien", subtitle: "Música, cena y la ciudad de noche" },
-    { title: "Sube el volumen", subtitle: "Cena, concierto y copas hasta tarde" },
-    { title: "La banda sonora de la noche", subtitle: "Música en vivo y buenos locales" },
+    { title: "La nit sona", subtitle: "Música en directe, sopar i copes" },
+    { title: "Nit de bon rotllo", subtitle: "Sopar, escoltar i brindar" },
+    { title: "Barcelona sona bé", subtitle: "Música, sopar i la ciutat de nit" },
+    { title: "Puja el volum", subtitle: "Sopar, concert i copes fins tard" },
+    { title: "La banda sonora de la nit", subtitle: "Música en directe i bons locals" },
   ];
   const t = pick(titles);
 
@@ -1107,11 +1149,11 @@ function generateTeatro(zone: Zone | null): Plan {
   const theaterParagraph = teatroEvent ? pEventTeatro(teatroEvent) : pTheater(theater);
 
   const titles = [
-    { title: "Cuando se apagan las luces", subtitle: "Teatro, paseo y cena con calma" },
-    { title: "Noche de escenario", subtitle: "Teatro, buena cena y un cocktail" },
-    { title: "Cultura escénica", subtitle: "Paseo, teatro y cenar bien" },
-    { title: "Telón arriba", subtitle: "Paseo, obra de teatro y cena especial" },
-    { title: "Barcelona sobre las tablas", subtitle: "Teatro, buena mesa y copa final" },
+    { title: "Quan s'apaguen els llums", subtitle: "Teatre, passeig i sopar amb calma" },
+    { title: "Nit d'escenari", subtitle: "Teatre, bon sopar i un còctel" },
+    { title: "Cultura escènica", subtitle: "Passeig, teatre i sopar bé" },
+    { title: "Teló amunt", subtitle: "Passeig, obra de teatre i sopar especial" },
+    { title: "Barcelona sobre les taules", subtitle: "Teatre, bona taula i copa final" },
   ];
   const t = pick(titles);
 
@@ -1134,12 +1176,12 @@ function generateGastro(zone: Zone | null): Plan {
   const [bar1, bar2] = pickN(bars, 2);
 
   const titles = [
-    { title: "Barcelona sabe bien", subtitle: "Un plan para comer, beber y repetir" },
-    { title: "De barra en barra", subtitle: "Hoy la ciudad se prueba, no se mira" },
-    { title: "Hoy se come bien", subtitle: "Barcelona entra por la boca" },
-    { title: "Ruta con tenedor", subtitle: "De restaurante en bar, sin parar" },
-    { title: "Mantel y copa", subtitle: "Tenedor en mano, copa en alto" },
-    { title: "La ciudad entre platos", subtitle: "Gastronomía sin filtros" },
+    { title: "Barcelona sap bé", subtitle: "Un pla per menjar, beure i repetir" },
+    { title: "De barra en barra", subtitle: "Avui la ciutat es tasta, no es mira" },
+    { title: "Avui es menja bé", subtitle: "Barcelona entra per la boca" },
+    { title: "Ruta amb forquilla", subtitle: "De restaurant en bar, sense parar" },
+    { title: "Estovalles i copa", subtitle: "Forquilla a la mà, copa enlaire" },
+    { title: "La ciutat entre plats", subtitle: "Gastronomia sense filtres" },
   ];
   const t = pick(titles);
 
@@ -1165,11 +1207,11 @@ function generateTaller(zone: Zone | null): Plan {
   const tallerParagraph = tallerEvent ? pEventTaller(tallerEvent) : pCulture(spot);
 
   const titles = [
-    { title: "Crea con tus manos", subtitle: "Un plan para crear, comer y disfrutar" },
-    { title: "Taller y buen plan", subtitle: "Hoy te llevas algo hecho por ti" },
-    { title: "Hoy se crea", subtitle: "Barcelona creativa: taller, paseo y buen comer" },
-    { title: "Arte en primera persona", subtitle: "Menos pantalla, más manos" },
-    { title: "Manos a la obra", subtitle: "Un día con las manos ocupadas y el alma llena" },
+    { title: "Crea amb les teves mans", subtitle: "Un pla per crear, menjar i gaudir" },
+    { title: "Taller i bon pla", subtitle: "Avui t'emportes alguna cosa feta per tu" },
+    { title: "Avui es crea", subtitle: "Barcelona creativa: taller, passeig i bon menjar" },
+    { title: "Art en primera persona", subtitle: "Menys pantalla, més mans" },
+    { title: "Mans a l'obra", subtitle: "Un dia amb les mans ocupades i l'ànima plena" },
   ];
   const t = pick(titles);
 
@@ -1195,12 +1237,12 @@ function generateCine(zone: Zone | null): Plan {
   const cinemaParagraph = cineEvent ? pEventCine(cineEvent) : pCinema(cinema);
 
   const titles = [
-    { title: "Sesión continua", subtitle: "Cine, cena y copa. Lo clásico bien hecho" },
-    { title: "Palomitas y ciudad", subtitle: "Hoy toca pantalla grande y buen comer" },
-    { title: "Cine y buena mesa", subtitle: "Versión original, subtitulada con Barcelona" },
-    { title: "Pantalla grande, noche grande", subtitle: "Peli, cena y brindis. Noche redonda" },
-    { title: "Barcelona en versión original", subtitle: "Cine independiente y cenar bien" },
-    { title: "Luces, cámara, Barcelona", subtitle: "Una sesión de cine con todo lo que la rodea" },
+    { title: "Sessió contínua", subtitle: "Cinema, sopar i copa. El clàssic ben fet" },
+    { title: "Crispetes i ciutat", subtitle: "Avui toca pantalla gran i bon menjar" },
+    { title: "Cinema i bona taula", subtitle: "Versió original, subtitulada amb Barcelona" },
+    { title: "Pantalla gran, nit gran", subtitle: "Pel·li, sopar i brindis. Nit rodona" },
+    { title: "Barcelona en versió original", subtitle: "Cinema independent i sopar bé" },
+    { title: "Llums, càmera, Barcelona", subtitle: "Una sessió de cinema amb tot el que l'envolta" },
   ];
   const t = pick(titles);
 
@@ -1223,12 +1265,12 @@ function generateAireLibre(zone: Zone | null): Plan {
   const bar = pick(bars);
 
   const titles = [
-    { title: "Barcelona al aire libre", subtitle: "Un día para respirar, caminar y comer bajo el cielo" },
-    { title: "Cielo abierto", subtitle: "Hoy el techo lo pone Barcelona" },
-    { title: "Sol y ciudad", subtitle: "Parques, paseos y terrazas. Lo bueno está fuera" },
-    { title: "Verde, azul y Barcelona", subtitle: "Sol, aire y buen rollo. Eso es todo" },
-    { title: "Fuera cuatro paredes", subtitle: "Barcelona se vive mejor al aire libre" },
-    { title: "El plan está fuera", subtitle: "Aire fresco, buenas vistas y comer bien" },
+    { title: "Barcelona a l'aire lliure", subtitle: "Un dia per respirar, caminar i menjar sota el cel" },
+    { title: "Cel obert", subtitle: "Avui el sostre el posa Barcelona" },
+    { title: "Sol i ciutat", subtitle: "Parcs, passejos i terrasses. El bo és a fora" },
+    { title: "Verd, blau i Barcelona", subtitle: "Sol, aire i bon rotllo. Això és tot" },
+    { title: "Fora quatre parets", subtitle: "Barcelona es viu millor a l'aire lliure" },
+    { title: "El pla és a fora", subtitle: "Aire fresc, bones vistes i menjar bé" },
   ];
   const t = pick(titles);
 
@@ -1262,24 +1304,24 @@ export function generatePlan(mood: Mood, zone: Zone | null = null): Plan {
 
 export function matchMood(input: string): Mood {
   const lower = input.toLowerCase();
-  // Gastro — antes de budget para evitar conflicto con "comer"
-  if (/comer|gastronomía|gastro|tapas|foodie|restaurante|menú|comida/.test(lower)) return "gastro";
+  // Gastro — antes de budget para evitar conflicto con "comer"/"menjar"
+  if (/comer|menjar|gastronomía|gastronomia|gastro|tapas|foodie|restaurante|restaurant|menú|menu|comida|dinar/.test(lower)) return "gastro";
   // Taller
-  if (/taller|workshop|crear|manualidad|cerámica|pintar|artesanía/.test(lower)) return "taller";
+  if (/taller|workshop|crear|manualidad|manualitat|cerámica|ceràmica|pintar|artesanía|artesania/.test(lower)) return "taller";
   // Cine
-  if (/\bcine\b|película|peli\b|film|sesión de cine|pantalla/.test(lower)) return "cine";
+  if (/\bcine\b|película|peli\b|pel·lícula|pel·li\b|film|sesión de cine|sessió de cinema|pantalla/.test(lower)) return "cine";
   // Aire libre
-  if (/aire libre|parque|playa|sol\b|jardín|exterior|picnic|naturaleza|al aire/.test(lower)) return "airelibre";
+  if (/aire libre|aire lliure|parque|parc|playa|platja|sol\b|jardín|jardí|exterior|picnic|naturaleza|natura|al aire|a l'aire/.test(lower)) return "airelibre";
   // Romántico
-  if (/romántic|pareja|cena especial|para dos|cita|amor/.test(lower)) return "romantic";
+  if (/romántic|romàntic|pareja|parella|cena especial|sopar especial|para dos|per a dos|cita|amor/.test(lower)) return "romantic";
   // Budget
-  if (/gratis|barat|sin gastar|poco|por la cara|económic|barato/.test(lower)) return "budget";
+  if (/gratis|gratuït|barat|sin gastar|sense gastar|poco|poc\b|por la cara|per la cara|económic|econòmic|barato/.test(lower)) return "budget";
   // Música
-  if (/música|concert|noche|copas|fiesta|directo|jazz|electrónica/.test(lower)) return "music";
+  if (/música|musica|concert|noche|nit\b|copas|copes|fiesta|festa|directo|directe|jazz|electrónica|electrònica/.test(lower)) return "music";
   // Teatro
-  if (/teatro|teatre|obra|escen|comedia|drama|danza/.test(lower)) return "teatro";
+  if (/teatro|teatre|obra|escen|comedia|comèdia|drama|danza|dansa/.test(lower)) return "teatro";
   // Relax
-  if (/tranquil|relax|prisas|cultural|paseo|calma|desconectar/.test(lower)) return "relax";
+  if (/tranquil|relax|prisas|presses|cultural|paseo|passeig|calma|desconectar|desconnectar/.test(lower)) return "relax";
   return "random";
 }
 

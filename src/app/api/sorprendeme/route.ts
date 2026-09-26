@@ -5,28 +5,35 @@ import { generatePlan, matchMood, detectZone } from "@/lib/plans-data";
 
 export const runtime = "edge";
 
-/** Check if the message looks like a plan request vs off-topic */
 function isPlanRequest(msg: string): boolean {
   const lower = msg.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
-  // Plan-related keywords
   const planWords = [
-    "plan", "salir", "hacer", "ir", "cenar", "comer", "beber", "copa",
-    "paseo", "pasear", "cultura", "museo", "teatro", "musica", "cine",
-    "romantico", "romantica", "pareja", "amigos", "barato", "fiesta",
-    "noche", "tarde", "manana", "sabado", "domingo", "fin de semana",
+    // Catalan
+    "pla", "sortir", "fer", "anar", "sopar", "menjar", "beure", "copa",
+    "passeig", "passejar", "cultura", "museu", "teatre", "musica", "cine", "cinema",
+    "romantic", "romantica", "parella", "amics", "barat", "festa",
+    "nit", "tarda", "mati", "dissabte", "diumenge", "cap de setmana",
     "born", "gotic", "raval", "eixample", "gracia", "poblenou",
     "barceloneta", "montjuic", "sarria", "sant antoni", "clot",
     "horta", "nou barris", "sant andreu", "sant marti", "les corts",
-    "sorprendeme", "sorprende", "recomienda", "recomendacion",
-    "proponer", "propon", "sugerir", "sugiere", "quiero", "apetece",
-    "bar", "restaurante", "cocktail", "vermut", "terraza", "expo",
-    "concierto", "festival", "taller", "espectaculo", "aire libre",
+    "sorprenme", "sorpren", "recomana", "recomanacio",
+    "proposar", "proposa", "suggerir", "suggereix", "vull", "ve de gust",
+    "bar", "restaurant", "cocktail", "vermut", "terrassa", "expo",
+    "concert", "festival", "taller", "espectacle", "aire lliure",
+    "cita", "gastronomia", "cuina",
+    // Spanish fallback
+    "plan", "salir", "hacer", "ir", "cenar", "comer", "beber",
+    "paseo", "pasear", "museo", "teatro", "cine",
+    "romantico", "pareja", "amigos", "barato", "fiesta",
+    "noche", "tarde", "manana", "sabado", "domingo", "fin de semana",
+    "sorprendeme", "sorprende", "recomienda", "quiero", "apetece",
+    "restaurante", "terraza", "concierto", "taller",
   ];
   return planWords.some(w => lower.includes(w));
 }
 
 const OFF_TOPIC_RESPONSE =
-  `Soy el asistente de Yetz, tu portal cultural de Barcelona. Mi rollo es montarte planes para salir: cultura, gastronomía, paseos, copas... lo que te pida el cuerpo.\n\nCuéntame qué te apetece hacer y te escribo un plan a medida. Puedes decirme una zona, un mood, o simplemente "sorpréndeme".`;
+  `Soc la veu de Yetz, el teu portal cultural de Barcelona. El meu rotllo és muntar-te plans per sortir: cultura, gastronomia, passejades, copes... el que et demani el cos.\n\nExplica'm què et ve de gust fer i t'escric un pla a mida. Pots dir-me una zona, un mood, o simplement "sorprèn-me".`;
 
 export async function POST(req: Request) {
   const { message } = await req.json();
@@ -35,7 +42,6 @@ export async function POST(req: Request) {
     return new Response("Missing message", { status: 400 });
   }
 
-  // Try Gemini first
   try {
     const { text } = await generateText({
       model: google("gemini-2.0-flash"),
@@ -51,12 +57,10 @@ export async function POST(req: Request) {
     console.error("[sorprendeme] Gemini failed, using fallback:", err instanceof Error ? err.message : err);
   }
 
-  // Fallback: check if it's actually a plan request
   if (!isPlanRequest(message)) {
     return streamChunked(OFF_TOPIC_RESPONSE);
   }
 
-  // Fallback: local template generation
   const mood = matchMood(message);
   const zone = detectZone(message);
   const plan = generatePlan(mood, zone);
@@ -65,7 +69,6 @@ export async function POST(req: Request) {
   return streamChunked(fallbackText);
 }
 
-/** Stream text in small chunks for a typing effect */
 function streamChunked(text: string): Response {
   const encoder = new TextEncoder();
   const stream = new ReadableStream({
