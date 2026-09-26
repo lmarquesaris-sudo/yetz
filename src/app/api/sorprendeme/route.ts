@@ -44,10 +44,10 @@ export async function POST(req: Request) {
 
   try {
     const { text } = await generateText({
-      model: google("gemini-2.0-flash"),
+      model: google("gemini-3.8-flash"),
       system: buildSystemPrompt(message),
       prompt: message,
-      maxOutputTokens: 1600,
+      maxOutputTokens: 2400,
     });
 
     if (text && text.length > 20) {
