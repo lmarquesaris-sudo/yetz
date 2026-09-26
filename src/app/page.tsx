@@ -148,30 +148,68 @@ export default function EstaSemanaPage() {
     return weekEvents.filter((e) => e.category === activeFilter);
   }, [weekEvents, activeFilter]);
 
+  const scoredEvents = useMemo(() => {
+    const now = new Date();
+    const oneYear = new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000);
+    const artCategories = ["exposición", "museo", "galería"];
+
+    return weekEvents.map((e) => {
+      let score = 0;
+      const start = new Date(e.startDate);
+      const end = e.endDate ? new Date(e.endDate) : null;
+      const isPerm = !end || end > oneYear;
+
+      // Permanent events get minimal score
+      if (isPerm) return { event: e, score: -100 };
+
+      // Ending this week = urgency ("últims dies!")
+      if (end) {
+        const daysLeft = (end.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
+        if (daysLeft <= 3) score += 40;
+        else if (daysLeft <= 7) score += 25;
+        else if (daysLeft <= 14) score += 10;
+      }
+
+      // Opens this week = novelty
+      if (start >= monday && start <= sunday) score += 30;
+
+      // Short duration = more exclusive
+      if (end) {
+        const duration = (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
+        if (duration <= 1) score += 25;
+        else if (duration <= 7) score += 15;
+        else if (duration <= 30) score += 5;
+      }
+
+      // Art/expositions bonus
+      if (artCategories.includes(e.category)) score += 20;
+
+      // Premium venues (tier 1)
+      const tier = e.tier || 3;
+      if (tier === 1) score += 15;
+      else if (tier === 2) score += 8;
+
+      // Has real API image (better visual)
+      if (e.imageUrl.includes("estatics")) score += 10;
+
+      // Featured flag
+      if (e.featured) score += 10;
+
+      return { event: e, score };
+    }).sort((a, b) => b.score - a.score);
+  }, [weekEvents, monday, sunday]);
+
   const heroEvent = useMemo(() => {
-    const hasApiImage = (e: Event) => e.imageUrl.includes("estatics");
-    const isTemporal = (e: Event) => {
-      if (!e.endDate) return false;
-      const end = new Date(e.endDate);
-      const oneYear = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
-      return end < oneYear;
-    };
-    const best = weekEvents.find((e) => e.featured && isTemporal(e) && hasApiImage(e));
-    if (best) return best;
-    const good = weekEvents.find((e) => (e.tier === 1) && isTemporal(e) && hasApiImage(e));
-    if (good) return good;
-    const ok = weekEvents.find((e) => isTemporal(e) && hasApiImage(e));
-    if (ok) return ok;
-    return weekEvents.find((e) => e.featured) || weekEvents[0];
-  }, [weekEvents]);
+    const best = scoredEvents.find((s) => s.event.imageUrl.includes("estatics") || s.event.imageUrl.includes("cloudfront"));
+    return best?.event || scoredEvents[0]?.event || weekEvents[0];
+  }, [scoredEvents, weekEvents]);
 
   const topPicks = useMemo(() => {
-    const artCategories = ["exposición", "museo", "galería"];
-    const pool = weekEvents.filter((e) => e.id !== heroEvent?.id);
-    const art = pool.filter((e) => artCategories.includes(e.category));
-    const rest = pool.filter((e) => !artCategories.includes(e.category));
-    return [...art, ...rest].slice(0, 8);
-  }, [weekEvents, heroEvent]);
+    return scoredEvents
+      .filter((s) => s.event.id !== heroEvent?.id)
+      .slice(0, 8)
+      .map((s) => s.event);
+  }, [scoredEvents, heroEvent]);
 
   const freeCount = weekEvents.filter((e) => e.price === null).length;
 
